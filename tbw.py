@@ -213,5 +213,4 @@ while True:
     if block_count % interval == 0:
         print('run payout function')
         payout()
-        #reset block_count
-        #block_count = 0 
+        block_count +=1
