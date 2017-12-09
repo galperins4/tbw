@@ -26,13 +26,15 @@ def allocate(lb, pk):
     #create temp log / export output for block  rewards
     log = {}
     json_export = {}
-    # tbw_export = {}
     rewards_check = 0
     voter_check = 0
     
     #get voters / share / block reward same time
     d = Delegate()
     block_voters = d.get_voters(pk)
+    
+    #check if new voters first before allocating - need to create new key in dict
+    new_voter(block_voters)
     
     #get total votes
     approval = int(d.search_delegates(delegate)['delegates'][0]['vote'])
@@ -74,27 +76,24 @@ def allocate(lb, pk):
     print('Voter+Delegate Rewards:', (rewards_check+dshare))
     print('Total Block Rewards:', total_reward)
     
-    #output tbw_rewards after each block
-    #tbw_export[last_block_height] = tbw_rewards
-    
-    with open((str(last_block_height))+'-tbw.json', 'w') as f:
+    with open('output//log//'+(str(last_block_height))+'-tbw.json', 'w') as f:
         json.dump(tbw_rewards, f)
     
     #check to see if log file exists
-    if os.path.exists('result.json') == False: #does not exists so create
+    if os.path.exists('output//log//result.json') == False: #does not exists so create
         json_export[last_block_height]=log #create a json export for the block rewards for initial file
          
         #append log to json file for future use
-        with open('result.json', 'a') as fp:
+        with open('output//log//result.json', 'a') as fp:
             json.dump(json_export, fp)
             
     else: #read and add block as key
-        with open('result.json') as f:
+        with open('output//log//result.json') as f:
             json_decoded=json.load(f)
         
         json_decoded[last_block_height] = log
         
-        with open('result.json', 'w') as f:
+        with open('output//log//result.json', 'w') as f:
             json.dump(json_decoded, f)
             
 #function to check if a new block was created
@@ -109,7 +108,24 @@ def new_block(l,n):
         print('no new block')
         return False
     
+#function to check for new voters
+def new_voter(v):
+    for i in v['accounts']:
+        test = i['address'] in tbw_rewards.keys()
+        if test == False:
+            tbw_rewards[i['address']] = {'unpaid':0, 'paid': 0}
+
 def initialize():
+    global block
+    global tbw_rewards
+    #check for block logs and payment folders on start up
+    if os.path.exists('output'):
+        pass
+    else:
+        os.mkdir('output')
+        os.mkdir('output\\log')
+        os.mkdir('output\\payment')
+    
     d = Delegate()
     #get public key
     pubKey = d.get_delegate(delegate)['delegate']['publicKey']
@@ -117,16 +133,30 @@ def initialize():
     #get voters
     block_voters = d.get_voters(pubKey)
     
-    #TO DO - THIS CURRENTLY ASSUMES YOU START FROM 0 AND RUN THIS RIGHT AFTER A PAYMENT IS DONE
-    #FUTURE - IMPORT FROM OUTPUTS TO FIND LAST BLOCK PAID AND START FROM THERE
-    #initialize paid/unpaid records for voters
-    for i in block_voters['accounts']:
-        tbw_rewards[i['address']] = {'unpaid':0, 'paid': 0}
+    #check if first run
+    if block==0:
+        #check to see if the file already exists - means tbw was already running and got restarted
+        if os.path.exists('output//log//result.json') == True:
+            #open results file and get highest block processed
+            with open('output\\log\\result.json') as json_data:
+                test = json.load(json_data)
+   
+                # get all blocks in a list and get hightest one 
+                l = [int(i) for i in test]
+                last_processed_block = str((max(l)))
     
-    #initialize paid/unpaid records for reserve account
+            #now open the block-tbw to get the last known balances and input to tbw_rewards to start
+            tbw_rewards = json.load(open('output\\log\\'+last_processed_block+'-tbw.json'))
+            #set last bock to most recent one from files
+            block = int(last_processed_block)
+        
+        else: #initialize paid/unpaid records for voters
+            for i in block_voters['accounts']:
+                tbw_rewards[i['address']] = {'unpaid':0, 'paid': 0}
     
-    tbw_rewards[reserve] = {'unpaid':0, 'paid': 0}
-    
+            #initialize paid/unpaid records for reserve account
+            tbw_rewards[reserve] = {'unpaid':0, 'paid': 0}
+
     return pubKey
 
 def payout():
