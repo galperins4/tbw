@@ -24,6 +24,7 @@ def create_payrun(addr, amt):
     return resp
     
 def main():
+    out={}
     if os.path.exists('unpaid.json') == True:
         #open results file and get highest block processed
         with open('unpaid.json') as json_data:  
@@ -32,13 +33,17 @@ def main():
             for k,v in pay.items():
                 print(k,v)
                 result = create_payrun(k,v)
-                responses.append(result)
+                out[k]=result
+                responses.append(out)
+            
+            
             
             #create paid record
-            with open('output/payment/'+str(datetime.now().date())+'-payamt.json', 'w') as f:
+            d = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            with open('output/payment/'+d+'-payamt.json', 'w') as f:
                 json.dump(pay, f)
                 
-            with open('output/payment/'+str(datetime.now().date())+'-paytx.json', 'w') as g:
+            with open('output/payment/'+d+'-paytx.json', 'w') as g:
                 json.dump(responses, g)   
                 
         #delete unpaid file        
