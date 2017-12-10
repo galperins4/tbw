@@ -35,10 +35,10 @@ def main():
                 responses.append(result)
             
             #create paid record
-            with open('output//payment//'+str(datetime.now().date())+'-payamt.json', 'w') as f:
+            with open('output/payment/'+str(datetime.now().date())+'-payamt.json', 'w') as f:
                 json.dump(pay, f)
                 
-            with open('output//payment//'+str(datetime.now().date())+'-paytx.json', 'w') as g:
+            with open('output/payment/'+str(datetime.now().date())+'-paytx.json', 'w') as g:
                 json.dump(responses, g)   
                 
         #delete unpaid file        
