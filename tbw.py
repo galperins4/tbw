@@ -3,21 +3,18 @@ from collections import Counter
 from pythark import Delegate
 from pythark import Account
 from pythark import Block
-from pythark import Transport
 import time
 import json
 import os.path
 
 #move to config
-delegate = 'ark_galp'
+delegate = ''
 interval = 4
 tx_fee = 'yes'
-voter_share = 0.80
-delegate_share = 0.20
-reserve = 'DB8LnnQqYvHpG4WkGJ9AJWBYEct7G3yRZg'
-delegate_addr = 'DB8LnnQqYvHpG4WkGJ9AJWBYEct7G3yRZg'
-passphrase = ""
-secondphrase = ""
+voter_share = 0.70
+delegate_share = 0.30
+reserve = ''
+delegate_addr = ''
 tbw_rewards = {} #blank dictionary for rewards
 block = 0 # set default block to 0, will update from call or json later
 block_count = 0 # running counter for payouts
@@ -60,7 +57,7 @@ def allocate(lb, pk):
     
         #filter out 0 balances for processing
         if i['balance']>0: 
-            i['share_weight']=  i['balance']/approval #calc share rate
+            i['share_weight']=  round(i['balance']/approval,8) #calc share rate
             i['reward']= int(i['share_weight']*vshare) # calculate block reward
             log[i['address']] = i['reward'] #populate log for block export records
             tbw_rewards[i['address']]['unpaid']+= i['reward'] #add voter reward to unpaid tally in main tbw_rewards_dict
@@ -118,6 +115,7 @@ def new_voter(v):
 def initialize():
     global block
     global tbw_rewards
+    global block_count
     #check for block logs and payment folders on start up
     if os.path.exists('output'):
         pass
@@ -149,6 +147,7 @@ def initialize():
             tbw_rewards = json.load(open('output\\log\\'+last_processed_block+'-tbw.json'))
             #set last bock to most recent one from files
             block = int(last_processed_block)
+            block_count = len(l)
         
         else: #initialize paid/unpaid records for voters
             for i in block_voters['accounts']:
@@ -162,6 +161,7 @@ def initialize():
 def payout():
     #initialize pay_run
     pay_run = {}
+    unpaid = {} #payment file
 
     #get account balance
     acc = Account()
@@ -187,9 +187,8 @@ def payout():
                 #process voters
                 if k != reserve:
                     print('pay voter', k, v['unpaid'])
-                    #pay voter
-                    create_payrun(k, v['unpaid'])
-            
+                    unpaid[k] = v['unpaid']
+                                
                     #subtract unpaid amount and add to paid
                     v['paid'] += v['unpaid'] #add unpaid to paid column
                     v['unpaid'] -= v['unpaid'] #zero out unpaid
@@ -199,48 +198,40 @@ def payout():
                     print('pay reserve', k, v['unpaid'])
                     #pay delegate
                     net_pay = v['unpaid']-tx_fees
-                    create_payrun(k, net_pay)   
+                    unpaid[k] = net_pay
+                    
+                    #subtract unpaid amount and add to paid
                     v['paid'] += v['unpaid'] #add unpaid to paid column
                     v['unpaid'] -= v['unpaid'] #zero out unpaid
 
     else:
         print('not enough in account to pay')
         
-def create_payrun(addr, amt):
-    transport = Transport()
+    #dump 
+    with open('unpaid.json', 'w') as f:
+        json.dump(unpaid, f)
     
-    #payout
-    resp = transport.post_transaction(
-    "dark", # Network
-    addr, # RecipientAddress
-    amt, # Amount
-    passphrase, # First passphrase, mandatory
-    "test_true block weight", # Vendor field, optionnal
-    secondphrase) # Second passphrase, optionnal'''
-            
-            
 pubKey = initialize()
 
 while True:
-    #MAIN PROGRAM
-    #get last block generated 
-    #possibly loop every 7 seconds
-    b = Block()
-    last_block = b.get_blocks(limit=1, generatorPublicKey=pubKey) 
-    last_block_height = last_block['blocks'][0]['height']
+   #MAIN PROGRAM
+   #get last block generated 
+   #possibly loop every 7 seconds
+   b = Block()
+   last_block = b.get_blocks(limit=1, generatorPublicKey=pubKey) 
+   last_block_height = last_block['blocks'][0]['height']
+   #check for new block to process 
+   check = new_block(block, last_block_height)
 
-    #check for new block to process 
-    check = new_block(block, last_block_height)
-
-    #if new block allocate
-    if check == True:
-        allocate(last_block, pubKey)
-        block_count +=1
-        print("block count:", block_count)
-    else:
-        time.sleep(7)
+   #if new block allocate
+   if check == True:
+       allocate(last_block, pubKey)
+       block_count +=1
+       print("block count:", block_count)
+   else:
+       time.sleep(7)
         
-    if block_count % interval == 0:
-        print('run payout function')
-        payout()
-        block_count +=1
+   if block_count % interval == 0:
+       print('run payout function')
+       payout()
+       block_count +=1
