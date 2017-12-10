@@ -6,6 +6,7 @@ from pythark import Block
 import time
 import json
 import os.path
+from datetime import datetime
 import subprocess
 
 #move to config
@@ -103,7 +104,8 @@ def new_block(l,n):
         return True
     
     else:
-        print('no new block')
+        d = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        print('no new block',d)
         return False
     
 #function to check for new voters
