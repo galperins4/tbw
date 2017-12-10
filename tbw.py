@@ -6,6 +6,7 @@ from pythark import Block
 import time
 import json
 import os.path
+import subprocess
 
 #move to config
 delegate = ''
@@ -210,6 +211,8 @@ def payout():
     #dump 
     with open('unpaid.json', 'w') as f:
         json.dump(unpaid, f)
+        
+    subprocess.call(['python3','payment.py'])
     
 pubKey = initialize()
 
