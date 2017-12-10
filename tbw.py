@@ -73,24 +73,24 @@ def allocate(lb, pk):
     print('Voter+Delegate Rewards:', (rewards_check+dshare))
     print('Total Block Rewards:', total_reward)
     
-    with open('output//log//'+(str(last_block_height))+'-tbw.json', 'w') as f:
+    with open('output/log/'+(str(last_block_height))+'-tbw.json', 'w') as f:
         json.dump(tbw_rewards, f)
     
     #check to see if log file exists
-    if os.path.exists('output//log//result.json') == False: #does not exists so create
+    if os.path.exists('output/log/result.json') == False: #does not exists so create
         json_export[last_block_height]=log #create a json export for the block rewards for initial file
          
         #append log to json file for future use
-        with open('output//log//result.json', 'a') as fp:
+        with open('output/log/result.json', 'a') as fp:
             json.dump(json_export, fp)
             
     else: #read and add block as key
-        with open('output//log//result.json') as f:
+        with open('output/log/result.json') as f:
             json_decoded=json.load(f)
         
         json_decoded[last_block_height] = log
         
-        with open('output//log//result.json', 'w') as f:
+        with open('output/log/result.json', 'w') as f:
             json.dump(json_decoded, f)
             
 #function to check if a new block was created
@@ -121,8 +121,8 @@ def initialize():
         pass
     else:
         os.mkdir('output')
-        os.mkdir('output\\log')
-        os.mkdir('output\\payment')
+        os.mkdir('output/log')
+        os.mkdir('output/payment')
     
     d = Delegate()
     #get public key
@@ -134,9 +134,9 @@ def initialize():
     #check if first run
     if block==0:
         #check to see if the file already exists - means tbw was already running and got restarted
-        if os.path.exists('output//log//result.json') == True:
+        if os.path.exists('output/log/result.json') == True:
             #open results file and get highest block processed
-            with open('output\\log\\result.json') as json_data:
+            with open('output/log/result.json') as json_data:
                 test = json.load(json_data)
    
                 # get all blocks in a list and get hightest one 
@@ -144,7 +144,7 @@ def initialize():
                 last_processed_block = str((max(l)))
     
             #now open the block-tbw to get the last known balances and input to tbw_rewards to start
-            tbw_rewards = json.load(open('output\\log\\'+last_processed_block+'-tbw.json'))
+            tbw_rewards = json.load(open('output/log/'+last_processed_block+'-tbw.json'))
             #set last bock to most recent one from files
             block = int(last_processed_block)
             block_count = len(l)
