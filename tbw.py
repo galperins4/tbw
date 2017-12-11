@@ -214,9 +214,8 @@ def payout():
     with open('unpaid.json', 'w') as f:
         json.dump(unpaid, f)
         
-    subprocess.call(['python3','payment.py'])
-    #Exprimental
-    #subprocess.Popen(['python3','payment.py'])
+    #call process to run payments
+    subprocess.Popen(['python3','payment.py'])
     
 pubKey = initialize()
 
