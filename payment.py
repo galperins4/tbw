@@ -31,7 +31,7 @@ def main():
             pay = json.load(json_data)
         
             for k,v in pay.items():
-                print(k,v)
+                #print(k,v)
                 result = create_payrun(k,v)
                 out[k]=result
                 responses.append(out)
