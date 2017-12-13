@@ -183,32 +183,31 @@ def payout():
     value = sum(map(Counter, pay_run.values()), Counter())
     total = value['unpaid']
     
-    #pay if bal>total
-    if bal>total:
-        for k,v in tbw_rewards.items():
-            if v['unpaid']>0:    
-                #process voters
-                if k != reserve:
-                    #print('pay voter', k, v['unpaid'])
-                    unpaid[k] = v['unpaid']
-                                
-                    #subtract unpaid amount and add to paid
-                    v['paid'] += v['unpaid'] #add unpaid to paid column
-                    v['unpaid'] -= v['unpaid'] #zero out unpaid
+    #generate pay file
+    print("wallet balance:", bal)
+    print("tbw payment total:", total)
     
-                #process delegate share
-                else:
-                    #print('pay reserve', k, v['unpaid'])
-                    #pay delegate
-                    net_pay = v['unpaid']-tx_fees
-                    unpaid[k] = net_pay
+    for k,v in tbw_rewards.items():
+        if v['unpaid']>0:    
+            #process voters
+            if k != reserve:
+                #print('pay voter', k, v['unpaid'])
+                unpaid[k] = v['unpaid']
+                                
+                #subtract unpaid amount and add to paid
+                v['paid'] += v['unpaid'] #add unpaid to paid column
+                v['unpaid'] -= v['unpaid'] #zero out unpaid
+    
+            #process delegate share
+            else:
+                #print('pay reserve', k, v['unpaid'])
+                #pay delegate
+                net_pay = v['unpaid']-tx_fees
+                unpaid[k] = net_pay
                     
-                    #subtract unpaid amount and add to paid
-                    v['paid'] += v['unpaid'] #add unpaid to paid column
-                    v['unpaid'] -= v['unpaid'] #zero out unpaid
-
-    else:
-        print('not enough in account to pay')
+                #subtract unpaid amount and add to paid
+                v['paid'] += v['unpaid'] #add unpaid to paid column
+                v['unpaid'] -= v['unpaid'] #zero out unpaid
         
     #dump 
     with open('unpaid.json', 'w') as f:
