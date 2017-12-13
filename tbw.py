@@ -172,7 +172,7 @@ def payout():
     bal = int(r['balance'])
     
     #get unpaid balances greater than 0 
-    pay_run = {k:v for (k,v) in tbw_rewards.items() if v['unpaid']>0}
+    pay_run = {k:v for k,v in tbw_rewards.items() if v['unpaid']>0}
     
     #count number of transactions in pay_run
     tx_count = len(pay_run)
