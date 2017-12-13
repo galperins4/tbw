@@ -247,5 +247,10 @@ while True:
         
    if block_count % interval == 0:
        print('run payout function')
+       
+       #use unpaid check to ensure payment function doesnt run miltiple times in divisible block
+       value = sum(map(Counter, tbw_rewards.values()), Counter())
+       total = value['unpaid']
+       print('unpaid total after payment run:', value)
        payout()
        block_count +=1
