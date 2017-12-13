@@ -166,7 +166,7 @@ def initialize():
             tbw_rewards[reserve] = {'unpaid':0, 'paid': 0}
 
     return pubKey
-    #return pubKey, data['interval'], data['delegate'], data['reserve'], data['delegate_addr'], data['delegate_share'], data['voter_share']
+    #return pubKey, data['network], data['interval'], data['delegate'], data['reserve'], data['delegate_addr'], data['delegate_share'], data['voter_share']
 
 def payout():
     #initialize pay_run
@@ -225,7 +225,7 @@ def payout():
     
     
 pubKey = initialize()
-#pubKey, interval, delegate, reserve, delegate_addr, delegate_share, voter_share = initialize()
+#pubKey, network, interval, delegate, reserve, delegate_addr, delegate_share, voter_share = initialize()
 
 while True:
    #MAIN PROGRAM
