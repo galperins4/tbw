@@ -53,7 +53,7 @@ def main():
         #delete unpaid file        
         os.remove('unpaid.json')
         #payment run complete
-        print('Payment Run Completed!')
+        print('Payment Run Completed!', d)
 
 def get_network(n):
     if n == "main":
