@@ -241,6 +241,7 @@ while True:
        value = sum(map(Counter, tbw_rewards.values()), Counter())
        total = value['unpaid']    
 
-       if total > 0:
-            print('run payout function')
+       if total > 0: 
+            d = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            print('run payout function', d)
             payout()
