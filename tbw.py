@@ -133,7 +133,7 @@ def initialize():
         os.mkdir('output/log')
         os.mkdir('output/payment')
     
-    d = Delegate(network)
+    d = Delegate(data['network)
     #get public key
     pubKey = d.get_delegate(data['delegate'])['delegate']['publicKey']
         
