@@ -30,8 +30,6 @@ def allocate(lb, pk):
     
     #get total votes
     approval = sum(int(item['balance']) for item in block_voters['accounts']) 
-    #approval = int(d.search_delegates(delegate)['delegates'][0]['vote'])
-    print(approval)
     
     #get block reward
     block_reward = int(lb['blocks'][0]['reward'])
@@ -99,8 +97,6 @@ def new_block(l,n):
         return True
     
     else:
-        d = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        #print('no new block',d)
         return False
     
 #function to check for new voters
@@ -129,7 +125,7 @@ def initialize():
         os.mkdir('output/payment')
     
     d = Delegate(data['network'])
-    #get public key
+    
     pubKey = d.get_delegate(data['delegate'])['delegate']['publicKey']
         
     #get voters
@@ -160,7 +156,7 @@ def initialize():
             #initialize paid/unpaid records for reserve account
             tbw_rewards[data['reserve']] = {'unpaid':0, 'paid': 0}
 
-    #return pubKey
+    
     return pubKey, data['network'], data['interval'], data['delegate'], data['reserve'], data['delegate_addr'], data['delegate_share'], data['voter_share']
 
 def payout():
