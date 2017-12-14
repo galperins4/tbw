@@ -135,7 +135,7 @@ def initialize():
     
     d = Delegate(network)
     #get public key
-    pubKey = d.get_delegate(delegate)['delegate']['publicKey']
+    pubKey = d.get_delegate(data['delegate'])['delegate']['publicKey']
         
     #get voters
     block_voters = d.get_voters(pubKey)
