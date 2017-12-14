@@ -11,7 +11,6 @@ with open('config.json', encoding='utf-8') as data_file:
 passphrase = data['passphrase']
 secondphrase = data['secondphrase']
 responses = []
-network = get_network(data['network'])
 
 def create_payrun(addr, amt):
     
@@ -64,6 +63,8 @@ def get_network(n):
     elif n == "kapu":
         return n             
  
+network = get_network(data['network'])
+
 main()
 
         
