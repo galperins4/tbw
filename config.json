@@ -6,6 +6,6 @@
             "reserve": "reserve address", 
             "delegate_share": 0.00,
             "voter_share": 0.00,
-            "passphrase": "passphrase"
+            "passphrase": "passphrase",
             "secondphrase": "secondphrase"
 }
