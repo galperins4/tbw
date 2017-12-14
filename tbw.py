@@ -120,10 +120,10 @@ def initialize():
     global tbw_rewards
     global block_count
     
-    '''
+    
     #import config
     with open('config.json', encoding='utf-8') as data_file:
-        data = json.loads(data_file.read())'''
+        data = json.loads(data_file.read())
     
     #check for block logs and payment folders on start up
     if os.path.exists('output'):
@@ -247,10 +247,11 @@ while True:
         
    if block_count % interval == 0:
        print('run payout function')
+       payout()
        
        #use unpaid check to ensure payment function doesnt run miltiple times in divisible block
        value = sum(map(Counter, tbw_rewards.values()), Counter())
        total = value['unpaid']
        print('unpaid total after payment run:', value)
-       payout()
+      
        block_count +=1
