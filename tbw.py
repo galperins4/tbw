@@ -36,7 +36,8 @@ def allocate(lb, pk):
     new_voter(block_voters)
     
     #get total votes
-    approval = int(d.search_delegates(delegate)['delegates'][0]['vote'])
+    approval = sum(int(item['balance']) for item in block_voters['accounts']) 
+    #approval = int(d.search_delegates(delegate)['delegates'][0]['vote'])
     print(approval)
     
     #get block reward
