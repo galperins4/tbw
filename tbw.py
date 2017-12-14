@@ -163,7 +163,7 @@ def initialize():
                 tbw_rewards[i['address']] = {'unpaid':0, 'paid': 0}
     
             #initialize paid/unpaid records for reserve account
-            tbw_rewards[reserve] = {'unpaid':0, 'paid': 0}
+            tbw_rewards[data['reserve']] = {'unpaid':0, 'paid': 0}
 
     #return pubKey
     return pubKey, data['network'], data['interval'], data['delegate'], data['reserve'], data['delegate_addr'], data['delegate_share'], data['voter_share']
