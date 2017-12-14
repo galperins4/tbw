@@ -4,9 +4,14 @@ import json
 import os.path
 from datetime import datetime
 
-passphrase = ""
-secondphrase = ""
+#import config
+with open('config.json', encoding='utf-8') as data_file:
+    data = json.loads(data_file.read())
+
+passphrase = data['passphrase']
+secondphrase = data['secondphrase']
 responses = []
+network = get_network(data['network'])
 
 def create_payrun(addr, amt):
     
@@ -14,7 +19,7 @@ def create_payrun(addr, amt):
     
     #payout
     resp = transport.post_transaction(
-    "dark", # Network
+    network, # Network
     addr, # RecipientAddress
     amt, # Amount
     passphrase, # First passphrase, mandatory
@@ -51,6 +56,16 @@ def main():
         #payment run complete
         print('Payment Run Completed!')
 
+def get_network(n):
+    if n == "main":
+        return "ark"
+    elif n == "dev":
+        return "dark"
+    elif n == "kapu":
+        return n             
+ 
 main()
+
+        
     
    
