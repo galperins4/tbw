@@ -23,7 +23,7 @@ def create_payrun(addr, amt):
     addr, # RecipientAddress
     amt, # Amount
     passphrase, # First passphrase, mandatory
-    "test_true block weight", # Vendor field, optionnal
+    "true block weight", # Vendor field, optionnal
     secondphrase) # Second passphrase, optionnal'''
     
     return resp
