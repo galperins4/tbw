@@ -252,6 +252,6 @@ while True:
        #use unpaid check to ensure payment function doesnt run miltiple times in divisible block
        value = sum(map(Counter, tbw_rewards.values()), Counter())
        total = value['unpaid']
-       print('unpaid total after payment run:', value)
+       print('unpaid total after payment run:', total)
       
        block_count +=1
