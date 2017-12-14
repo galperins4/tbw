@@ -31,6 +31,7 @@ def allocate(lb, pk):
     #get voters / share / block reward same time
     d = Delegate(network)
     block_voters = d.get_voters(pk)
+    print(block_voters['accounts'])
     
     #check if new voters first before allocating - need to create new key in dict
     new_voter(block_voters)
