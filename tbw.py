@@ -9,14 +9,7 @@ import os.path
 from datetime import datetime
 import subprocess
 
-#move to config
-# delegate = ''
-# interval = 4
 tx_fee = 'yes'
-# voter_share = 0.70
-# delegate_share = 0.30
-# reserve = ''
-# delegate_addr = ''
 tbw_rewards = {} #blank dictionary for rewards
 block = 0 # set default block to 0, will update from call or json later
 block_count = 0 # running counter for payouts
