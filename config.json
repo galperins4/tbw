@@ -1,0 +1,11 @@
+{
+            "network": "main or dev or kapu",
+	        "delegate": "delegate name",
+            "delegate_addr": "delegate address",
+            "interval": payment interval,
+            "reserve": "reserve address", 
+            "delegate_share": 0.00,
+            "voter_share": 0.00,
+            "passphrase": "passphrase"
+            "secondphrase": "secondphrase"
+}
