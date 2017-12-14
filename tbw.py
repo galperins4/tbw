@@ -238,9 +238,10 @@ while True:
 
    #if new block allocate
    if check == True:
-       allocate(last_block, pubKey)
        block_count +=1
        print("block count:", block_count)
+       allocate(last_block, pubKey)
+       print('/nWaiting for the next block....')
    else:
        time.sleep(7)
         
