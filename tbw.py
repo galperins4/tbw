@@ -10,13 +10,13 @@ from datetime import datetime
 import subprocess
 
 #move to config
-delegate = ''
-interval = 4
+# delegate = ''
+# interval = 4
 tx_fee = 'yes'
-voter_share = 0.70
-delegate_share = 0.30
-reserve = ''
-delegate_addr = ''
+# voter_share = 0.70
+# delegate_share = 0.30
+# reserve = ''
+# delegate_addr = ''
 tbw_rewards = {} #blank dictionary for rewards
 block = 0 # set default block to 0, will update from call or json later
 block_count = 0 # running counter for payouts
@@ -29,7 +29,7 @@ def allocate(lb, pk):
     voter_check = 0
     
     #get voters / share / block reward same time
-    d = Delegate()
+    d = Delegate(network)
     block_voters = d.get_voters(pk)
     
     #check if new voters first before allocating - need to create new key in dict
@@ -133,7 +133,7 @@ def initialize():
         os.mkdir('output/log')
         os.mkdir('output/payment')
     
-    d = Delegate()
+    d = Delegate(network)
     #get public key
     pubKey = d.get_delegate(delegate)['delegate']['publicKey']
         
@@ -165,8 +165,8 @@ def initialize():
             #initialize paid/unpaid records for reserve account
             tbw_rewards[reserve] = {'unpaid':0, 'paid': 0}
 
-    return pubKey
-    #return pubKey, data['network], data['interval'], data['delegate'], data['reserve'], data['delegate_addr'], data['delegate_share'], data['voter_share']
+    #return pubKey
+    return pubKey, data['network'], data['interval'], data['delegate'], data['reserve'], data['delegate_addr'], data['delegate_share'], data['voter_share']
 
 def payout():
     #initialize pay_run
@@ -174,7 +174,7 @@ def payout():
     unpaid = {} #payment file
 
     #get account balance
-    acc = Account()
+    acc = Account(network)
     r = acc.get_balance(delegate_addr)
     bal = int(r['balance'])
     
@@ -224,14 +224,14 @@ def payout():
     subprocess.Popen(['python3','payment.py'])
     
     
-pubKey = initialize()
-#pubKey, network, interval, delegate, reserve, delegate_addr, delegate_share, voter_share = initialize()
+#pubKey = initialize()
+pubKey, network, interval, delegate, reserve, delegate_addr, delegate_share, voter_share = initialize()
 
 while True:
    #MAIN PROGRAM
    #get last block generated 
    #possibly loop every 7 seconds
-   b = Block()
+   b = Block(network)
    last_block = b.get_blocks(limit=1, generatorPublicKey=pubKey) 
    last_block_height = last_block['blocks'][0]['height']
    #check for new block to process 
