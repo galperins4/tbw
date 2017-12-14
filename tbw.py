@@ -31,13 +31,13 @@ def allocate(lb, pk):
     #get voters / share / block reward same time
     d = Delegate(network)
     block_voters = d.get_voters(pk)
-    print(block_voters['accounts'])
     
     #check if new voters first before allocating - need to create new key in dict
     new_voter(block_voters)
     
     #get total votes
     approval = int(d.search_delegates(delegate)['delegates'][0]['vote'])
+    print(approval)
     
     #get block reward
     block_reward = int(lb['blocks'][0]['reward'])
@@ -192,8 +192,6 @@ def payout():
     total = value['unpaid']
     
     #generate pay file
-    print("wallet balance:", bal)
-    print("tbw payment total:", total)
     
     for k,v in tbw_rewards.items():
         if v['unpaid']>0:    
