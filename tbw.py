@@ -106,7 +106,7 @@ def new_block(l,n):
     
     else:
         d = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        print('no new block',d)
+        #print('no new block',d)
         return False
     
 #function to check for new voters
@@ -241,7 +241,7 @@ while True:
        block_count +=1
        print("block count:", block_count)
        allocate(last_block, pubKey)
-       print('/nWaiting for the next block....')
+       print('\n'+'Waiting for the next block....')
    else:
        time.sleep(7)
         
