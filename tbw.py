@@ -132,7 +132,7 @@ def missed_block(b, i):
     print(val_block)
 
     tmp = get_block_count()
-    i := i * -1;
+    i = int(i) * -1;
     val_processed = tmp[i:]
     print(val_processed)
                   
