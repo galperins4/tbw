@@ -150,7 +150,7 @@ def get_block_count():
         test = json.load(json_data)
         # get all blocks in a list and get hightest one
         l = [int(i) for i in test]
-    return l
+    return sorted(l)
 
 def initialize():
     global block
@@ -264,6 +264,6 @@ if __name__ == '__main__':
             total = value['unpaid']
 
             if total > 0:
-                #missed_block(b, config['interval'])
+                missed_block(b, config['interval'])
                 print('Payout started !')
                 payout()
