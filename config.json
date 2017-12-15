@@ -1,8 +1,7 @@
 {
-  "network": "main",
-  "delegate": "jarunik",
-  "delegate_addr": "Aasu14aTs9ipZdy1FMv7ay1Vqn3jPskA8t",
-  "publicKey": "02c7455bebeadde04728441e0f57f82f972155c088252bf7c1365eb0dc84fbf5de",
+  "network": "main or dev or kapu",
+  "delegate": "delegate name",
+  "publicKey": "pubkey",
   "interval": 1.00,
   "reserve": "reserve address",
   "delegate_share": 0.00,
