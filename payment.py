@@ -27,6 +27,7 @@ def create_payrun(network, addr, amt, passphrase, vendor_field="true block weigh
         passphrase, # First passphrase, mandatory
         vendor_field, # Vendor field, optionnal
         secondphrase) # Second passphrase, optionnal'''
+    print(resp)
     return resp
 
 
