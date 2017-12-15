@@ -127,14 +127,17 @@ def manage_folders():
 
 def missed_block(b, i):
     mcheck = b.get_blocks(limit=i, generatorPublicKey=pubKey)
-    t = mcheck['blocks']
-    val_block = [i['height'] for i in t]
-    print(val_block)
+    #t = mcheck['blocks']
+    a = [i['height'] for i in mcheck['blocks']]
+    print(a)
 
     tmp = get_block_count()
     i = int(i) * -1;
-    val_processed = tmp[i:]
-    print(val_processed)
+    b = tmp[i:]
+    print(b)
+   
+    diff = set(a).symmetric_difference(set(b))
+    print(diff)
                   
 def get_highest_block():
     with open('output/log/result.json') as json_data:
