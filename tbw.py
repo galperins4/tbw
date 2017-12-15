@@ -125,7 +125,17 @@ def manage_folders():
     for sub_name in sub_names:
         os.makedirs(os.path.join('output', sub_name), exist_ok=True)
 
+def missed_block(b, i):
+    mcheck = b.get_blocks(limit=i, generatorPublicKey=pubKey)
 
+    val_block [i['height] for i in mcheck['blocks']]
+    print(val_block)
+
+    tmp = get_block_count()
+
+    val_processed = tmp[-i:]
+    print(val_processed)
+                  
 def get_highest_block():
     with open('output/log/result.json') as json_data:
         test = json.load(json_data)
