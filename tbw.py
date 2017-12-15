@@ -182,6 +182,8 @@ def initialize():
 
 
 def payout():
+    data = parse_config()
+    
     # initialize pay_run
     pay_run = {}
     unpaid = {}  # payment file
@@ -208,7 +210,7 @@ def payout():
     for k, v in tbw_rewards.items():
         if v['unpaid'] > 0:
             # process voters
-            if k != reserve:
+            if k != data['reserve']:
                 # print('pay voter', k, v['unpaid'])
                 unpaid[k] = v['unpaid']
                                 
