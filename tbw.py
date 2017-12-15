@@ -126,24 +126,25 @@ def manage_folders():
         os.makedirs(os.path.join('output', sub_name), exist_ok=True)
 
 def missed_block(b, i):
+    # get last blocks by interval
     mcheck = b.get_blocks(limit=i, generatorPublicKey=pubKey)
-    #t = mcheck['blocks']
     a = [i['height'] for i in mcheck['blocks']]
-    print(a)
-
+    
+    # get last processed blocks by interval
     tmp = get_block_count()
     i = int(i) * -1;
     b = tmp[i:]
-    print(b)
-   
-    diff = set(a).symmetric_difference(set(b))
-    print(diff)
     
+    # look for difference
+    diff = set(a).symmetric_difference(set(b))
+    # if empty set we processed all blocks
     if not diff:
         print("all blocks in payrun")
-        
+    # we missed a block to process somewhere
     else: 
         print("block not allocated")
+        print("processed blocks:", b)
+        print("blockchain blockd:",a)
                   
 def get_highest_block():
     with open('output/log/result.json') as json_data:
