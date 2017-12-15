@@ -244,22 +244,23 @@ if __name__ == '__main__':
     config = parse_config()
     network = config['network']
     pubKey = config['publicKey']
-    b = Block(network)
-    last_block = b.get_blocks(limit=1, generatorPublicKey=pubKey)
-    last_block_height = last_block['blocks'][0]['height']
-    check = new_block(block, last_block_height)
-    if check:
-        block_count += 1
-        print("Current block count : {0}".format(block_count))
-        allocate(last_block, pubKey)
-        print('\n' + 'Waiting for the next block....' + '\n')
-    else:
-        time.sleep(7)
+    while True:
+        b = Block(network)
+        last_block = b.get_blocks(limit=1, generatorPublicKey=pubKey)
+        last_block_height = last_block['blocks'][0]['height']
+        check = new_block(block, last_block_height)
+        if check:
+            block_count += 1
+            print("Current block count : {0}".format(block_count))
+            allocate(last_block, pubKey)
+            print('\n' + 'Waiting for the next block....' + '\n')
+        else:
+            time.sleep(7)
 
-    if block_count % config['interval'] == 0:
-        # use unpaid check to ensure payment function doesnt run miltiple times in divisible block
-        value = sum(map(Counter, tbw_rewards.values()), Counter())
-        total = value['unpaid']
-        if total > 0:
-            print('Payout succeded !')
-            payout()
+        if block_count % config['interval'] == 0:
+            # use unpaid check to ensure payment function doesnt run miltiple times in divisible block
+            value = sum(map(Counter, tbw_rewards.values()), Counter())
+            total = value['unpaid']
+            if total > 0:
+                print('Payout started !')
+                payout()
