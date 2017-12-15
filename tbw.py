@@ -144,7 +144,7 @@ def missed_block(b, i):
     else: 
         print("block not allocated")
         print("processed blocks:", b)
-        print("blockchain blockd:",a)
+        print("blockchain blocks:",a)
                   
 def get_highest_block():
     with open('output/log/result.json') as json_data:
