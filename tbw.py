@@ -72,12 +72,12 @@ def allocate(lb, pk):
             voter_check += 1
             rewards_check += i['reward']
 
-            print("""Processed Block: {0}\n
-            Voters processed: {1}\n
-            Voters Rewards: {2}\n
-            Delegate Reward: {3}\n
-            Voter + Delegate Rewards: {4}\n
-            Total Block Rewards: {5}\n""".format(last_block_height, voter_check, rewards_check, dshare, (rewards_check + dshare), total_reward))
+    print("""Processed Block: {0}\n
+    Voters processed: {1}\n
+    Voters Rewards: {2}\n
+    Delegate Reward: {3}\n
+    Voter + Delegate Rewards: {4}\n
+    Total Block Rewards: {5}\n""".format(last_block_height, voter_check, rewards_check, dshare, (rewards_check + dshare), total_reward))
 
     with open('output/log/' + (str(last_block_height)) + '.json', 'w') as f:
         json.dump(tbw_rewards, f)
