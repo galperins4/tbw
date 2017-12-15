@@ -264,6 +264,6 @@ if __name__ == '__main__':
             total = value['unpaid']
 
             if total > 0:
-                missed_block(b, config['interval'])
+                #missed_block(b, config['interval'])
                 print('Payout started !')
                 payout()
