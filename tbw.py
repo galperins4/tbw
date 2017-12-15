@@ -138,6 +138,12 @@ def missed_block(b, i):
    
     diff = set(a).symmetric_difference(set(b))
     print(diff)
+    
+    if not diff:
+        print("all blocks in payrun")
+        
+    else: 
+        print("block not allocated")
                   
 def get_highest_block():
     with open('output/log/result.json') as json_data:
