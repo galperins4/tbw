@@ -73,11 +73,11 @@ def allocate(lb, pk):
             rewards_check += i['reward']
 
     print("""Processed Block: {0}\n
-    Voters processed: {1}\n
-    Voters Rewards: {2}\n
-    Delegate Reward: {3}\n
-    Voter + Delegate Rewards: {4}\n
-    Total Block Rewards: {5}\n""".format(last_block_height, voter_check, rewards_check, dshare, (rewards_check + dshare), total_reward))
+    Voters processed: {1}
+    Voters Rewards: {2}
+    Delegate Reward: {3}
+    Voter + Delegate Rewards: {4}
+    Total Block Rewards: {5}""".format(last_block_height, voter_check, rewards_check, dshare, (rewards_check + dshare), total_reward))
 
     with open('output/log/' + (str(last_block_height)) + '.json', 'w') as f:
         json.dump(tbw_rewards, f)
@@ -246,7 +246,6 @@ if __name__ == '__main__':
     pubKey = config['publicKey']
     b = Block(network)
     last_block = b.get_blocks(limit=1, generatorPublicKey=pubKey)
-    print(last_block)
     last_block_height = last_block['blocks'][0]['height']
     check = new_block(block, last_block_height)
     if check:
