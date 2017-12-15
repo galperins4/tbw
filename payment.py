@@ -56,12 +56,12 @@ if __name__ == '__main__':
                 result = create_payrun(network, k, v, passphrase, "Payed by El Gooso !", secondphrase)
                 out[k] = result
                 responses.append(out)
-                # create paid record
-                d = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                with open('output/payment/' + d + '-payamt.json', 'w') as f:
-                    json.dump(pay, f)
-                with open('output/payment/' + d + '-paytx.json', 'w') as g:
-                    json.dump(responses, g)
+            # create paid record
+            d = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            with open('output/payment/' + d + '-payamt.json', 'w') as f:
+                json.dump(pay, f)
+            with open('output/payment/' + d + '-paytx.json', 'w') as g:
+                json.dump(responses, g)
             # delete unpaid file
             os.remove('unpaid.json')
             # payment run complete
