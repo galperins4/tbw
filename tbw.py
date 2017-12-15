@@ -202,8 +202,8 @@ def payout():
     tx_fees = tx_count * 10000000
     
     # get total value of payments for the run
-    value = sum(map(Counter, pay_run.values()), Counter())
-    total = value['unpaid']
+    #value = sum(map(Counter, pay_run.values()), Counter())
+    #total = value['unpaid']
     
     # generate pay file
     
@@ -262,7 +262,9 @@ if __name__ == '__main__':
         if block_count % config['interval'] == 0:
             # use unpaid check to ensure payment function doesnt run miltiple times in divisible block
             value = sum(map(Counter, tbw_rewards.values()), Counter())
+            print(value)
             total = value['unpaid']
+            print(total)
             if total > 0:
                 print('Payout started !')
                 payout()
