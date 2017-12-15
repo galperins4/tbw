@@ -141,7 +141,7 @@ def get_block_count():
         test = json.load(json_data)
         # get all blocks in a list and get hightest one
         l = [int(i) for i in test]
-    return l
+    return len(l)
 
 
 def initialize():
@@ -180,8 +180,6 @@ def initialize():
             # initialize paid/unpaid records for reserve account
             tbw_rewards[data['reserve']] = {'unpaid': 0, 'paid': 0}
 
-    #return pubKey, data
-
 
 def payout():
     # initialize pay_run
@@ -189,9 +187,9 @@ def payout():
     unpaid = {}  # payment file
 
     # get account balance
-    acc = Account(network)
-    r = acc.get_balance(delegate_addr)
-    bal = int(r['balance'])
+    #acc = Account(network)
+    #r = acc.get_balance(delegate_addr)
+    #bal = int(r['balance'])
     
     # get unpaid balances greater than 0
     pay_run = {k: v for k, v in tbw_rewards.items() if v['unpaid'] > 0}
