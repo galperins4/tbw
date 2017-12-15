@@ -104,7 +104,6 @@ def allocate(lb, pk):
 def new_block(l, n):
     if (n - l) > 0:
         global block
-        print('new block', n)
         block = n
         return True
     else:
@@ -141,8 +140,7 @@ def get_block_count():
         test = json.load(json_data)
         # get all blocks in a list and get hightest one
         l = [int(i) for i in test]
-    return len(l)
-
+    return l
 
 def initialize():
     global block
@@ -172,7 +170,7 @@ def initialize():
             tbw_rewards = json.load(open('output/log/' + last_processed_block + '.json'))
             # set last block to most recent one from files
             block = int(last_processed_block)
-            block_count = get_block_count()
+            block_count = len(get_block_count())
         
         else:  # initialize paid/unpaid records for voters
             for i in block_voters['accounts']:
@@ -187,11 +185,6 @@ def payout():
     # initialize pay_run
     pay_run = {}
     unpaid = {}  # payment file
-
-    # get account balance
-    #acc = Account(network)
-    #r = acc.get_balance(delegate_addr)
-    #bal = int(r['balance'])
     
     # get unpaid balances greater than 0
     pay_run = {k: v for k, v in tbw_rewards.items() if v['unpaid'] > 0}
@@ -235,10 +228,6 @@ def payout():
         
     # call process to run payments
     subprocess.Popen(['python3', 'payment.py'])
-    
-    
-# pubKey = initialize()
-#pubKey, network, interval, delegate, reserve, delegate_addr, delegate_share, voter_share = initialize()
 
 if __name__ == '__main__':
     initialize()
