@@ -128,12 +128,11 @@ def manage_folders():
 def missed_block(b, i):
     mcheck = b.get_blocks(limit=i, generatorPublicKey=pubKey)
     t = mcheck['blocks']
-    print(t)
     val_block = [i['height'] for i in t]
     print(val_block)
 
     tmp = get_block_count()
-
+    print(tmp)
     val_processed = tmp[-i:]
     print(val_processed)
                   
