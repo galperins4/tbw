@@ -156,8 +156,7 @@ def initialize():
     manage_folders()
 
     # get publicKey
-    d = Delegate(data['network'])
-    pubKey = d.get_delegate(data['delegate'])['delegate']['publicKey']
+    pubKey = data['publicKey']
 
     # get voters
     block_voters = d.get_voters(pubKey)
