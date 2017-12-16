@@ -29,7 +29,7 @@ def create_payrun(network, addr, amt, passphrase, vendor_field="true block weigh
         secondphrase) # Second passphrase, optionnal'''
     
     if resp['success'] == True:
-         print(resp['success'])
+         print(resp['success'], addr, amt)
     return resp
 
 
