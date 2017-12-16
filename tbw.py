@@ -255,11 +255,18 @@ if __name__ == '__main__':
         last_block = b.get_blocks(limit=1, generatorPublicKey=pubKey)
         last_block_height = last_block['blocks'][0]['height']
         check = new_block(block, last_block_height)
+        
         if check:
             block_count += 1
             print("Current block count : {0}".format(block_count))
             allocate(last_block, pubKey)
             print('\n' + 'Waiting for the next block....' + '\n')
+            
+                    #set pay flag to help prevent dup payments
+            file = open('flag.txt', 'w')
+            file.write('N')
+            file.close()    
+
         else:
             time.sleep(7)
 
@@ -268,7 +275,17 @@ if __name__ == '__main__':
             value = sum(map(Counter, tbw_rewards.values()), Counter())
             total = value['unpaid']
 
-            if total > 0:
+            file = open('flag.txt', 'r')
+            flag = file.read()
+            file.close()
+
+            if total > 0 and flag == 'N':
+                #check for any missed blocks                
                 missed_block(b, config['interval'])
                 print('Payout started !')
                 payout()
+                
+                #set payout flag to yes until next block
+                f = open('flag.txt', 'w')
+                f.write('Y')
+                file.close()
