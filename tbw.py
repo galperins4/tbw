@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 from collections import Counter
-from pythark import Delegate, Account, Block  # You can import multiple things in one line too
+from pythark import Delegate, Block  # You can import multiple things in one line too
 import time
 import json
 import os.path
-from datetime import datetime
 import subprocess
 
 tx_fee = 'yes'
@@ -143,8 +142,8 @@ def missed_block(b, i):
     # we missed a block to process somewhere
     else: 
         print("block not allocated")
-        print("processed blocks:", b)
-        print("blockchain blocks:",a)
+        print("processed blocks : {0}".format(b))
+        print("blockchain blocks : {0}".format(a))
                   
 def get_highest_block():
     with open('output/log/result.json') as json_data:
@@ -153,7 +152,6 @@ def get_highest_block():
         l = [int(i) for i in test]
         last_processed_block = str((max(l)))
     return last_processed_block
-
 
 def get_block_count():
     with open('output/log/result.json') as json_data:
@@ -214,9 +212,6 @@ def payout():
     # calculate tx fees needed to cover run in satoshis
     tx_fees = tx_count * 10000000
     
-    # get total value of payments for the run
-    #value = sum(map(Counter, pay_run.values()), Counter())
-    #total = value['unpaid']
     
     # generate pay file
     

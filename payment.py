@@ -16,8 +16,7 @@ def parse_config():
 
 def create_payrun(network, addr, amt, passphrase, vendor_field="true block weight", secondphrase=""):
     """
-    In python you can set optionnal arguments like that, by specifying a default value like vendor_filed, or by leaving
-    an empty string like secondphrase.
+    Create payment run
     """
     transport = Transport()
     resp = transport.post_transaction(
@@ -39,7 +38,7 @@ def create_payrun(network, addr, amt, passphrase, vendor_field="true block weigh
 
 def get_network(n):
     """
-    Not sure about the point of this function but anyway, you only need one return at the end.
+    Map pythark network choices to arky network choices.
     """
     if n == "main":
         net = "ark"
@@ -58,19 +57,24 @@ if __name__ == '__main__':
     if os.path.exists('unpaid.json'): # You don't need to compare to true with python.
         # open results file and get highest block processed
         with open('unpaid.json') as json_data:
+            #load file
             pay = json.load(json_data)
+            # delete unpaid file
+            os.remove('unpaid.json')
+            
             for k, v in pay.items():
                 result = create_payrun(network, k, v, passphrase, "Payed by El Gooso !", secondphrase)
                 out[k] = result
-                responses.append(out)
+            
+            #create response output
+            responses.append(out)
             # create paid record
             d = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             with open('output/payment/' + d + '-payamt.json', 'w') as f:
                 json.dump(pay, f)
             with open('output/payment/' + d + '-paytx.json', 'w') as g:
                 json.dump(responses, g)
-            # delete unpaid file
-            os.remove('unpaid.json')
+
             # payment run complete
             print('Payment Run Completed!')
     else:
