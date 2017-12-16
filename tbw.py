@@ -259,6 +259,11 @@ if __name__ == '__main__':
     while True:
         b = Block(network)
         last_block = b.get_blocks(limit=1, generatorPublicKey=pubKey)
+        #check for nonetype resppnse error
+        if last_block == None:
+            # pause script and try again 
+            time.sleep(7)
+            last_block = b.get_blocks(limit=1, generatorPublicKey=pubKey)
         last_block_height = last_block['blocks'][0]['height']
         check = new_block(block, last_block_height)
         
