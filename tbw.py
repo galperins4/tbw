@@ -18,6 +18,12 @@ def parse_config():
     """
     with open('config.json') as data_file:
         data = json.load(data_file)
+        
+    #check for share errors and stop program
+    if (data['delegate_share']+data['voter_share'])>1:
+        print('Distribution rate greater than 100%, Please fix config file!')
+        quit()
+       
     return data
 
 
