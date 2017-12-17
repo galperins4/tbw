@@ -84,7 +84,7 @@ if __name__ == '__main__':
              #   json.dump(responses, g)
               
             #let's try with a txt file - DEBUGGING
-            h = open(d+'-paytx.txt', 'a')
+            h = open('output/payment/'+d+'-paytx.txt', 'a')
             h.write(str(responses))
             h.close()
             
