@@ -5,6 +5,7 @@ import time
 import json
 import os.path
 import subprocess
+from datetime import datetime
 
 tx_fee = 'yes'
 tbw_rewards = {}  # blank dictionary for rewards
@@ -147,9 +148,10 @@ def missed_block(b, i):
         print("all blocks in payrun")
     # we missed a block to process somewhere
     else: 
-        print("block not allocated")
-        print("processed blocks : {0}".format(b))
-        print("blockchain blocks : {0}".format(a))
+        d = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        f = open('missingblock.txt', 'a')
+        f.write(d+' '+ 'Oops! We missed a block somewhere. Go investigate '+'\n')
+        f.close()
                   
 def get_highest_block():
     with open('output/log/result.json') as json_data:
