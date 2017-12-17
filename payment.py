@@ -36,6 +36,10 @@ def create_payrun(network, addr, amt, passphrase, vendor_field="true block weigh
         f.write(d+' '+addr+' '+str(amt)+resp['broadcast']+'\n')
         f.close()
         
+    # debugging
+    print(type(resp))
+    print(resp)
+    
     return resp
 
 
@@ -66,7 +70,7 @@ if __name__ == '__main__':
             os.remove('unpaid.json')
             
             for k, v in pay.items():
-                result = create_payrun(network, k, v, passphrase, "Payed by El Gooso !", secondphrase)
+                result = create_payrun(network, k, v, passphrase, "Goose - True Block Rewards!", secondphrase)
                 out[k] = result
             
             #create response output
