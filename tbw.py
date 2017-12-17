@@ -195,7 +195,10 @@ def initialize():
             # set last block to most recent one from files
             block = int(last_processed_block)
             block_count = len(get_block_count())
-        
+            #check for new reserve address 
+            if data["reserve"] not in tbw_rewards.keys():
+                tbw_rewards[data['reserve']] = {'unpaid': 0, 'paid': 0}
+            
         else:  # initialize paid/unpaid records for voters
             for i in block_voters['accounts']:
                 tbw_rewards[i['address']] = {'unpaid': 0, 'paid': 0}
