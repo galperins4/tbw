@@ -70,7 +70,12 @@ if __name__ == '__main__':
             os.remove('unpaid.json')
             
             for k, v in pay.items():
-                result = create_payrun(network, k, v, passphrase, "Goose - True Block Rewards!", secondphrase)
+                if k != parse_config()['reserve']:
+                    msg = "Goose Voter - True Block Weight"
+                else:
+                    msg = "Reserve - True Block Weight"
+                
+                result = create_payrun(network, k, v, passphrase, msg, secondphrase)
                 out[k] = result
             
             #create response output
