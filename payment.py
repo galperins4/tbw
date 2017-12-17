@@ -33,7 +33,7 @@ def create_payrun(network, addr, amt, passphrase, vendor_field="true block weigh
     if resp['success'] != True and bcast < 51:
         d = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         f = open('fail.txt', 'a')
-        f.write(d+' '+addr+' '+str(amt)+resp['broadcast']+'\n')
+        f.write(d+' '+addr+' '+str(amt)+' '+resp['broadcast']+'\n')
         f.close()
         
     # debugging
