@@ -79,8 +79,15 @@ if __name__ == '__main__':
             d = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             with open('output/payment/' + d + '-payamt.json', 'w') as f:
                 json.dump(pay, f)
-            with open('output/payment/' + d + '-paytx.json', 'w') as g:
-                json.dump(responses, g)
+            
+            #with open('output/payment/' + d + '-paytx.json', 'w') as g:
+             #   json.dump(responses, g)
+              
+            #let's try with a txt file - DEBUGGING
+            h = open(d+'-paytx.txt', 'a')
+            h.write(str(responses))
+            h.close()
+            
 
             # payment run complete
             print('Payment Run Completed!')
