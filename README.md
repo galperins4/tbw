@@ -20,6 +20,9 @@ After the repository has been cloned you need to open the `config.json` and chan
 
 ## Changelog
 
+### .02
+- Modified config file and added multi-address capability for delegate share addresses
+
 ### .01
 - Initial release
 
