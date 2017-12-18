@@ -35,10 +35,6 @@ def create_payrun(network, addr, amt, passphrase, vendor_field="true block weigh
         f = open('fail.txt', 'a')
         f.write(d+' '+addr+' '+str(amt)+' '+resp['broadcast']+'\n')
         f.close()
-        
-    # debugging
-    print(type(resp))
-    print(resp)
     
     return resp
 
@@ -91,7 +87,6 @@ if __name__ == '__main__':
             h.write(str(responses))
             h.close()
             
-
             # payment run complete
             print('Payment Run Completed!')
     else:
