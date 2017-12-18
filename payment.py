@@ -49,10 +49,8 @@ def get_network(n):
     """
     if n == "main":
         net = "ark"
-    elif n == "dev":
-        net = "dark"
-    elif n == "kapu":
-        net = "kapu"
+    else:
+        net = n
     return net
 
 if __name__ == '__main__':
