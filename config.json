@@ -1,5 +1,5 @@
 {
-  "network": "main or dev or kapu",
+  "network": "main or dark or kapu",
   "delegate": "delegate name",
   "publicKey": "pubkey",
   "interval": 1.00,
