@@ -22,7 +22,6 @@ def parse_config():
              
     return data
 
-
 def allocate(lb, pk):
     data = parse_config()
 
@@ -31,6 +30,7 @@ def allocate(lb, pk):
     json_export = {}
     rewards_check = 0
     voter_check = 0
+    delegate_check = 0
     
     # get voters / share / block reward same time
     d = Delegate(network)
@@ -47,14 +47,24 @@ def allocate(lb, pk):
     fee_reward = int(lb['blocks'][0]['totalFee'])
     total_reward = int(lb['blocks'][0]['totalForged'])
     
-    # calculate delegate and voter shares
-    vshare = block_reward * data['voter_share']
-    dshare = (int(block_reward * data['delegate_share'])) + int(fee_reward)
+    #EXPERIMENTAL
+    # calculate delegate/reserve/other shares
+    for k,v in data['keep'].items():
+        if k == 'reserve':
+            keep = (int(block_reward * v)) + int(fee_reward)
+        else:
+            keep = (int(block_reward * v))
+            
+        #assign  shares to log and rewards tracking
+        keep_addr = data['pay_addresses'][k]
+        log[keep_addr] = keep
+        tbw_rewards[keep_addr]['unpaid'] += keep
+        
+        #increment delegate_check for double check
+        delegate_check +=keep
     
-    # assign delegate share
-    reserve = data['reserve']
-    log[reserve] = dshare
-    tbw_rewards[reserve]['unpaid'] += dshare
+    # calculate voter share
+    vshare = block_reward * data['voter_share']
     
     # loop through the current voters and assign share
     for i in block_voters['accounts']:
@@ -78,7 +88,7 @@ def allocate(lb, pk):
     Voters Rewards: {2}
     Delegate Reward: {3}
     Voter + Delegate Rewards: {4}
-    Total Block Rewards: {5}""".format(last_block_height, voter_check, rewards_check, dshare, (rewards_check + dshare), total_reward))
+    Total Block Rewards: {5}""".format(last_block_height, voter_check, rewards_check, delegate_check, (rewards_check + delegate_check), total_reward))
 
     with open('output/log/' + (str(last_block_height)) + '.json', 'w') as f:
         json.dump(tbw_rewards, f)
@@ -100,7 +110,6 @@ def allocate(lb, pk):
         with open('output/log/result.json', 'w') as f:
             json.dump(json_decoded, f)
             
-
 # function to check if a new block was created
 def new_block(l, n):
     if (n - l) > 0:
@@ -110,7 +119,6 @@ def new_block(l, n):
     else:
         return False
     
-
 # function to check for new voters
 def new_voter(v):
     for i in v['accounts']:
@@ -192,17 +200,19 @@ def initialize():
             # set last block to most recent one from files
             block = int(last_processed_block)
             block_count = len(get_block_count())
-            #check for new reserve address 
-            if data["reserve"] not in tbw_rewards.keys():
-                tbw_rewards[data['reserve']] = {'unpaid': 0, 'paid': 0}
+            
+            #check for new reserve addresses 
+            for k,v in data['pay_addresses'].items():
+                if v not in tbw_rewards.keys():
+                    tbw_rewards[v] = {'unpaid': 0, 'paid': 0}
             
         else:  # initialize paid/unpaid records for voters
             for i in block_voters['accounts']:
                 tbw_rewards[i['address']] = {'unpaid': 0, 'paid': 0}
             # initialize paid/unpaid records for reserve account
-            tbw_rewards[data['reserve']] = {'unpaid': 0, 'paid': 0}
-
-
+            for k,v in data['pay_addresses'].items():
+                tbw_rewards[v] = {'unpaid': 0, 'paid': 0}
+            
 def payout():
     data = parse_config()
     
@@ -216,15 +226,14 @@ def payout():
     # count number of transactions in pay_run
     tx_count = len(pay_run)
     # calculate tx fees needed to cover run in satoshis
-    tx_fees = tx_count * 10000000
-    
+    transaction_fee = 10000000
+    tx_fees = tx_count * transaction_fee
     
     # generate pay file
-    
     for k, v in tbw_rewards.items():
         if v['unpaid'] > 0:
-            # process voters
-            if k != data['reserve']:
+            # process voters and non-reserve address
+            if k != data['pay_addresses']['reserve']:
                 # print('pay voter', k, v['unpaid'])
                 unpaid[k] = v['unpaid']
                                 
@@ -259,11 +268,6 @@ if __name__ == '__main__':
     while True:
         b = Block(network)
         last_block = b.get_blocks(limit=1, generatorPublicKey=pubKey)
-        #check for nonetype response error
-        if last_block == None:
-            # pause script and try again 
-            time.sleep(7)
-            last_block = b.get_blocks(limit=1, generatorPublicKey=pubKey)
         last_block_height = last_block['blocks'][0]['height']
         check = new_block(block, last_block_height)
         
