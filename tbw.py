@@ -74,7 +74,7 @@ def allocate(lb, pk):
     
         # filter out 0 balances for processing
         if i['balance'] > 0:
-            i['share_weight'] = round(i['balance'] / approval, 8)  # calc share rate
+            i['share_weight'] = i['balance'] / approval # calc share rate
             i['reward'] = int(i['share_weight'] * vshare)  # calculate block reward
             log[i['address']] = i['reward']  # populate log for block export records
             tbw_rewards[i['address']]['unpaid'] += i['reward']  # add voter reward to unpaid tally in main tbw_rewards_dict
