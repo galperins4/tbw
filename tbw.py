@@ -130,7 +130,7 @@ def new_voter(v):
 def manage_folders():
     # Rewrited it, now it handles it like it should, don't do anything if the directorys already exists thanks to the
     # exist_ok parameter, and if one of the directory doesn't exists, creates it.
-    sub_names = ["log", "payment"]
+    sub_names = ["log", "payment", "error"]
     for sub_name in sub_names:
         os.makedirs(os.path.join('output', sub_name), exist_ok=True)
 
@@ -152,7 +152,7 @@ def missed_block(b, i):
     # we missed a block to process somewhere
     else: 
         d = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        f = open('missingblock.txt', 'a')
+        f = open('output/error/missingblock.txt', 'a')
         f.write(d+' '+ 'Oops! We missed a block somewhere. Go investigate '+'\n')
         f.close()
                   
@@ -271,7 +271,7 @@ if __name__ == '__main__':
         try:
             last_block = b.get_blocks(limit=1, generatorPublicKey=pubKey)
         except AttributeError:
-            errfile = open("attrib-error.txt", "w")
+            errfile = open("output/error/attrib-error.txt", "w")
             errfile.write(block)
             errfile.close()
             # set block to last block found to continue on
