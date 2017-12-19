@@ -267,7 +267,16 @@ if __name__ == '__main__':
     pubKey = config['publicKey']
     while True:
         b = Block(network)
-        last_block = b.get_blocks(limit=1, generatorPublicKey=pubKey)
+        #temp fix to catch attribute error
+        try:
+            last_block = b.get_blocks(limit=1, generatorPublicKey=pubKey)
+        except AttributeError:
+            errfile = open("attrib-error.txt", "w")
+            errfile.write(block)
+            errfile.close()
+            # set block to last block found to continue on
+            last_block = {'blocks':[{'height': block}]}
+        
         last_block_height = last_block['blocks'][0]['height']
         check = new_block(block, last_block_height)
         
