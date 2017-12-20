@@ -215,22 +215,20 @@ def initialize():
 def payout():
     data = parse_config()
     
+    min = data['min_payment'] * 100000000
+   
     # initialize pay_run
-    pay_run = {}
     unpaid = {}  # payment file
     
-    # get unpaid balances greater than 0
-    pay_run = {k: v for k, v in tbw_rewards.items() if v['unpaid'] > 0}
-    
-    # count number of transactions in pay_run
-    tx_count = len(pay_run)
+    # count number of transactions greater than payout threshold
+    tx_count = len({k: v for k, v in tbw_rewards.items() if v['unpaid'] > min})
     # calculate tx fees needed to cover run in satoshis
     transaction_fee = 10000000
     tx_fees = tx_count * transaction_fee
-    
+   
     # generate pay file
     for k, v in tbw_rewards.items():
-        if v['unpaid'] > 0:
+        if v['unpaid'] > min:
             # process voters and non-reserve address
             if k != data['pay_addresses']['reserve']:
                 # print('pay voter', k, v['unpaid'])
@@ -271,7 +269,7 @@ if __name__ == '__main__':
             last_block = b.get_blocks(limit=1, generatorPublicKey=pubKey)
         except:
             errfile = open("output/error/error.txt", "w")
-            errfile.write(block)
+            errfile.write(str(block))
             errfile.close()
             # set block to last block found to continue on
             last_block = {'blocks':[{'height': block}]}
