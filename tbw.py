@@ -302,7 +302,7 @@ if __name__ == '__main__':
 
             if total > 0 and flag == 'N':
                 #check for any missed blocks                
-                missed_block(b, config['interval']) DISABLED FOR NOW. CAUSING ERRORS
+                missed_block(b, config['interval'])
                 print('Payout started !')
                 payout()
                 
