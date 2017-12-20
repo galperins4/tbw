@@ -215,12 +215,14 @@ def initialize():
 def payout():
     data = parse_config()
     
+    min = data['min_payment'] * 100000000
+   
     # initialize pay_run
     pay_run = {}
     unpaid = {}  # payment file
     
     # get unpaid balances greater than 0
-    pay_run = {k: v for k, v in tbw_rewards.items() if v['unpaid'] > 0}
+    pay_run = {k: v for k, v in tbw_rewards.items() if v['unpaid'] > min}
     
     # count number of transactions in pay_run
     tx_count = len(pay_run)
@@ -228,9 +230,12 @@ def payout():
     transaction_fee = 10000000
     tx_fees = tx_count * transaction_fee
     
+    print('payrun:', len(pay_run))
+    print(len({k: v for k, v in tbw_rewards.items() if v['unpaid'] > min})
+   
     # generate pay file
     for k, v in tbw_rewards.items():
-        if v['unpaid'] > 0:
+        if v['unpaid'] > min:
             # process voters and non-reserve address
             if k != data['pay_addresses']['reserve']:
                 # print('pay voter', k, v['unpaid'])
