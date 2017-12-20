@@ -231,7 +231,7 @@ def payout():
     tx_fees = tx_count * transaction_fee
     
     print('payrun:', len(pay_run))
-    print(len({k: v for k, v in tbw_rewards.items() if v['unpaid'] > min})
+    print(len({k: v for k, v in tbw_rewards.items() if v['unpaid'] > min}))
    
     # generate pay file
     for k, v in tbw_rewards.items():
