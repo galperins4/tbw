@@ -7,7 +7,6 @@ import os.path
 import subprocess
 from datetime import datetime
 
-tx_fee = 'yes'
 tbw_rewards = {}  # blank dictionary for rewards
 block = 0  # set default block to 0, will update from call or json later
 block_count = 0  # running counter for payouts
