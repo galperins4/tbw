@@ -124,8 +124,7 @@ def new_voter(v):
         test = i['address'] in tbw_rewards.keys()
         if not test:
             tbw_rewards[i['address']] = {'unpaid': 0, 'paid': 0}
-
-
+            
 def manage_folders():
     # Rewrited it, now it handles it like it should, don't do anything if the directorys already exists thanks to the
     # exist_ok parameter, and if one of the directory doesn't exists, creates it.
@@ -136,6 +135,7 @@ def manage_folders():
 def missed_block(b, i):
     # get last blocks by interval
     mcheck = b.get_blocks(limit=i, generatorPublicKey=pubKey)
+    print(mcheck)
     a = [i['height'] for i in mcheck['blocks']]
     
     # get last processed blocks by interval
@@ -302,7 +302,7 @@ if __name__ == '__main__':
 
             if total > 0 and flag == 'N':
                 #check for any missed blocks                
-                #missed_block(b, config['interval']) DISABLED FOR NOW. CAUSING ERRORS
+                missed_block(b, config['interval']) DISABLED FOR NOW. CAUSING ERRORS
                 print('Payout started !')
                 payout()
                 
