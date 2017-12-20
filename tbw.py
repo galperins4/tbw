@@ -230,7 +230,6 @@ def payout():
         if v['unpaid'] > min:
             # process voters and non-reserve address
             if k != data['pay_addresses']['reserve']:
-                # print('pay voter', k, v['unpaid'])
                 unpaid[k] = v['unpaid']
                                 
                 # subtract unpaid amount and add to paid
@@ -239,7 +238,6 @@ def payout():
     
             # process delegate share
             else:
-                # print('pay reserve', k, v['unpaid'])
                 # pay delegate
                 net_pay = v['unpaid']-tx_fees
                 unpaid[k] = net_pay
