@@ -22,6 +22,9 @@ Important! - pay_addresses and keep keys should match in config.json. DO NOT del
 
 ## Changelog
 
+### .03
+- Modified config file to add minimum payment threshold functionality
+
 ### .02
 - Modified config file and added multi-address capability for delegate share addresses
 
