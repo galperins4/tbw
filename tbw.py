@@ -135,7 +135,6 @@ def manage_folders():
 def missed_block(b, i):
     # get last blocks by interval
     mcheck = b.get_blocks(limit=i, generatorPublicKey=pubKey)
-    print(mcheck)
     a = [i['height'] for i in mcheck['blocks']]
     
     # get last processed blocks by interval
