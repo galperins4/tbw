@@ -298,7 +298,7 @@ if __name__ == '__main__':
             last_block = b.get_blocks(limit=1, generatorPublicKey=pubKey)
         except:
             errfile = open("output/error/error.txt", "a")
-            errfile.write(str(block))
+            errfile.write(str(block)+'\n')
             errfile.close()
             # set block to last block found to continue on
             last_block = {'blocks':[{'height': block}]}
