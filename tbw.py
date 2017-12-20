@@ -218,20 +218,13 @@ def payout():
     min = data['min_payment'] * 100000000
    
     # initialize pay_run
-    pay_run = {}
     unpaid = {}  # payment file
     
-    # get unpaid balances greater than 0
-    pay_run = {k: v for k, v in tbw_rewards.items() if v['unpaid'] > min}
-    
-    # count number of transactions in pay_run
-    tx_count = len(pay_run)
+    # count number of transactions greater than payout threshold
+    tx_count = len({k: v for k, v in tbw_rewards.items() if v['unpaid'] > min})
     # calculate tx fees needed to cover run in satoshis
     transaction_fee = 10000000
     tx_fees = tx_count * transaction_fee
-    
-    print('payrun:', len(pay_run))
-    print(len({k: v for k, v in tbw_rewards.items() if v['unpaid'] > min}))
    
     # generate pay file
     for k, v in tbw_rewards.items():
