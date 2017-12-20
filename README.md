@@ -16,7 +16,8 @@ Important! - pay_addresses and keep keys should match in config.json. DO NOT del
 
 ## To Do
 
-- Add more features to config (e.g., multi-reserve accounts, tx fee handling, black/white list, etc)
+- Add more features to config (e.g., tx fee handling, black/white list, etc)
+- Add reserve balance check (to ensure if you are paying tx that fees <= reserve amt)
 - Manual block processing / allocation
 - Additional exception handling
 
