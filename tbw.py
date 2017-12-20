@@ -187,7 +187,6 @@ def initialize():
     # get voters
     d = Delegate(data['network'])
     block_voters = d.get_voters(pubKey)
-    print(block_voters)
     
     # check if first run
     if block == 0:
