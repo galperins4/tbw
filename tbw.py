@@ -270,8 +270,8 @@ if __name__ == '__main__':
         #temp fix to catch attribute error
         try:
             last_block = b.get_blocks(limit=1, generatorPublicKey=pubKey)
-        except AttributeError:
-            errfile = open("output/error/attrib-error.txt", "w")
+        except:
+            errfile = open("output/error/error.txt", "w")
             errfile.write(block)
             errfile.close()
             # set block to last block found to continue on
