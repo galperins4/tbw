@@ -139,11 +139,10 @@ def missed_block(b, i):
         a = [i['height'] for i in mcheck['blocks']]
     else:
         a = []
-        interval = i
-
+        
         #get number of pages to retrieve
-        divis = interval // 100
-        remain = interval % 100
+        divis = i // 100
+        remain = i % 100
 
         #initialize page limit at 100 and offset to 0
         l = 100
@@ -152,23 +151,23 @@ def missed_block(b, i):
         for i in range(divis+1):
         #first run assuming more than 100 records
             if i == 0:
-            page = b.get_blocks(limit=l, generatorPublicKey="029fa2d85a912d2f9ee52878aff77de67d4580875d149cb97677a7e76e93328bd5")
-            tmp = [i['height'] for i in page['blocks']]
-            a += tmp
-            off += 100
+                page = b.get_blocks(limit=l, generatorPublicKey="029fa2d85a912d2f9ee52878aff77de67d4580875d149cb97677a7e76e93328bd5")
+                tmp = [i['height'] for i in page['blocks']]
+                a += tmp
+                off += 100
 
         #process last
-        elif i == divis:
-            page = b.get_blocks(limit=remain, offset=off, generatorPublicKey="029fa2d85a912d2f9ee52878aff77de67d4580875d149cb97677a7e76e93328bd5")
-            tmp = [i['height'] for i in page['blocks']]
-            a += tmp
+            elif i == divis:
+                page = b.get_blocks(limit=remain, offset=off, generatorPublicKey="029fa2d85a912d2f9ee52878aff77de67d4580875d149cb97677a7e76e93328bd5")
+                tmp = [i['height'] for i in page['blocks']]
+                a += tmp
 
             #process everything else
-        else:
-            page = b.get_blocks(limit=l, offset=off, generatorPublicKey="029fa2d85a912d2f9ee52878aff77de67d4580875d149cb97677a7e76e93328bd5")
-            tmp = [i['height'] for i in page['blocks']]
-            a += tmp
-            off += 100
+            else:
+                page = b.get_blocks(limit=l, offset=off, generatorPublicKey="029fa2d85a912d2f9ee52878aff77de67d4580875d149cb97677a7e76e93328bd5")
+                tmp = [i['height'] for i in page['blocks']]
+                a += tmp
+                off += 100
         
     # get last processed blocks by interval
     tmp = get_block_count()
