@@ -3,6 +3,8 @@ from pythark import Transport
 import json
 import os.path
 from datetime import datetime
+import arky.core
+import arky.rest
 
 
 def parse_config():
@@ -18,6 +20,7 @@ def create_payrun(network, addr, amt, passphrase, vendor_field="true block weigh
     """
     Create payment run
     """
+    '''
     transport = Transport()
     resp = transport.post_transaction(
         network, # Network
@@ -26,6 +29,9 @@ def create_payrun(network, addr, amt, passphrase, vendor_field="true block weigh
         passphrase, # First passphrase, mandatory
         vendor_field, # Vendor field, optionnal
         secondphrase) # Second passphrase, optionnal'''
+    
+    arky.rest.use(network)
+    resp = arky.core.sendToken(amount=amt, recipientId=addr, secret=passphrase, secondSecret=secondphrase,vendorField=vendor_field)
     
     # convert broadcast to float
     bcast = float(resp['broadcast'].replace("%",""))
