@@ -84,10 +84,11 @@ def allocate(lb, pk):
 
     print("""Processed Block: {0}\n
     Voters processed: {1}
-    Voters Rewards: {2}
-    Delegate Reward: {3}
-    Voter + Delegate Rewards: {4}
-    Total Block Rewards: {5}""".format(last_block_height, voter_check, rewards_check, delegate_check, (rewards_check + delegate_check), total_reward))
+    Total Approval: {2}
+    Voters Rewards: {3}
+    Delegate Reward: {4}
+    Voter + Delegate Rewards: {5}
+    Total Block Rewards: {6}""".format(last_block_height, voter_check, approval, rewards_check, delegate_check, (rewards_check + delegate_check), total_reward))
 
     with open('output/log/' + (str(last_block_height)) + '.json', 'w') as f:
         json.dump(tbw_rewards, f)
@@ -177,6 +178,9 @@ def missed_block(b, i):
     # look for difference
     diff = set(a).symmetric_difference(set(b))
     # if empty set we processed all blocks
+    print(a.sort()) #debug
+    print(b.sort()) #debug
+    
     if not diff:
         print("all blocks in payrun")
     # we missed a block to process somewhere
