@@ -141,8 +141,8 @@ def missed_block(b, i):
         a = []
         
         #get number of pages to retrieve
-        divis = i // 100
-        remain = i % 100
+        divis = int(i // 100)
+        remain = int(i % 100)
 
         #initialize page limit at 100 and offset to 0
         l = 100
