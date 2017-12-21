@@ -3,8 +3,7 @@ from pythark import Transport
 import json
 import os.path
 from datetime import datetime
-import arky.core
-import arky.rest
+import arky
 
 
 def parse_config():
