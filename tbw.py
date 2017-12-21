@@ -169,14 +169,14 @@ def missed_block(b, i):
                 tmp = [i['height'] for i in page['blocks']]
                 a += tmp
                 off += 100
-        
-    print(a) #debug
-    print(b) #debug
     
     # get last processed blocks by interval
     tmp = get_block_count()
     i = int(i) * -1;
     b = tmp[i:]
+    
+    print(a) #debug
+    print(b) #debug
     
     # look for difference
     diff = set(a).symmetric_difference(set(b))
