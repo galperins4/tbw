@@ -175,14 +175,15 @@ def missed_block(b, i):
     i = int(i) * -1;
     b = tmp[i:]
     
-    print(a) #debug
-    print(b) #debug
-    
     # look for difference
     diff = set(a).symmetric_difference(set(b))
     # if empty set we processed all blocks
-    print(a.sort()) #debug
-    print(b.sort()) #debug
+    
+    testa = sorted(a) #debug
+    testb = sorted(b) #debug
+    
+    print(testa) #debug
+    print(testb) #debug
     
     if not diff:
         print("all blocks in payrun")
