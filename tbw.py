@@ -170,6 +170,9 @@ def missed_block(b, i):
                 a += tmp
                 off += 100
         
+    print(a) #debug
+    print(b) #debug
+    
     # get last processed blocks by interval
     tmp = get_block_count()
     i = int(i) * -1;
