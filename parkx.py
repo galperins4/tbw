@@ -109,7 +109,6 @@ def broadcast(tx,p,i,h,v):
             payload = {"transactions":[i]}
             resp = requests.post(url, headers = headers, json = payload)
             responses.append(resp.json())
-            print(resp.json())
             
         out['Peer'+str(count)] = responses
         count+=1
