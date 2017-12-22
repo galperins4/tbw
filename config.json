@@ -1,6 +1,7 @@
 {
   "network": "main or dark or kapu",
   "delegate": "delegate name",
+  "delegate_ip": "",
   "publicKey": "delegate pubkey",
   "interval": 1.00,
   "voter_share": 0.20,
@@ -8,6 +9,7 @@
   "secondphrase": "secondphrase",
   "cover_tx_fees": "Y",
   "min_payment": 0,
+  "reach": 5,
   "keep":{
           "reserve": 0.60,
           "costs": 0.10,
