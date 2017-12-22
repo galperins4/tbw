@@ -68,12 +68,10 @@ def create_signed_tx(network, recipientId, amount, vendorField, secret, secondSe
 
     # execute via nodejs and grab the output
     response = muterun_js(transactionScript)
-    print('response code:', response.exitcode)
 
     if response.exitcode == 0:
         # transaction=json.dumps(response.stdout)
         transaction = json.loads(response.stdout.decode('utf-8')) #signed tx as json
-        print(transaction) # FOR TESTING PURPOSES
 
     else:
         print(response.stderr)
@@ -99,6 +97,8 @@ def broadcast(tx,p,i,h,v):
         #normal processing
         random.shuffle(p)
         peer_cast = p[0:i]
+    
+    print(peer_cast)
     
     #rotate through peers and begin broadcasting:
         for i in peer_cast:
