@@ -114,9 +114,9 @@ def broadcast(tx,p,i,h,v):
         count+=1
             
         # create paid record
-        #d = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        #with open('output/payment/' + d + '-paytx.json', 'w') as f:
-        #    json.dump(out, f)
+        d = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        with open('output/payment/' + d + '-paytx.json', 'w') as f:
+            json.dump(out, f)
     print(out)
     
 if __name__ == '__main__':    
@@ -152,7 +152,7 @@ if __name__ == '__main__':
             broadcast(signed_tx, p, reach, nethash, version)
             
             d = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            with open('output/payment/' + d + '-paytx.json', 'w') as f:
+            with open('output/payment/' + d + '-payamt.json', 'w') as f:
                 json.dump(pay, f)
             
             # payment run complete
