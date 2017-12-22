@@ -97,9 +97,7 @@ def broadcast(tx,p,i,h,v):
         #normal processing
         random.shuffle(p)
         peer_cast = p[0:i]
-    
-    print(peer_cast)
-    
+      
     #rotate through peers and begin broadcasting:
     for i in peer_cast:
         out = {}
