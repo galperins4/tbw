@@ -105,10 +105,10 @@ def broadcast(tx,p,i,h,v):
         responses = {}
         url = "http://"+i['ip']+":"+str(i['port'])+"/peer/transactions"
         #cycle through and broadcast each tx on each peer and save responses
-        for i in tx:
-            payload = {"transactions":[i]}
+        for j in tx:
+            payload = {"transactions":[j]}
             resp = requests.post(url, headers = headers, json = payload)
-            responses[i[recipientId']] = resp.json()
+            responses[j['recipientId']] = resp.json()
             
         out['Peer'+str(count)] = responses
         count+=1
