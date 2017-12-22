@@ -129,7 +129,7 @@ def new_voter(v):
 def manage_folders():
     # Rewrited it, now it handles it like it should, don't do anything if the directorys already exists thanks to the
     # exist_ok parameter, and if one of the directory doesn't exists, creates it.
-    sub_names = ["log", "payment", "error"]
+    sub_names = ["log", "payment", "error", "bake"]
     for sub_name in sub_names:
         os.makedirs(os.path.join('output', sub_name), exist_ok=True)
 
