@@ -101,24 +101,25 @@ def broadcast(tx,p,i,h,v):
     print(peer_cast)
     
     #rotate through peers and begin broadcasting:
-        for i in peer_cast:
-            out = {}
-            responses = []
-            url = "http://"+i['ip']+":"+str(i['port'])+"/peer/transactions"
-            #cycle through and broadcast each tx on each peer and save responses
-            for i in tx:
-                payload = {"transactions":[i]}
-                resp = requests.post(url, headers = headers, json = payload)
-                responses.append(resp.json())
-                print(resp.json())
+    for i in peer_cast:
+        out = {}
+        responses = []
+        url = "http://"+i['ip']+":"+str(i['port'])+"/peer/transactions"
+        #cycle through and broadcast each tx on each peer and save responses
+        for i in tx:
+            payload = {"transactions":[i]}
+            resp = requests.post(url, headers = headers, json = payload)
+            responses.append(resp.json())
+            print(resp.json())
             
-            out['Peer'+str(i)] = responses
+        out['Peer'+str(i)] = responses
             
-            # create paid record
-            d = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            with open('output/payment/' + d + '-paytx.json', 'w') as f:
-                json.dump(out, f)
-                
+        # create paid record
+        #d = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        #with open('output/payment/' + d + '-paytx.json', 'w') as f:
+        #    json.dump(out, f)
+    print(out)
+    
 if __name__ == '__main__':    
     signed_tx = []
     passphrase = parse_config()['passphrase']  # Get the passphrase from config.json
