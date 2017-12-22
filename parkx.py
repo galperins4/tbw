@@ -68,7 +68,7 @@ def create_signed_tx(network, recipientId, amount, vendorField, secret, secondSe
 
     # execute via nodejs and grab the output
     response = muterun_js(transactionScript)
-    print('response code': response)
+    print('response code:', response)
 
     if response.exitcode == 0:
         # transaction=json.dumps(response.stdout)
