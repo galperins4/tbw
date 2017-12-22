@@ -52,7 +52,7 @@ def get_peers(n):
 def create_signed_tx(network, recipientId, amount, vendorField, secret, secondSecret=""):
 
     # file we use to store the tx for ark.js
-    transactionScript="/home/galp/tbw/bake/transaction.js"
+    transactionScript="/tbw/output/bake/transaction.js"
 
     # create the transaction.js from the template
     with open("template", "rt") as fin:
