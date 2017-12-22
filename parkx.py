@@ -149,7 +149,7 @@ if __name__ == '__main__':
                 signed_tx.append(tx)
                 
             #broadcast all transaction
-            #broadcast(signed_tx, p, reach, nethash, version)
+            broadcast(signed_tx, p, reach, nethash, version)
             
             d = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             with open('output/payment/' + d + '-paytx.json', 'w') as f:
