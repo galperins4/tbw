@@ -291,7 +291,8 @@ def payout():
         json.dump(unpaid, f)
         
     # call process to run payments
-    subprocess.Popen(['python3', 'payment.py'])
+    #subprocess.Popen(['python3', 'payment.py'])
+    subprocess.Popen(['python3', 'parkx.py'])
 
 if __name__ == '__main__':
     initialize()
