@@ -79,6 +79,7 @@ def create_signed_tx(network, recipientId, amount, vendorField, secret, secondSe
     return transaction
 
 def broadcast(tx,p,i,h,v):
+    out = {}
     responses = {}
     
     #set headers
@@ -101,7 +102,6 @@ def broadcast(tx,p,i,h,v):
     #rotate through peers and begin broadcasting:
     count=0
     for i in peer_cast:
-        out = {}
         responses = {}
         url = "http://"+i['ip']+":"+str(i['port'])+"/peer/transactions"
         #cycle through and broadcast each tx on each peer and save responses
