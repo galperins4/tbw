@@ -79,7 +79,7 @@ def create_signed_tx(network, recipientId, amount, vendorField, secret, secondSe
     return transaction
 
 def broadcast(tx,p,i,h,v):
-    responses = []
+    responses = {}
     
     #set headers
     headers = {
@@ -102,13 +102,13 @@ def broadcast(tx,p,i,h,v):
     count=0
     for i in peer_cast:
         out = {}
-        responses = []
+        responses = {}
         url = "http://"+i['ip']+":"+str(i['port'])+"/peer/transactions"
         #cycle through and broadcast each tx on each peer and save responses
         for i in tx:
             payload = {"transactions":[i]}
             resp = requests.post(url, headers = headers, json = payload)
-            responses.append(resp.json())
+            responses[i[recipientId']] = resp.json()
             
         out['Peer'+str(count)] = responses
         count+=1
