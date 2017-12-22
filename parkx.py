@@ -99,6 +99,7 @@ def broadcast(tx,p,i,h,v):
         peer_cast = p[0:i]
       
     #rotate through peers and begin broadcasting:
+    count=0
     for i in peer_cast:
         out = {}
         responses = []
@@ -110,7 +111,8 @@ def broadcast(tx,p,i,h,v):
             responses.append(resp.json())
             print(resp.json())
             
-        out['Peer'+str(i)] = responses
+        out['Peer'+str(count)] = responses
+        count+=1
             
         # create paid record
         #d = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
