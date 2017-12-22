@@ -6,6 +6,8 @@
 pip install pythark
 pip install https://github.com/ArkEcosystem/arky/archive/aip11.zip
 git clone https://github.com/galperins4/tbw
+cd ~
+npm install
 ```
 
 ## Configuration & Usage
