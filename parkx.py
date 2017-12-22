@@ -145,7 +145,7 @@ if __name__ == '__main__':
                         if k == value:
                              msg = key + " - True Block Weight"
                 
-                tx = create_signed_tx(hex, k, v, passphrase, msg, secondphrase)
+                tx = create_signed_tx(hex, k, v, msg, passphrase, secondphrase)
                 signed_tx.append(tx)
                 
             #broadcast all transaction
