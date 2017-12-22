@@ -113,10 +113,10 @@ def broadcast(tx,p,i,h,v):
         out['Peer'+str(count)] = responses
         count+=1
             
-        # create paid record
-        d = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        with open('output/payment/' + d + '-paytx.json', 'w') as f:
-            json.dump(out, f)
+    # create paid record
+    d = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    with open('output/payment/' + d + '-paytx.json', 'w') as f:
+        json.dump(out, f)
     print(out)
     
 if __name__ == '__main__':    
