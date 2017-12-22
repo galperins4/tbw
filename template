@@ -1,0 +1,13 @@
+var ark = require("arkjs");
+
+ark.crypto.setNetworkVersion({{ network }});
+
+var transaction = ark.transaction.createTransaction(
+    "{{ recipientId }}",
+    {{ amount }},
+    "{{ vendorField }}",
+    "{{ secret }}",
+    "{{ secondSecret }}"
+);
+
+console.log(JSON.stringify(transaction));
