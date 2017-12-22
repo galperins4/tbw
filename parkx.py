@@ -60,7 +60,7 @@ def create_signed_tx(network, recipientId, amount, vendorField, secret, secondSe
             for line in fin:
                 line=line.replace('{{ network }}', network)
                 line=line.replace('{{ recipientId }}', recipientId)
-                line=line.replace('{{ amount }}', amount)
+                line=line.replace('{{ amount }}', str(amount))
                 line=line.replace('{{ vendorField }}', vendorField)
                 line=line.replace('{{ secret }}', secret)
                 line=line.replace('{{ secondSecret }}', secondSecret)
