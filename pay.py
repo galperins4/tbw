@@ -4,8 +4,7 @@ from tbw import get_network
 from datetime import datetime
 import json
 import os.path
-
-#import random
+import random
 
 def parse_config():
     """
