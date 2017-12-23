@@ -238,7 +238,7 @@ def payout():
         json.dump(unpaid, f)
         
     # call process to run payments
-    # subprocess.Popen(['python3', 'pay.py'])
+    subprocess.Popen(['python3', 'pay.py'])
 
 def get_network(data, ip='127.0.0.1'):
     
