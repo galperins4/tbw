@@ -56,7 +56,7 @@ def broadcast(tx,p,park):
         out['Peer'+str(count)] = responses
         count+=1
             
-    create paid record
+    #create paid record
     d = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     with open('output/payment/' + d + '-paytx.json', 'w') as f:
         json.dump(out, f)
