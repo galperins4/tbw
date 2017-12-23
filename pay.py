@@ -52,13 +52,11 @@ def broadcast(tx,p,park,r):
         for j in tx:
              try:
                  transaction = park.transport().createTransaction(j)
-                 print(transaction)
                  responses[j['recipientId']] = transaction
              except:
                  #fall back to delegate node to grab data needed
                  bark = get_network(parse_config(), parse_config()['delegate_ip'])
                  transaction = bark.transport().createTransaction(j)
-                 print(transaction)
                  responses[j['recipientId']] = transaction
         
         out['Peer'+str(count)] = responses
@@ -84,6 +82,7 @@ if __name__ == '__main__':
         with open('unpaid.json') as json_data:
             #load file
             pay = json.load(json_data)
+            print(pay)
             # delete unpaid file
             os.remove('unpaid.json')
             
@@ -102,10 +101,11 @@ if __name__ == '__main__':
                 except:
                     #fall back to delegate node to grab data needed
                     bark = get_network(parse_config(), parse_config()['delegate_ip'])
-                    transaction = bark.transactionBuilder().create(k, str(v), msg, passphrase, secondphrase)
+                    tx = bark.transactionBuilder().create(k, str(v), msg, passphrase, secondphrase)
                     print('Switched to back-up API node')
                     signed_tx.append(tx)
                 
+            print(signed_tx)
             broadcast(signed_tx, p, park, reach)
             
             #write out payment amounts if we need to resend
