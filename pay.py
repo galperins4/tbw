@@ -107,7 +107,7 @@ if __name__ == '__main__':
                     print('Switched to back-up API node')
                     signed_tx.append(tx)
                 
-          # broadcast(signed_tx, p, park)
+            broadcast(signed_tx, p, park)
             
             #write out payment amounts if we need to resend
             d = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
