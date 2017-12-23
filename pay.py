@@ -51,8 +51,17 @@ def broadcast(tx,p,park):
         responses = {}
         #cycle through and broadcast each tx on each peer and save responses
         for j in tx:
-            transaction = park.transport().createTransaction(tx)
-            responses[j['recipientId']] = transaction
+             try:
+                 transaction = park.transport().createTransaction(tx)
+                 print(transaction)
+                 responses[j['recipientId']] = transaction
+             except:
+                 #fall back to delegate node to grab data needed
+                 bark = get_network(parse_config(), parse_config()['delegate_ip'])
+                 transaction = bark.transport().createTransaction(tx)
+                 print(transaction)
+                 responses[j['recipientId']] = transaction
+        
         out['Peer'+str(count)] = responses
         count+=1
             
