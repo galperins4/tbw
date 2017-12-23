@@ -94,7 +94,7 @@ if __name__ == '__main__':
                 except:
                     #fall back to delegate node to grab data needed
                     bark = get_network(parse_config(), parse_config()['delegate_ip'])
-                    transaction = bark.park.transactionBuilder().create(k, str(v), msg, passphrase, secondphrase)
+                    transaction = bark.transactionBuilder().create(k, str(v), msg, passphrase, secondphrase)
                     print('Switched to back-up API node')
                     signed_tx.append(tx)
                     print(tx)
