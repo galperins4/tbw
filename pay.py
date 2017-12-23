@@ -18,8 +18,12 @@ def parse_config():
 def get_peers(n):
     peers = []
     
-    ###ADD TRY EXCEPT
-    peers = n.peers().peers()['peers']
+    try:
+        peers = n.peers().peers()['peers']
+    except:
+        #fall back to delegate node to grab data needed
+        bark = get_network(parse_config(), parse_config()['delegate_ip'])
+        peers = bark.peers().peers()['peers']
 
     for peer in peers:
         if (peer['status'] != 'OK') or (peer['version'] != '1.1.1') or (peer['delay'] > 500):
