@@ -19,7 +19,7 @@ def get_peers(n):
     peers = []
     
     ###ADD TRY EXCEPT
-    peers = n.peer().peers()['peers']
+    peers = n.peers().peers()['peers']
 
     for peer in peers:
         if (peer['status'] != 'OK') or (peer['version'] != '1.1.1') or (peer['delay'] > 500):
