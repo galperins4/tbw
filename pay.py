@@ -91,18 +91,17 @@ if __name__ == '__main__':
                 try:
                     tx = park.transactionBuilder().create(k, str(v), msg, passphrase, secondphrase)
                     signed_tx.append(tx)
-                    print(tx)
                 except:
                     #fall back to delegate node to grab data needed
                     bark = get_network(parse_config(), parse_config()['delegate_ip'])
                     transaction = bark.transactionBuilder().create(k, str(v), msg, passphrase, secondphrase)
                     print('Switched to back-up API node')
                     signed_tx.append(tx)
-                    print(tx)
                 
           # broadcast(signed_tx, p, park)
             
             #write out payment amounts if we need to resend
+            d = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             with open('output/payment/' + d + '-payamt.json', 'w') as f:
                 json.dump(pay, f)
             
