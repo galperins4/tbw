@@ -99,7 +99,7 @@ if __name__ == '__main__':
                     signed_tx.append(tx)
                     print(tx)
                 
-                out[k] = transaction
+                out[k] = tx
           # broadcast(signed_tx, p, park)
         
          #   #output transaction confirms
