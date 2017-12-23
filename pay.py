@@ -27,6 +27,35 @@ def get_peers(n):
 
     return peers
 
+def broadcast(tx,p,park):
+    out = {}
+    responses = {}
+    
+    #take peers and shuffle the order
+    #check length of good peers
+    if len(p)<i: #this means there aren't enough peers compared to what we want to broadcast to
+        #set peers to full list
+        peer_cast = p
+    else:
+        #normal processing
+        random.shuffle(p)
+        peer_cast = p[0:i]
+      
+    #rotate through peers and begin broadcasting:
+    count=0
+    for i in peer_cast:
+        responses = {}
+        #cycle through and broadcast each tx on each peer and save responses
+        for j in tx:
+            
+        out['Peer'+str(count)] = responses
+        count+=1
+            
+    # create paid record
+    d = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    with open('output/payment/' + d + '-paytx.json', 'w') as f:
+        json.dump(out, f)
+
 if __name__ == '__main__':    
     passphrase = parse_config()['passphrase']  # Get the passphrase from config.json
     secondphrase = parse_config()['secondphrase']  # Get the second passphrase from config.json
