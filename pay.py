@@ -18,8 +18,8 @@ def parse_config():
 def get_peers(n):
     peers = []
     
-    p = Peer(n)
-    peers = p.get_peers()['peers']
+    ###ADD TRY EXCEPT
+    peers = n.Peer().peers()['peers']
 
     for peer in peers:
         if (peer['status'] != 'OK') or (peer['version'] != '1.1.1') or (peer['delay'] > 500):
@@ -34,7 +34,7 @@ if __name__ == '__main__':
     park = get_network(parse_config())
     
     #get peers
-    #p = get_peers(network)
+    p = get_peers(park)
     
     if os.path.exists('unpaid.json'):
         # open unpaid.json file
