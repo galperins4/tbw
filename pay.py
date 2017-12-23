@@ -109,9 +109,7 @@ if __name__ == '__main__':
                     tx = bark.transactionBuilder().create(k, str(v), msg, passphrase, secondphrase)
                     print('Switched to back-up API node')
                     signed_tx.append(tx)
-        
-                
-            
+       
             broadcast(signed_tx, p, park, reach)
             
             #write out payment amounts if we need to resend
