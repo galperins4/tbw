@@ -47,17 +47,18 @@ def broadcast(tx,p,park):
         responses = {}
         #cycle through and broadcast each tx on each peer and save responses
         for j in tx:
-            
-        out['Peer'+str(count)] = responses
+            transaction = park.transport().createTransaction(tx)
+        out['Peer'+str(count)] = transaction
         count+=1
             
     # create paid record
-    d = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    with open('output/payment/' + d + '-paytx.json', 'w') as f:
-        json.dump(out, f)
+    #d = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    #with open('output/payment/' + d + '-paytx.json', 'w') as f:
+       # json.dump(out, f)
 
 if __name__ == '__main__':    
-    passphrase = parse_config()['passphrase']  # Get the passphrase from config.json
+    signed_tx = []
+    passphrasepassphrase = parse_config()['passphrase']  # Get the passphrase from config.json
     secondphrase = parse_config()['secondphrase']  # Get the second passphrase from config.json
     reach = parse_config()['reach']
     park = get_network(parse_config())
@@ -82,23 +83,25 @@ if __name__ == '__main__':
                     for key,value in parse_config()['pay_addresses'].items():
                         if k == value:
                              msg = key + " - True Block Weight"
-                
                 try:
-                    transaction = park.transactions().create(k, str(v), msg, passphrase, secondphrase)
-                    print(transaction)
+                    tx = park.transactionBuilder().create(k, str(v), msg, passphrase, secondphrase)
+                    signed_tx.append(tx)
+                    print(tx)
                 except:
                     #fall back to delegate node to grab data needed
                     bark = get_network(parse_config(), parse_config()['delegate_ip'])
-                    transaction = bark.transactions().create(k, str(v), msg, passphrase, secondphrase)
+                    transaction = bark.park.transactionBuilder().create(k, str(v), msg, passphrase, secondphrase)
                     print('Switched to back-up API node')
-                    print(transaction)
+                    signed_tx.append(tx)
+                    print(tx)
                 
                 out[k] = transaction
-            
-            #output transaction confirms
-            d = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            with open('output/payment/' + d + '-paytx.json', 'w') as f:
-                json.dump(out, f)
+          # broadcast(signed_tx, p, park)
+        
+         #   #output transaction confirms
+         #   d = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+       #     with open('output/payment/' + d + '-paytx.json', 'w') as f:
+          #      json.dump(out, f)
             
             #out payment amounts if we need to resend
             with open('output/payment/' + d + '-payamt.json', 'w') as f:
