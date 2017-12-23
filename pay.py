@@ -1,6 +1,5 @@
 #!/usr/bin/python
 
-from park.park import Park
 from tbw import get_network
 from datetime import datetime
 import json
@@ -55,7 +54,15 @@ if __name__ == '__main__':
                         if k == value:
                              msg = key + " - True Block Weight"
                 
-                transaction = park.transactions().create(k, str(v), msg, passphrase, secondphrase)
+                try:
+                    transaction = park.transactions().create(k, str(v), msg, passphrase, secondphrase)
+                    print(transaction)
+                except:
+                    #fall back to delegate node to grab data needed
+                    bark = get_network(parse_config(), parse_config()['delegate_ip'])
+                    transaction = bark.transactions().create(k, str(v), msg, passphrase, secondphrase)
+                    print('Switched to back-up API node')
+                    print(transaction)
                 
                 out[k] = transaction
             
