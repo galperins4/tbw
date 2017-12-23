@@ -52,13 +52,14 @@ def broadcast(tx,p,park):
         #cycle through and broadcast each tx on each peer and save responses
         for j in tx:
             transaction = park.transport().createTransaction(tx)
-        out['Peer'+str(count)] = transaction
+            responses[j['recipientId']] = transaction
+        out['Peer'+str(count)] = responses
         count+=1
             
-    # create paid record
-    #d = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    #with open('output/payment/' + d + '-paytx.json', 'w') as f:
-       # json.dump(out, f)
+    create paid record
+    d = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    with open('output/payment/' + d + '-paytx.json', 'w') as f:
+        json.dump(out, f)
 
 if __name__ == '__main__':    
     signed_tx = []
@@ -99,15 +100,9 @@ if __name__ == '__main__':
                     signed_tx.append(tx)
                     print(tx)
                 
-                out[k] = tx
           # broadcast(signed_tx, p, park)
-        
-         #   #output transaction confirms
-         #   d = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-       #     with open('output/payment/' + d + '-paytx.json', 'w') as f:
-          #      json.dump(out, f)
             
-            #out payment amounts if we need to resend
+            #write out payment amounts if we need to resend
             with open('output/payment/' + d + '-payamt.json', 'w') as f:
                 json.dump(pay, f)
             
