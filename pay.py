@@ -62,7 +62,7 @@ def broadcast(tx,p,park):
 
 if __name__ == '__main__':    
     signed_tx = []
-    passphrasepassphrase = parse_config()['passphrase']  # Get the passphrase from config.json
+    passphrase = parse_config()['passphrase']  # Get the passphrase from config.json
     secondphrase = parse_config()['secondphrase']  # Get the second passphrase from config.json
     reach = parse_config()['reach']
     park = get_network(parse_config())
