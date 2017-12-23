@@ -31,19 +31,19 @@ def get_peers(n):
 
     return peers
 
-def broadcast(tx,p,park):
+def broadcast(tx,p,park,r):
     out = {}
     responses = {}
     
     #take peers and shuffle the order
     #check length of good peers
-    if len(p)<i: #this means there aren't enough peers compared to what we want to broadcast to
+    if len(p)<r: #this means there aren't enough peers compared to what we want to broadcast to
         #set peers to full list
         peer_cast = p
     else:
         #normal processing
         random.shuffle(p)
-        peer_cast = p[0:i]
+        peer_cast = p[0:r]
       
     #rotate through peers and begin broadcasting:
     count=0
@@ -107,7 +107,7 @@ if __name__ == '__main__':
                     print('Switched to back-up API node')
                     signed_tx.append(tx)
                 
-            broadcast(signed_tx, p, park)
+            broadcast(signed_tx, p, park, reach)
             
             #write out payment amounts if we need to resend
             d = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
