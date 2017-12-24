@@ -1,6 +1,5 @@
 {
   "network": "main or dark or kapu",
-  "tbw_ip": "",
   "delegate_ip": "",
   "publicKey": "delegate pubkey",
   "interval": 1.00,
