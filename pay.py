@@ -20,10 +20,13 @@ def get_peers(n):
     
     try:
         peers = n.peers().peers()['peers']
+        print(peers)
     except:
         #fall back to delegate node to grab data needed
         bark = get_network(parse_config(), parse_config()['delegate_ip'])
         peers = bark.peers().peers()['peers']
+        print('Switched to back-up API node')
+        print(peers)
 
     for peer in peers:
         if (peer['status'] != 'OK') or (peer['version'] != '1.1.1') or (peer['delay'] > 500):
