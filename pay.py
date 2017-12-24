@@ -44,10 +44,12 @@ def broadcast(tx,p,park,r):
         #normal processing
         random.shuffle(p)
         peer_cast = p[0:r]
+        
+    print(peer_cast)
    
     #rotate through peers and begin broadcasting:
-    #count=0
-    #for i in peer_cast:
+    count=0
+    for i in peer_cast:
         responses = {}
         #cycle through and broadcast each tx on each peer and save responses
         for j in tx:
