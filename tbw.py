@@ -153,15 +153,13 @@ def get_voters(p, data):
     
     pubKey = data['publicKey'] #grab pubKey
     
-    block_voters = p.delegates().voters(pubKey)
-    '''    
     try:
         block_voters = p.delegates().voters(pubKey)
     except:
         #fall back to delegate node to grab data needed
         bark = get_network(data, data['delegate_ip'])
         block_voters = bark.delegates().voters(pubKey)
-        print('Switched to back-up API node')'''
+        print('Switched to back-up API node')
     
     return block_voters
     
@@ -259,13 +257,8 @@ if __name__ == '__main__':
     config = parse_config()
     pubKey = config['publicKey']
     while True:
-        last_block = park.blocks().blocks({
-        "limit": 1,
-        "generatorPublicKey": pubKey
-        })
         
-        
-        '''try:
+        try:
             last_block = park.blocks().blocks({
                                 "limit": 1,
                                 "generatorPublicKey": pubKey
@@ -281,7 +274,7 @@ if __name__ == '__main__':
                                 "limit": 1,
                                 "generatorPublicKey": pubKey
                                 })
-            print('Switched to back-up API node')'''
+            print('Switched to back-up API node')
         
         last_block_height = last_block['blocks'][0]['height']
         check = new_block(block, last_block_height)
