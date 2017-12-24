@@ -258,10 +258,10 @@ if __name__ == '__main__':
     config = parse_config()
     pubKey = config['publicKey']
     while True:
-         last_block = park.blocks().blocks({
-         "limit": 1,
-         "generatorPublicKey": pubKey
-         })
+        last_block = park.blocks().blocks({
+        "limit": 1,
+        "generatorPublicKey": pubKey
+        })
         
         
         '''try:
