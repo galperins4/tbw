@@ -240,7 +240,7 @@ def payout():
     # call process to run payments
     subprocess.Popen(['python3', 'pay.py'])
 
-def get_network(data, ip='127.0.0.1'):
+def get_network(data, ip="127.0.0.1"):
     
     net = Park(
             ip,
