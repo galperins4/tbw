@@ -54,13 +54,13 @@ def broadcast(tx,p,park,r):
         for j in peer_cast:
              try:
                  transaction = park.transport().createTransaction(j)
-                 responses[j['recipientId']] = transaction
+                 responses[i['recipientId']] = transaction
                  print(transaction)
              except:
                  #fall back to delegate node to grab data needed
                  bark = get_network(parse_config(), parse_config()['delegate_ip'])
                  transaction = bark.transport().createTransaction(j)
-                 responses[j['recipientId']] = transaction
+                 responses[i['recipientId']] = transaction
                  print(transaction)
         
         out['tx'+str(count)] = responses
