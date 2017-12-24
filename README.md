@@ -3,11 +3,10 @@
 ## Installation
 
 ```sh
-pip install pythark
-pip install https://github.com/ArkEcosystem/arky/archive/aip11.zip
+pip3 install https://github.com/faustbrian/ARK-Python-Client/archive/master.zip
 git clone https://github.com/galperins4/tbw
-cd ~
-npm install
+cd ~/tbw
+npm install github:arkecosystem/ark-js#master
 ```
 
 ## Configuration & Usage
