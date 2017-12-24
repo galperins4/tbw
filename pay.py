@@ -13,6 +13,7 @@ def parse_config():
     """
     with open('config.json') as data_file:
         data = json.load(data_file)
+    
     return data
 
 def get_peers(n):
@@ -20,13 +21,11 @@ def get_peers(n):
     
     try:
         peers = n.peers().peers()['peers']
-        print(peers)
     except:
         #fall back to delegate node to grab data needed
         bark = get_network(parse_config(), parse_config()['delegate_ip'])
         peers = bark.peers().peers()['peers']
         print('Switched to back-up API node')
-        print(peers)
 
     for peer in peers:
         if (peer['status'] != 'OK') or (peer['version'] != '1.1.1') or (peer['delay'] > 500):
@@ -47,8 +46,6 @@ def broadcast(tx,p,park,r):
         #normal processing
         random.shuffle(p)
         peer_cast = p[0:r]
-        
-    print(peer_cast)
    
     #rotate through peers and begin broadcasting:
     count=0
@@ -60,14 +57,12 @@ def broadcast(tx,p,park,r):
                  transaction = park.transport().createTransaction(j)
                  responses[j['recipientId']] = transaction
                  time.sleep(2)
-                 print(transaction)
              except:
                  #fall back to delegate node to grab data needed
                  bark = get_network(parse_config(), parse_config()['delegate_ip'])
                  transaction = bark.transport().createTransaction(j)
                  responses[j['recipientId']] = transaction
                  time.sleep(2)
-                 print(transaction)
         
         out['Peer'+str(count)] = responses
         count+=1
@@ -82,7 +77,7 @@ if __name__ == '__main__':
     passphrase = parse_config()['passphrase']  # Get the passphrase from config.json
     secondphrase = parse_config()['secondphrase']  # Get the second passphrase from config.json
     reach = parse_config()['reach']
-    park = get_network(parse_config())
+    park = get_network(parse_config(), park_config['tbw_ip'])
     
     #get peers
     p = get_peers(park)
