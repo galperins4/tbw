@@ -52,6 +52,7 @@ def broadcast(tx,p,park,r):
         responses = {}
         #cycle through and broadcast each tx on each peer and save responses
         for j in peer_cast:
+             print(j)
              try:
                  transaction = park.transport().createTransaction(i)
                  responses[i['recipientId']] = transaction
