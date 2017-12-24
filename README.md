@@ -6,7 +6,7 @@
 pip3 install https://github.com/faustbrian/ARK-Python-Client/archive/master.zip
 git clone https://github.com/galperins4/tbw
 cd ~/tbw
-npm install github:arkecosystem/ark-js#master
+npm install
 ```
 
 ## Configuration & Usage
@@ -14,6 +14,9 @@ npm install github:arkecosystem/ark-js#master
 After the repository has been cloned you need to open the `config.json` and change it to your liking. Once this has been done execute `python3 tbw.py` to start true block weight script
 
 Important! - pay_addresses and keep keys should match in config.json. DO NOT delete the reserve key as it is required. All other's can be deleted or more added
+
+As the sxript leverages @FaustBrians ARK please python client, python 3.6+ is required. In addition it is rexommended to run tbis alongside a ark/kapu reiay node as inital api calls are made to localhost.
+
 
 ## To Do
 
