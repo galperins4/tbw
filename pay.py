@@ -92,6 +92,7 @@ if __name__ == '__main__':
         with open('unpaid.json') as json_data:
             #load file
             pay = json.load(json_data)
+            time.sleep(5)
             
             # delete unpaid file
             os.remove('unpaid.json')
