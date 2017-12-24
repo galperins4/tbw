@@ -263,9 +263,6 @@ if __name__ == '__main__':
                                 "limit": 1,
                                 "generatorPublicKey": pubKey
                                 })
-        
-            print(last_block)
-
         except:
             #fall back to delegate node to grab data needed
             bark = get_network(config, config['delegate_ip'])
