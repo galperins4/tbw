@@ -1,5 +1,5 @@
 {
-  "network": "main or dark or kapu",
+  "network": "ark or dark or kapu",
   "delegate_ip": "",
   "publicKey": "delegate pubkey",
   "interval": 1.00,
