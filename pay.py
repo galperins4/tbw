@@ -45,27 +45,51 @@ def broadcast(tx,p,park,r):
         random.shuffle(p)
         peer_cast = p[0:r]
       
-    #rotate through peers and begin broadcasting:
+    
+    #rotate through tx and begin broadcasting to peers:
     count=0
-    for i in peer_cast:
+    for i in tx:
         responses = {}
         #cycle through and broadcast each tx on each peer and save responses
-        for j in tx:
+        for j in peer_cast:
              try:
                  transaction = park.transport().createTransaction(j)
                  responses[j['recipientId']] = transaction
-                 time.sleep(2)
                  print(transaction)
              except:
                  #fall back to delegate node to grab data needed
                  bark = get_network(parse_config(), parse_config()['delegate_ip'])
                  transaction = bark.transport().createTransaction(j)
                  responses[j['recipientId']] = transaction
-                 time.sleep(2)
                  print(transaction)
         
-        out['Peer'+str(count)] = responses
+        out['tx'+str(count)] = responses
         count+=1
+    
+    
+    
+    
+    #rotate through peers and begin broadcasting:
+    #count=0
+    #for i in peer_cast:
+      #  responses = {}
+   #     #cycle through and broadcast each tx on each peer and save responses
+    #    for j in tx:
+    #         try:
+      #           transaction = park.transport().createTransaction(j)
+     #            responses[j['recipientId']] = transaction
+        #         time.sleep(2)
+         #        print(transaction)
+         #    except:
+       #          #fall back to delegate node to grab data needed
+     #            bark = get_network(parse_config(), parse_config()['delegate_ip'])
+          #       transaction = bark.transport().createTransaction(j)
+      #           responses[j['recipientId']] = transaction
+        #         time.sleep(2)
+       #          print(transaction)
+        
+   #     out['Peer'+str(count)] = responses
+ #       count+=1
             
     #create paid record
     d = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
