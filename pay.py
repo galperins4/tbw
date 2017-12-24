@@ -77,7 +77,7 @@ if __name__ == '__main__':
     passphrase = parse_config()['passphrase']  # Get the passphrase from config.json
     secondphrase = parse_config()['secondphrase']  # Get the second passphrase from config.json
     reach = parse_config()['reach']
-    park = get_network(parse_config(), park_config['tbw_ip'])
+    park = get_network(parse_config(), parse_config['tbw_ip'])
     
     #get peers
     p = get_peers(park)
