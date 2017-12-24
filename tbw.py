@@ -154,13 +154,15 @@ def get_voters(p, data):
     
     pubKey = data['publicKey'] #grab pubKey
     
+    block_voters = p.delegates().voters(pubKey)
+    '''    
     try:
         block_voters = p.delegates().voters(pubKey)
     except:
         #fall back to delegate node to grab data needed
         bark = get_network(data, data['delegate_ip'])
         block_voters = bark.delegates().voters(pubKey)
-        print('Switched to back-up API node')
+        print('Switched to back-up API node')'''
     
     return block_voters
     
@@ -256,8 +258,13 @@ if __name__ == '__main__':
     config = parse_config()
     pubKey = config['publicKey']
     while True:
-               
-        try:
+         last_block = park.blocks().blocks({
+         "limit": 1,
+         "generatorPublicKey": pubKey
+         })
+        
+        
+        '''try:
             last_block = park.blocks().blocks({
                                 "limit": 1,
                                 "generatorPublicKey": pubKey
@@ -273,7 +280,7 @@ if __name__ == '__main__':
                                 "limit": 1,
                                 "generatorPublicKey": pubKey
                                 })
-            print('Switched to back-up API node')
+            print('Switched to back-up API node')'''
         
         last_block_height = last_block['blocks'][0]['height']
         check = new_block(block, last_block_height)
@@ -311,84 +318,3 @@ if __name__ == '__main__':
                 f = open('flag.txt', 'w')
                 f.write('Y')
                 file.close()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-def missed_block(b, i):
-    # get last blocks by interval
-    if i < 101:
-        mcheck = b.get_blocks(limit=i, generatorPublicKey=pubKey)
-        a = [i['height'] for i in mcheck['blocks']]
-    else:
-        a = []
-        
-        #get number of pages to retrieve
-        divis = int(i // 100)
-        remain = int(i % 100)
-
-        #initialize page limit at 100 and offset to 0
-        l = 100
-        off = 0
-
-        for i in range(divis+1):
-        #first run assuming more than 100 records
-            if i == 0:
-                page = b.get_blocks(limit=l, generatorPublicKey="029fa2d85a912d2f9ee52878aff77de67d4580875d149cb97677a7e76e93328bd5")
-                tmp = [i['height'] for i in page['blocks']]
-                a += tmp
-                off += 100
-
-        #process last
-            elif i == divis:
-                page = b.get_blocks(limit=remain, offset=off, generatorPublicKey="029fa2d85a912d2f9ee52878aff77de67d4580875d149cb97677a7e76e93328bd5")
-                tmp = [i['height'] for i in page['blocks']]
-                a += tmp
-
-            #process everything else
-            else:
-                page = b.get_blocks(limit=l, offset=off, generatorPublicKey="029fa2d85a912d2f9ee52878aff77de67d4580875d149cb97677a7e76e93328bd5")
-                tmp = [i['height'] for i in page['blocks']]
-                a += tmp
-                off += 100
-    
-    # get last processed blocks by interval
-    tmp = get_block_count()
-    i = int(i) * -1;
-    b = tmp[i:]
-    
-    # look for difference
-    diff = set(a).symmetric_difference(set(b))
-    # if empty set we processed all blocks
-    
-    testa = sorted(a) #debug
-    testb = sorted(b) #debug
-    
-    print(testa) #debug
-    print(testb) #debug
-    
-    if not diff:
-        print("all blocks in payrun")
-    # we missed a block to process somewhere
-    else: 
-        d = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        f = open('output/error/missingblock.txt', 'a')
-        f.write(d+' '+ 'Oops! We missed a block somewhere. Go investigate '+'\n')
-        f.close()
-                  
