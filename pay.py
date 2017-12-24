@@ -65,6 +65,7 @@ def broadcast(tx,p,park,r):
         
         out['tx'+str(count)] = responses
         count+=1
+        time.sleep(3)
     
     
     
