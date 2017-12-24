@@ -5,7 +5,6 @@ import time
 import json
 import os.path
 import subprocess
-from datetime import datetime
 
 tbw_rewards = {}  # blank dictionary for rewards
 block = 0  # set default block to 0, will update from call or json later
@@ -172,7 +171,7 @@ def initialize():
     global block_count
     
     data = parse_config() # import config
-    park = get_network(data, data['tbw_ip']) # initialize park config
+    park = get_network(data) # initialize park config
     manage_folders() #check for folders needed
     
     block_voters = get_voters(park, data)
@@ -200,6 +199,8 @@ def initialize():
             # initialize paid/unpaid records for reserve account
             for k,v in data['pay_addresses'].items():
                 tbw_rewards[v] = {'unpaid': 0, 'paid': 0}
+                
+    return park
             
 def payout():
     data = parse_config()
@@ -242,7 +243,7 @@ def payout():
     # call process to run payments
     subprocess.Popen(['python3', 'pay.py'])
 
-def get_network(data, ip):
+def get_network(data, ip = "localhost"):
     
     net = Park(ip,
             networks[data['network']][1],
