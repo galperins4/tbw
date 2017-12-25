@@ -1,21 +1,11 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
-from tbw import get_network
+from tbw import get_network, parse_config
 from datetime import datetime
 import json
 import os.path
 import random
 import time
-
-
-def parse_config():
-    """
-    Parse the config.json file and return the result.
-    """
-    with open('config.json') as data_file:
-        data = json.load(data_file)
-
-    return data
 
 
 def get_peers(n):

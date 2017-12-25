@@ -9,14 +9,14 @@
   "cover_tx_fees": "Y",
   "min_payment": 0,
   "reach": 5,
-  "keep":{
-          "reserve": 0.60,
-          "costs": 0.10,
-          "faucet": 0.10    
-          },
-   "pay_addresses": {
-          "reserve": "addr1",
-          "costs": "addr2",
-          "faucet": "addr3" 
-                    }
-        }
+  "keep": {
+    "reserve": 0.60,
+    "costs": 0.10,
+    "faucet": 0.10
+  },
+  "pay_addresses": {
+    "reserve": "addr1",
+    "costs": "addr2",
+    "faucet": "addr3"
+  }
+}

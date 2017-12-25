@@ -1,4 +1,5 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python
+
 from collections import Counter
 from park.park import Park
 import time
@@ -9,20 +10,6 @@ import subprocess
 tbw_rewards = {}  # blank dictionary for rewards
 block = 0  # set default block to 0, will update from call or json later
 block_count = 0  # running counter for payouts
-
-networks = {
-    'ark': [
-        '6e84d08bd299ed97c212c886c98a57e36545c8f5d645ca7eeae63a8bd62d8988',
-        4001,
-        '1.0.3'],
-    'dark': [
-        '578e820911f24e039733b45e4882b73e301f813a0d2c31330dafda84534ffa23',
-        4002,
-        '1.1.1'],
-    'kapu': [
-        '313ea34c8eb705f79e7bc298b788417ff3f7116c9596f5c9875e769ee2f4ede1',
-        9700,
-        '0.3.0']}
 
 
 def parse_config():
@@ -97,13 +84,13 @@ def allocate(lb, p):
             voter_check += 1
             rewards_check += i['reward']
 
-    print("""Processed Block: {0}\n
-    Voters processed: {1}
-    Total Approval: {2}
-    Voters Rewards: {3}
-    Delegate Reward: {4}
-    Voter + Delegate Rewards: {5}
-    Total Block Rewards: {6}""".format(last_block_height, voter_check, approval, rewards_check, delegate_check, (rewards_check + delegate_check), total_reward))
+    print(f"""Processed Block: {last_block_height}\n
+    Voters processed: {voter_check}
+    Total Approval: {approval}
+    Voters Rewards: {rewards_check}
+    Delegate Reward: {delegate_check}
+    Voter + Delegate Rewards: {rewards_check + delegate_check}
+    Total Block Rewards: {total_reward}""")
 
     with open('output/log/' + (str(last_block_height)) + '.json', 'w') as f:
         json.dump(tbw_rewards, f)
@@ -272,21 +259,21 @@ def payout():
 
 
 def get_network(data, ip="localhost"):
+    networks = json.load(open('networks.json'))
 
-    net = Park(ip,
-               networks[data['network']][1],
-               networks[data['network']][0],
-               networks[data['network']][2]
-               )
-
-    return net
+    return Park(
+        ip,
+        networks[data['network']]['port'],
+        networks[data['network']]['nethash'],
+        networks[data['network']]['version']
+    )
 
 
 if __name__ == '__main__':
-
     park = initialize()
     config = parse_config()
     pubKey = config['publicKey']
+
     while True:
 
         try:
@@ -302,6 +289,7 @@ if __name__ == '__main__':
                 "limit": 1,
                 "generatorPublicKey": pubKey
             })
+
             print('Switched to back-up API node')
 
         last_block_height = last_block['blocks'][0]['height']
@@ -309,7 +297,7 @@ if __name__ == '__main__':
 
         if check:
             block_count += 1
-            print("Current block count : {0}".format(block_count))
+            print(f"Current block count : {block_count}")
             allocate(last_block, park)
             print('\n' + 'Waiting for the next block....' + '\n')
 
