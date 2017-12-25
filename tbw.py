@@ -11,10 +11,18 @@ block = 0  # set default block to 0, will update from call or json later
 block_count = 0  # running counter for payouts
 
 networks = {
-    'ark': ['6e84d08bd299ed97c212c886c98a57e36545c8f5d645ca7eeae63a8bd62d8988', 4001, '1.0.3'],
-    'dark': ['578e820911f24e039733b45e4882b73e301f813a0d2c31330dafda84534ffa23', 4002, '1.1.1'],
-    'kapu': ['313ea34c8eb705f79e7bc298b788417ff3f7116c9596f5c9875e769ee2f4ede1', 9700, '0.3.0']
-}
+    'ark': [
+        '6e84d08bd299ed97c212c886c98a57e36545c8f5d645ca7eeae63a8bd62d8988',
+        4001,
+        '1.0.3'],
+    'dark': [
+        '578e820911f24e039733b45e4882b73e301f813a0d2c31330dafda84534ffa23',
+        4002,
+        '1.1.1'],
+    'kapu': [
+        '313ea34c8eb705f79e7bc298b788417ff3f7116c9596f5c9875e769ee2f4ede1',
+        9700,
+        '0.3.0']}
 
 
 def parse_config():
@@ -101,7 +109,8 @@ def allocate(lb, p):
         json.dump(tbw_rewards, f)
 
     # check to see if log file exists
-    if not os.path.exists('output/log/result.json'):  # does not exists so create
+    if not os.path.exists(
+            'output/log/result.json'):  # does not exists so create
         # create a json export for the block rewards for initial file
         json_export[last_block_height] = log
         # append log to json file for future use
@@ -170,7 +179,7 @@ def get_voters(p, data):
 
     try:
         block_voters = p.delegates().voters(pubKey)
-    except:
+    except BaseException:
         # fall back to delegate node to grab data needed
         bark = get_network(data, data['delegate_ip'])
         block_voters = bark.delegates().voters(pubKey)
@@ -247,7 +256,7 @@ def payout():
             # process delegate share
             else:
                 # pay delegate
-                net_pay = v['unpaid']-tx_fees
+                net_pay = v['unpaid'] - tx_fees
                 unpaid[k] = net_pay
 
                 # subtract unpaid amount and add to paid
@@ -272,6 +281,7 @@ def get_network(data, ip="localhost"):
 
     return net
 
+
 if __name__ == '__main__':
 
     park = initialize()
@@ -284,7 +294,7 @@ if __name__ == '__main__':
                 "limit": 1,
                 "generatorPublicKey": pubKey
             })
-        except:
+        except BaseException:
             # fall back to delegate node to grab data needed
             bark = get_network(config, config['delegate_ip'])
 

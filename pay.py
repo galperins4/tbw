@@ -23,14 +23,15 @@ def get_peers(n):
 
     try:
         peers = n.peers().peers()['peers']
-    except:
+    except BaseException:
         # fall back to delegate node to grab data needed
         bark = get_network(parse_config(), parse_config()['delegate_ip'])
         peers = bark.peers().peers()['peers']
         print('Switched to back-up API node')
 
     for peer in peers:
-        if (peer['status'] != 'OK') or (peer['version'] != '1.1.1') or (peer['delay'] > 500):
+        if (peer['status'] != 'OK') or (
+                peer['version'] != '1.1.1') or (peer['delay'] > 500):
             peers.remove(peer)
 
     return peers
@@ -60,7 +61,7 @@ def broadcast(tx, p, park, r):
                 transaction = park.transport().createTransaction(j)
                 responses[j['recipientId']] = transaction
                 time.sleep(1)
-            except:
+            except BaseException:
                 # fall back to delegate node to grab data needed
                 bark = get_network(
                     parse_config(), parse_config()['delegate_ip'])
@@ -68,13 +69,14 @@ def broadcast(tx, p, park, r):
                 responses[j['recipientId']] = transaction
                 time.sleep(1)
 
-        out['Peer'+str(count)] = responses
+        out['Peer' + str(count)] = responses
         count += 1
 
     # create paid record
     d = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     with open('output/payment/' + d + '-paytx.json', 'w') as f:
         json.dump(out, f)
+
 
 if __name__ == '__main__':
     signed_tx = []
@@ -110,7 +112,7 @@ if __name__ == '__main__':
                 try:
                     tx = park.transactionBuilder().create(k, str(v), msg, passphrase, secondphrase)
                     signed_tx.append(tx)
-                except:
+                except BaseException:
                     # fall back to delegate node to grab data needed
                     bark = get_network(
                         parse_config(), parse_config()['delegate_ip'])
