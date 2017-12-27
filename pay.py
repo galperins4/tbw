@@ -7,7 +7,7 @@ import os.path
 import random
 import time
 
-def get_peers(park, net):
+def get_peers(park, data):
     peers = []
     networks = json.load(open('networks.json'))
     
