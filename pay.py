@@ -88,7 +88,7 @@ if __name__ == '__main__':
     park = get_network(data)
 
     # get peers
-    p = get_peers(park)
+    p = get_peers(park, data)
 
     if os.path.exists('unpaid.json'):
         # open unpaid.json file
