@@ -7,7 +7,6 @@ import os.path
 import random
 import time
 
-
 def get_peers(park, net):
     peers = []
     networks = json.load(open('networks.json'))
@@ -21,12 +20,6 @@ def get_peers(park, net):
         peers = bark.peers().peers()['peers']
         print('peers:', len(peers))
         print('Switched to back-up API node')
-
-    '''    
-    for peer in peers:
-        if (peer['status'] != 'OK') or (
-                peer['version'] != '1.1.1') or (peer['delay'] > 500):
-            peers.remove(peer)'''
     
     #get max height        
     compare = max([i['height'] for i in peers]) 
