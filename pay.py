@@ -8,24 +8,33 @@ import random
 import time
 
 
-def get_peers(n):
+def get_peers(park, net):
     peers = []
-
+    networks = json.load(open('networks.json'))
+    
     try:
-        peers = n.peers().peers()['peers']
+        peers = park.peers().peers()['peers']
+        print('peers:', len(peers))
     except BaseException:
         # fall back to delegate node to grab data needed
         bark = get_network(parse_config(), parse_config()['delegate_ip'])
         peers = bark.peers().peers()['peers']
+        print('peers:', len(peers))
         print('Switched to back-up API node')
 
+    '''    
     for peer in peers:
         if (peer['status'] != 'OK') or (
                 peer['version'] != '1.1.1') or (peer['delay'] > 500):
-            peers.remove(peer)
-
-    return peers
-
+            peers.remove(peer)'''
+            
+    f1 = list(filter(lambda x: x['version'] == networks[data['network']]['version'], peers))
+    f2 = list(filter(lambda x: x['delay'] < 350, f1))
+    f3 = list(filter(lambda x: x['status'] == 'OK', f2))
+    f4 = list(filter(lambda x: compare - x['height'] < 153, f3))
+    print('filtered peers', len(f4))
+    
+    return f4
 
 def broadcast(tx, p, park, r):
     out = {}
@@ -70,12 +79,13 @@ def broadcast(tx, p, park, r):
 
 if __name__ == '__main__':
     signed_tx = []
+    data = parse_config()
     # Get the passphrase from config.json
-    passphrase = parse_config()['passphrase']
+    passphrase = data['passphrase']
     # Get the second passphrase from config.json
-    secondphrase = parse_config()['secondphrase']
-    reach = parse_config()['reach']
-    park = get_network(parse_config())
+    secondphrase = data['secondphrase']
+    reach = data['reach']
+    park = get_network(data)
 
     # get peers
     p = get_peers(park)
@@ -93,10 +103,10 @@ if __name__ == '__main__':
             out = {}
 
             for k, v in pay.items():
-                if k not in parse_config()['pay_addresses'].values():
+                if k not in data['pay_addresses'].values():
                     msg = "Goose Voter - True Block Weight"
                 else:
-                    for key, value in parse_config()['pay_addresses'].items():
+                    for key, value in data['pay_addresses'].items():
                         if k == value:
                             msg = key + " - True Block Weight"
                 try:
@@ -105,7 +115,7 @@ if __name__ == '__main__':
                 except BaseException:
                     # fall back to delegate node to grab data needed
                     bark = get_network(
-                        parse_config(), parse_config()['delegate_ip'])
+                        data, data['delegate_ip'])
                     tx = bark.transactionBuilder().create(k, str(v), msg, passphrase, secondphrase)
                     print('Switched to back-up API node')
                     signed_tx.append(tx)
