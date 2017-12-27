@@ -27,7 +27,11 @@ def get_peers(park, net):
         if (peer['status'] != 'OK') or (
                 peer['version'] != '1.1.1') or (peer['delay'] > 500):
             peers.remove(peer)'''
-            
+    
+    #get max height        
+    compare = max([i['height'] for i in peers]) 
+    
+    #filter on good peers
     f1 = list(filter(lambda x: x['version'] == networks[data['network']]['version'], peers))
     f2 = list(filter(lambda x: x['delay'] < 350, f1))
     f3 = list(filter(lambda x: x['status'] == 'OK', f2))
