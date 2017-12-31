@@ -9,6 +9,7 @@ import time
 
 def get_peers(park, data):
     peers = []
+    peerfil= []
     networks = json.load(open('networks.json'))
     
     try:
@@ -20,12 +21,17 @@ def get_peers(park, data):
         peers = bark.peers().peers()['peers']
         print('peers:', len(peers))
         print('Switched to back-up API node')
+        
+    # some peers from some reason don't report height, filter out to prevent errors
+    for i in peers:
+        if "height" in i.keys():
+            peerfil.append(i)
     
     #get max height        
-    compare = max([i['height'] for i in peers]) 
+    compare = max([i['height'] for i in peerfil]) 
     
     #filter on good peers
-    f1 = list(filter(lambda x: x['version'] == networks[data['network']]['version'], peers))
+    f1 = list(filter(lambda x: x['version'] == networks[data['network']]['version'], peerfil))
     f2 = list(filter(lambda x: x['delay'] < 350, f1))
     f3 = list(filter(lambda x: x['status'] == 'OK', f2))
     f4 = list(filter(lambda x: compare - x['height'] < 153, f3))
