@@ -28,6 +28,9 @@ As the script leverages @FaustBrians ARK python client, python 3.6+ is required.
 - passphrase: delegate passphrase
 - secondphrase: delegate second passphrase
 - cover_tx_fees: Placeholder - Not currently used in tbw code
+- vote_cap: Use this if you cap voters for how much they can earn with votes. For example 10000 will mean any wallet over 10K will only be paid based on 10K weight
+- blacklist: Placeholder - Not currently used in tbw code
+- black_assign: Placeholder - Not currently used in tbw code
 - min_payment: Minimum threshold for payment. If set to 1, any payout less than 1 ARK will be held until the next pay run and accumulate
 - reach: how many peers to broadcast payments to (Recommended - 20)
 - keep: there are the percentages for delegates to keep and distrubute among x accounts (Note: reserve is required! all others are optional)
@@ -42,6 +45,9 @@ As the script leverages @FaustBrians ARK python client, python 3.6+ is required.
 - Additional exception handling
 
 ## Changelog
+
+### .05
+- Added functionality to cap voters for distributions
 
 ### .04
 - Squashed import on payment interval bug
