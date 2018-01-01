@@ -163,6 +163,7 @@ def get_block_count():
 def get_voters(p, data):
 
     pubKey = data['publicKey']  # grab pubKey
+    max_wallet = data['vote_cap']
 
     try:
         block_voters = p.delegates().voters(pubKey)
@@ -172,8 +173,17 @@ def get_voters(p, data):
         block_voters = bark.delegates().voters(pubKey)
         print('Switched to back-up API node')
 
+    #do processing for caps/blacklists here
+    #cap processing
+    if max_wallet > 0:
+        for i in block_voters['accounts']:
+            if int(i['balance'])> max_wallet:
+                #set wallet to max available for calcs
+                i['balance'] = str(max_wallet)
+    
+    #blacklist processing - TO DO    
+        
     return block_voters
-
 
 def initialize():
     global block
