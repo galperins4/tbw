@@ -9,7 +9,7 @@
   "cover_tx_fees": "Y",
   "vote_cap" : 10000,
   "blacklist": "block" or "assign",
-  "black_assign": "address to send to"  
+  "black_assign": "address to send to",  
   "min_payment": 0,
   "reach": 5,
   "keep": {
