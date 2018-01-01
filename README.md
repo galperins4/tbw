@@ -29,6 +29,10 @@ As the script leverages @FaustBrians ARK python client, python 3.6+ is required.
 
 ## Changelog
 
+### .04
+- Squashed import on payment interval bug
+- Added file to allow tbw to run via pm2 
+
 ### .03
 - Modified config file to add minimum payment threshold functionality
 
