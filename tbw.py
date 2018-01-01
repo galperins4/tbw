@@ -201,11 +201,13 @@ def initialize():
             block = int(last_processed_block)
             block_count = len(get_block_count())
 
+            min = data['min_payment'] * 100000000
             # adjust balances to avoid dup payments if script restarted on payment interval 
             if block_count % data['interval'] == 0:
                 for k,v in tbw_rewards.items():
-                    v['paid'] += v['unpaid']  # add unpaid to paid column
-                    v['unpaid'] -= v['unpaid']  # zero out unpaid
+                    if v['unpaid'] > min:
+                        v['paid'] += v['unpaid']  # add unpaid to paid column
+                        v['unpaid'] -= v['unpaid']  # zero out unpaid
            
             # check for new reserve addresses
             for k, v in data['pay_addresses'].items():
