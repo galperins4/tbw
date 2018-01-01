@@ -163,7 +163,7 @@ def get_block_count():
 def get_voters(p, data):
 
     pubKey = data['publicKey']  # grab pubKey
-    max_wallet = data['vote_cap']
+    max_wallet = data['vote_cap'] * 100000000
 
     try:
         block_voters = p.delegates().voters(pubKey)
