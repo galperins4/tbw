@@ -201,11 +201,17 @@ def initialize():
             block = int(last_processed_block)
             block_count = len(get_block_count())
 
+            # adjust balances to avoid dup payments if script restarted on payment interval 
+            if block_count % data['interval'] == 0:
+                for k,v in tbw_rewards.items():
+                    v['paid'] += v['unpaid']  # add unpaid to paid column
+                    v['unpaid'] -= v['unpaid']  # zero out unpaid
+           
             # check for new reserve addresses
             for k, v in data['pay_addresses'].items():
                 if v not in tbw_rewards.keys():
                     tbw_rewards[v] = {'unpaid': 0, 'paid': 0}
-
+                    
         else:  # initialize paid/unpaid records for voters
             for i in block_voters['accounts']:
                 tbw_rewards[i['address']] = {'unpaid': 0, 'paid': 0}
