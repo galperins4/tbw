@@ -19,6 +19,20 @@ Important! - pay_addresses and keep keys should match in config.json. DO NOT del
 
 As the script leverages @FaustBrians ARK python client, python 3.6+ is required. In addition it is recommended to run this alongside an ark/kapu reiay node as inital api calls are made to localhost.
 
+## Available Configuration Options
+- network: which network you want to run true block weight for
+- delegate IP: this serves as a back-up IP for the API to call to in case the localhost does not respond
+- publicKey: delegate public key
+- interval:  the interval you want to pay voters in blocks. A setting of 211 would pay ever 211 blocks (or 422 ark)
+- voter_share: percentage to share with voters (0.xx format)
+- passphrase: delegate passphrase
+- secondphrase: delegate second passphrase
+- cover_tx_fees: Placeholder - Not currently used in tbw code
+- min_payment: Minimum threshold for payment. If set to 1, any payout less than 1 ARK will be held until the next pay run and accumulate
+- reach: how many peers to broadcast payments to (Recommended - 20)
+- keep: there are the percentages for delegates to keep and distrubute among x accounts (Note: reserve is required! all others are optional)
+- pay_addresses: these are the addresses to go with the keep percentages (Note: reserve is required! all others are optional)
+
 
 ## To Do
 
