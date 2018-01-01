@@ -15,7 +15,7 @@ After the repository has been cloned you need to open the `config.json` and chan
 
 Important! - pay_addresses and keep keys should match in config.json. DO NOT delete the reserve key as it is required. All other's can be deleted or more added
 
-As the sxript leverages @FaustBrians ARK please python client, python 3.6+ is required. In addition it is rexommended to run tbis alongside a ark/kapu reiay node as inital api calls are made to localhost.
+As the script leverages @FaustBrians ARK python client, python 3.6+ is required. In addition it is recommended to run this alongside an ark/kapu reiay node as inital api calls are made to localhost.
 
 
 ## To Do
