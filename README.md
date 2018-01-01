@@ -11,7 +11,9 @@ npm install
 
 ## Configuration & Usage
 
-After the repository has been cloned you need to open the `config.json` and change it to your liking. Once this has been done execute `python3 tbw.py` to start true block weight script
+After the repository has been cloned you need to open the `config.json` and change it to your liking. Once this has been done execute `python3 tbw.py` to start true block weight script.
+
+Alternatively I have also included an apps.json file if you want to run tbw via PM2 (need to install PM2 first and then pm2 start apps.json)
 
 Important! - pay_addresses and keep keys should match in config.json. DO NOT delete the reserve key as it is required. All other's can be deleted or more added
 
