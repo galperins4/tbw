@@ -6,6 +6,7 @@
         "exec_mode": "fork",
         "exec_interpreter": "python3.6",
         "log_date_format": "YYYY-MM-DD HH:mm Z",
-		"interpreter_args": "-u"
+	"out_file": "~/tbw/output/log/tbw.log
+	"interpreter_args": "-u"
     }]
 }
