@@ -41,7 +41,8 @@ def get_peers(park, data):
 
 def broadcast(tx, p, park, r):
     out = {}
-    responses = {}
+    peer_responses = {}
+    relay_responses = {}
 
     # take peers and shuffle the order
     # check length of good peers
@@ -53,32 +54,44 @@ def broadcast(tx, p, park, r):
         random.shuffle(p)
         peer_cast = p[0:r]
 
-    # rotate through peers and begin broadcasting:
-    count = 0
-    for i in peer_cast:
-        responses = {}
-        # cycle through and broadcast each tx on each peer and save responses
-        for j in tx:
+   
+    #broadcast to localhost/relay first
+    for j in tx:
             try:
                 transaction = park.transport().createTransaction(j)
-                responses[j['recipientId']] = transaction
+                relay_responses[j['recipientId']] = transaction
                 time.sleep(1)
+        
             except BaseException:
                 # fall back to delegate node to grab data needed
                 bark = get_network(
                     parse_config(), parse_config()['delegate_ip'])
                 transaction = bark.transport().createTransaction(j)
-                responses[j['recipientId']] = transaction
+                relay_responses[j['recipientId']] = transaction
                 time.sleep(1)
-
-        out['Peer' + str(count)] = responses
-        count += 1
+    
+    out['Local'] = relay_responses
+    
+     # rotate through peers and begin broadcasting:
+    for i in peer_cast:
+        peer_responses = {}
+        ip = i['ip']
+        peer_park = get_network(parse_config(), ip)
+        # cycle through and broadcast each tx on each peer and save responses
+        for j in tx:    
+            try:
+                transaction = peer_park.transport().createTransaction(j)
+                peer_responses[j['recipientId']] = transaction
+                time.sleep(1)
+            except:
+                print("error")
+ 
+        out['Peer:' + ip] = peer_responses
 
     # create paid record
     d = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     with open('output/payment/' + d + '-paytx.json', 'w') as f:
         json.dump(out, f)
-
 
 if __name__ == '__main__':
     signed_tx = []
