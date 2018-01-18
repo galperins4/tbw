@@ -238,7 +238,7 @@ def payout():
         subprocess.Popen(['python3', 'pay.py'])
 
 def interval_check(bc):
-    if block_count % data['interval'] == 0:
+    if bc % data['interval'] == 0:
         # check if there is an unpaid balance for voters
         total = 0
         # get voter balances
