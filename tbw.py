@@ -22,8 +22,7 @@ def parse_config():
     return data, network
 
 def allocate(lb):
-    #data = parse_config()
-
+    
     # create temp log / export output for block  rewards
     log = {}
     json_export = {}
@@ -191,7 +190,6 @@ def del_address(addr):
     return msg
 
 def payout():
-    #data = parse_config()
     min = int(data['min_payment'] * atomic)
 
     # count number of transactions greater than payout threshold
@@ -241,7 +239,6 @@ def payout():
 
 def interval_check(bc):
     if block_count % data['interval'] == 0:
-    #if block_count % parse_config()['interval'] == 0:
         # check if there is an unpaid balance for voters
         total = 0
         # get voter balances
