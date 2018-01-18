@@ -122,8 +122,8 @@ if __name__ == '__main__':
                     print('Switched to back-up API node')
                     signed_tx.append(tx)
                 
-        snekdb.deleteStagedPayment()   
         broadcast(signed_tx, p, park, reach)
+        snekdb.deleteStagedPayment()
 
         # payment run complete
         print('Payment Run Completed!')
