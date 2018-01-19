@@ -4,6 +4,7 @@
 
 ```sh
 pip3 install https://github.com/faustbrian/ARK-Python-Client/archive/master.zip
+pip3 install psycopg2
 git clone https://github.com/galperins4/tbw
 cd ~/tbw
 npm install
