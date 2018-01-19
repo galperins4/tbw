@@ -298,11 +298,11 @@ if __name__ == '__main__':
     
     # check to see if ark.db exists, if not initialize db, etc
     if os.path.exists('ark.db') == False:    
-        snekdb = SnekDB()
+        snekdb = SnekDB(data['dbusername'])
         initialize()
     
     # check for new rewards accounts to initialize if any changed
-    snekdb = SnekDB()
+    snekdb = SnekDB(data['dbusername'])
     get_rewards()
 
     # set block count        
