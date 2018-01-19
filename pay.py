@@ -94,9 +94,11 @@ def broadcast(tx, p, park, r):
                 print("error")
  
 if __name__ == '__main__':
-    snekdb = SnekDB()
+   
     signed_tx = []
     data, network = parse_config()
+    snekdb = SnekDB(data['dbusername'])
+    
     # Get the passphrase from config.json
     passphrase = data['passphrase']
     # Get the second passphrase from config.json
