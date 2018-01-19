@@ -18,7 +18,7 @@ Alternatively I have also included an apps.json file if you want to run tbw via 
 
 Important! - pay_addresses and keep keys should match in config.json. DO NOT delete the reserve key as it is required. All other's can be deleted or more added
 
-As the script leverages @FaustBrians ARK python client, python 3.6+ is required. In addition it is recommended to run this alongside an ark/kapu reiay node as inital api calls are made to localhost.
+As the script leverages @FaustBrians ARK python client as well as database retreival and storage classes, python 3.6+ is required. In addition it is  now required to run this alongside an ark/kapu reiay node given the DB interaction and little reliance on the API.
 
 ## Available Configuration Options
 - network: which network you want to run true block weight for
