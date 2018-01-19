@@ -1,63 +1,57 @@
 #!/usr/bin/env python
 
-from collections import Counter
-from park.park import Park
+from snek.db.snek import SnekDB
+from snek.db.ark import ArkDB
 import time
 import json
 import os.path
 import subprocess
 
-tbw_rewards = {}  # blank dictionary for rewards
-block = 0  # set default block to 0, will update from call or json later
-block_count = 0  # running counter for payouts
-
+atomic = 100000000
 
 def parse_config():
     """
     Parse the config.json file and return the result.
     """
-    with open('config.json') as data_file:
+    with open('config/config.json') as data_file:
         data = json.load(data_file)
+        
+    with open('config/networks.json') as network_file:
+        network = json.load(network_file)
 
-    return data
+    return data, network
 
-
-def allocate(lb, p):
-    data = parse_config()
-
+def allocate(lb):
+    
     # create temp log / export output for block  rewards
     log = {}
     json_export = {}
     rewards_check = 0
     voter_check = 0
     delegate_check = 0
-
-    block_voters = get_voters(p, data)
-
-    # check if new voters first before allocating - need to create new key in
-    # dict
-    new_voter(block_voters)
+    
+    block_voters = get_voters()
 
     # get total votes
-    approval = sum(int(item['balance']) for item in block_voters['accounts'])
+    approval = sum(int(item[1]) for item in block_voters)
 
     # get block reward
-    block_reward = int(lb['blocks'][0]['reward'])
-    fee_reward = int(lb['blocks'][0]['totalFee'])
-    total_reward = int(lb['blocks'][0]['totalForged'])
+    block_reward = lb[2]
+    fee_reward = lb[3]
+    total_reward = block_reward+fee_reward
 
     # calculate delegate/reserve/other shares
     for k, v in data['keep'].items():
         if k == 'reserve':
-            keep = (int(block_reward * v)) + int(fee_reward)
+            keep = (int(block_reward * v)) + fee_reward
         else:
             keep = (int(block_reward * v))
 
         # assign  shares to log and rewards tracking
         keep_addr = data['pay_addresses'][k]
         log[keep_addr] = keep
-        tbw_rewards[keep_addr]['unpaid'] += keep
-
+        snekdb.updateDelegateBalance(keep_addr, keep)
+        
         # increment delegate_check for double check
         delegate_check += keep
 
@@ -65,26 +59,29 @@ def allocate(lb, p):
     vshare = block_reward * data['voter_share']
 
     # loop through the current voters and assign share
-    for i in block_voters['accounts']:
+    for i in block_voters:
 
         # convert balance from str to int
-        i['balance'] = int(i['balance'])
+        bal = int(i[1])
 
         # filter out 0 balances for processing
-        if i['balance'] > 0:
-            i['share_weight'] = i['balance'] / approval  # calc share rate
+        if bal > 0:
+            share_weight = bal / approval  # calc share rate
+            
             # calculate block reward
-            i['reward'] = int(i['share_weight'] * vshare)
+            reward = int(share_weight * vshare)
+            
             # populate log for block export records
-            log[i['address']] = i['reward']
-            # add voter reward to unpaid tally in main tbw_rewards_dict
-            tbw_rewards[i['address']]['unpaid'] += i['reward']
+            log[i[0]] = reward
+            
+            #add voter reward to sql database
+            snekdb.updateVoterBalance(i[0], reward)
 
             # voter and rewards check
             voter_check += 1
-            rewards_check += i['reward']
+            rewards_check += reward
 
-    print(f"""Processed Block: {last_block_height}\n
+    print(f"""Processed Block: {lb[4]}\n
     Voters processed: {voter_check}
     Total Approval: {approval}
     Voters Rewards: {rewards_check}
@@ -92,14 +89,14 @@ def allocate(lb, p):
     Voter + Delegate Rewards: {rewards_check + delegate_check}
     Total Block Rewards: {total_reward}""")
 
-    with open('output/log/' + (str(last_block_height)) + '.json', 'w') as f:
-        json.dump(tbw_rewards, f)
+    #mark as processed
+    snekdb.markAsProcessed(lb[4])
 
     # check to see if log file exists
     if not os.path.exists(
             'output/log/result.json'):  # does not exists so create
         # create a json export for the block rewards for initial file
-        json_export[last_block_height] = log
+        json_export[lb[4]] = log
         # append log to json file for future use
         with open('output/log/result.json', 'a') as fp:
             json.dump(json_export, fp)
@@ -108,242 +105,245 @@ def allocate(lb, p):
         with open('output/log/result.json') as f:
             json_decoded = json.load(f)
 
-        json_decoded[last_block_height] = log
+        json_decoded[lb[4]] = log
 
         with open('output/log/result.json', 'w') as f:
             json.dump(json_decoded, f)
 
-# function to check if a new block was created
-
-
-def new_block(l, n):
-    if (n - l) > 0:
-        global block
-        block = n
-        return True
-    else:
-        return False
-
-# function to check for new voters
-
-
-def new_voter(v):
-    for i in v['accounts']:
-        test = i['address'] in tbw_rewards.keys()
-        if not test:
-            tbw_rewards[i['address']] = {'unpaid': 0, 'paid': 0}
-
 
 def manage_folders():
-    # Rewrited it, now it handles it like it should, don't do anything if the directorys already exists thanks to the
-    # exist_ok parameter, and if one of the directory doesn't exists, creates
-    # it.
     sub_names = ["log", "payment", "error"]
     for sub_name in sub_names:
         os.makedirs(os.path.join('output', sub_name), exist_ok=True)
 
-
-def get_highest_block():
-    with open('output/log/result.json') as json_data:
-        test = json.load(json_data)
-        # get all blocks in a list and get hightest one
-        l = [int(i) for i in test]
-        last_processed_block = str((max(l)))
-    return last_processed_block
-
-
-def get_block_count():
-    with open('output/log/result.json') as json_data:
-        test = json.load(json_data)
-        # get all blocks in a list and get hightest one
-        l = [int(i) for i in test]
-    return sorted(l)
-
-
-def get_voters(p, data):
-
-    pubKey = data['publicKey']  # grab pubKey
-    max_wallet = data['vote_cap'] * 100000000
-
-    try:
-        block_voters = p.delegates().voters(pubKey)
-    except BaseException:
-        # fall back to delegate node to grab data needed
-        bark = get_network(data, data['delegate_ip'])
-        block_voters = bark.delegates().voters(pubKey)
-        print('Switched to back-up API node')
-
-    #do processing for caps/blacklists here
-    #cap processing
-    if max_wallet > 0:
-        for i in block_voters['accounts']:
-            if int(i['balance'])> max_wallet:
-                #set wallet to max available for calcs
-                i['balance'] = str(max_wallet)
+def black_list(voters):
+    #block voters and distribute to voters
+    if data["blacklist"] == "block":
+        bl_adjusted_voters = []
+        for i in voters:
+            if i[0] in data["blacklist_addr"]:
+                bl_adjusted_voters.append((i[0], 0))
+            else:
+                bl_adjusted_voters.append((i[0], i[1]))
     
-    #blacklist processing - TO DO    
+    #block voters and keep in reserve account
+    elif data["blacklist"] == "assign":
+        accum = 0
         
+        for i in voters:
+            if i[0] in data["blacklist_addr"]:
+                accum += i[1]
+            else:
+                bl_adjusted_voters.append((i[0], i[1]))
+        
+        bl_adjusted_voters.append((data["blacklist_assign"], accum))
+
+    else:
+        bl_adjusted_voters = voters
+
+    return bl_adjusted_voters
+
+def voter_cap(voters):
+
+    # cap processing
+    max_wallet = int(data['vote_cap'] * atomic)
+    
+    if max_wallet > 0:
+        cap_adjusted_voters = []
+        for i in voters:
+            if i[1] > max_wallet and i[0] != data["blacklist_assign"]:
+                cap_adjusted_voters.append((i[0], max_wallet))
+            else:
+                cap_adjusted_voters.append((i[0],i[1]))
+                
+    else:
+        cap_adjusted_voters = voters
+
+    return cap_adjusted_voters
+
+def get_voters():
+
+    #get voters
+    initial_voters = arkdb.voters()
+    
+    #process blacklist:
+    bl_adjust = black_list(initial_voters)
+    block_voters = voter_cap(bl_adjust)
+    
+    snekdb.storeVoters(block_voters)    
+    
     return block_voters
 
-def initialize():
-    global block
-    global tbw_rewards
-    global block_count
+def get_rewards():
+    
+    rewards = []
+    for k, v in data['pay_addresses'].items():
+        rewards.append(v)
+    
+    snekdb.storeRewards(rewards) 
 
-    data = parse_config()  # import config
-    park = get_network(data)  # initialize park config
-    manage_folders()  # check for folders needed
-
-    block_voters = get_voters(park, data)
-
-    # check if first run
-    if block == 0:
-        # check to see if the file already exists - means tbw was already
-        # running and got restarted
-        if os.path.exists('output/log/result.json'):
-            # open results file and get highest block processed
-            last_processed_block = get_highest_block()
-            # now open the block-tbw to get the last known balances and input
-            # to tbw_rewards to start
-            tbw_rewards = json.load(
-                open('output/log/' + last_processed_block + '.json'))
-            # set last block to most recent one from files
-            block = int(last_processed_block)
-            block_count = len(get_block_count())
-
-            min = data['min_payment'] * 100000000
-            # adjust balances to avoid dup payments if script restarted on payment interval 
-            if block_count % data['interval'] == 0:
-                for k,v in tbw_rewards.items():
-                    if v['unpaid'] > min:
-                        v['paid'] += v['unpaid']  # add unpaid to paid column
-                        v['unpaid'] -= v['unpaid']  # zero out unpaid
-           
-            # check for new reserve addresses
-            for k, v in data['pay_addresses'].items():
-                if v not in tbw_rewards.keys():
-                    tbw_rewards[v] = {'unpaid': 0, 'paid': 0}
-                    
-        else:  # initialize paid/unpaid records for voters
-            for i in block_voters['accounts']:
-                tbw_rewards[i['address']] = {'unpaid': 0, 'paid': 0}
-            # initialize paid/unpaid records for reserve account
-            for k, v in data['pay_addresses'].items():
-                tbw_rewards[v] = {'unpaid': 0, 'paid': 0}
-
-    return park
-
+def del_address(addr):
+    for k,v in data['pay_addresses'].items():
+        if addr == v:
+            msg = k + " - True Block Weight"
+            
+    return msg
 
 def payout():
-    data = parse_config()
-    min = data['min_payment'] * 100000000
-
-    # initialize pay_run
-    unpaid = {}  # payment file
+    min = int(data['min_payment'] * atomic)
 
     # count number of transactions greater than payout threshold
-    tx_count = len({k: v for k, v in tbw_rewards.items() if v['unpaid'] > min})
-    # calculate tx fees needed to cover run in satoshis
-    transaction_fee = 10000000
-    tx_fees = tx_count * transaction_fee
-
-    # generate pay file
-    for k, v in tbw_rewards.items():
-        if v['unpaid'] > min:
-            # process voters and non-reserve address
-            if k != data['pay_addresses']['reserve']:
-                unpaid[k] = v['unpaid']
-
-                # subtract unpaid amount and add to paid
-                v['paid'] += v['unpaid']  # add unpaid to paid column
-                v['unpaid'] -= v['unpaid']  # zero out unpaid
-
-            # process delegate share
+    d_count = len([j for j in snekdb.rewards()])
+    v_count = len([i for i in snekdb.voters() if i[1]>min])
+    
+    if v_count>0:
+        print('Payout started!')
+        
+        tx_count = v_count+d_count
+        # calculate tx fees needed to cover run in satoshis
+        transaction_fee = .1 * atomic
+        tx_fees = tx_count * int(transaction_fee)
+    
+        # process voters 
+        voters = snekdb.voters().fetchall()
+        for row in voters:
+            if row[1] > min:               
+                msg = "Goose Voter - True Block Weight"
+                # update staging records
+                snekdb.storePayRun(row[0], row[1], msg)
+            
+                # adjust sql balances
+                snekdb.updateVoterPaidBalance(row[0])
+            
+    
+        delreward = snekdb.rewards().fetchall()        
+        for row in delreward:
+            if row[0] != data['pay_addresses']['reserve']:
+ 
+                # update staging records
+                snekdb.storePayRun(row[0], row[1], del_address(row[0]))
+            
+                # adjust sql balances
+                snekdb.updateDelegatePaidBalance(row[0])
             else:
-                # pay delegate
-                net_pay = v['unpaid'] - tx_fees
-                unpaid[k] = net_pay
+                net_pay = row[1] - tx_fees
+                
+                # update staging records
+                snekdb.storePayRun(row[0], net_pay, del_address(row[0]))
+            
+                #adjust sql balances
+                snekdb.updateDelegatePaidBalance(row[0])
 
-                # subtract unpaid amount and add to paid
-                v['paid'] += v['unpaid']  # add unpaid to paid column
-                v['unpaid'] -= v['unpaid']  # zero out unpaid
+        # call process to run payments
+        subprocess.Popen(['python3', 'pay.py'])
 
-    # dump
-    with open('unpaid.json', 'w') as f:
-        json.dump(unpaid, f)
-
-    # call process to run payments
-    subprocess.Popen(['python3', 'pay.py'])
-
-
-def get_network(data, ip="localhost"):
-    networks = json.load(open('networks.json'))
-
-    return Park(
-        ip,
-        networks[data['network']]['port'],
-        networks[data['network']]['nethash'],
-        networks[data['network']]['version']
-    )
-
+def interval_check(bc):
+    if bc % data['interval'] == 0:
+        # check if there is an unpaid balance for voters
+        total = 0
+        # get voter balances
+        r = snekdb.voters()
+        for row in r:
+            total += row[1]
+                
+        print("Total Voter Unpaid:",total)
+        
+        if total > 0:
+            return True
+        else: 
+            return False
+        
+def initialize():
+    print("First time setup - initializing SQL database....")
+    # initalize sqldb object
+    snekdb.setup()
+    
+    # connect to DB and grab all blocks
+    print("Importing all prior forged blocks...")
+    all_blocks = arkdb.blocks("yes")
+        
+    # store blocks
+    print("Storing all historical blocks and marking as processed...")
+    snekdb.storeBlocks(all_blocks)
+        
+    # mark all blocks as processed
+    for row in all_blocks:
+        snekdb.markAsProcessed(row[4])
+        
+    # set block count to rows imported
+    block_count = len(all_blocks)
+    print("Imported block count:", block_count)
+    
+    # initialize voters and delegate rewards accounts
+    get_voters()
+    get_rewards()
+    
+    print("Initial Set Up Complete. Please re-run script!")
+    quit()
+    
+    
+def block_counter():
+    c = snekdb.processedBlocks().fetchall()
+    return len(c)
 
 if __name__ == '__main__':
-    park = initialize()
-    config = parse_config()
-    pubKey = config['publicKey']
+    # check for folders needed
+    manage_folders()  
+    
+    # get config data
+    data, network = parse_config()
 
+    # initialize db connection
+    arkdb = ArkDB(network[data['network']]['db'], data['dbusername'], data['publicKey'])
+    
+    # check to see if ark.db exists, if not initialize db, etc
+    if os.path.exists('ark.db') == False:    
+        snekdb = SnekDB()
+        initialize()
+    
+    # check for new rewards accounts to initialize if any changed
+    snekdb = SnekDB()
+    get_rewards()
+
+    # set block count        
+    block_count = block_counter()
+
+    # processing loop
     while True:
+        # get last 50 blocks
+        blocks = arkdb.blocks()
+        # store blocks
+        snekdb.storeBlocks(blocks)
+        # check for unprocessed blocks
+        unprocessed = snekdb.unprocessedBlocks().fetchall()
+          
+        # query not empty means unprocessed blocks
+        if unprocessed:
+            for b in unprocessed:
+                
+                #allocate
+                allocate(b)
+                #get new block count
+                block_count = block_counter()
+                
+                #increment count
+                print('\n')
+                print(f"Current block count : {block_count}")
+                
+                check = interval_check(block_count)
+                if check:
+                    payout()
+                     
+                print('\n' + 'Waiting for the next block....' + '\n')
+                # sleep 5 seconds between allocations
+                time.sleep(5)
 
-        try:
-            last_block = park.blocks().blocks({
-                "limit": 1,
-                "generatorPublicKey": pubKey
-            })
-        except BaseException:
-            # fall back to delegate node to grab data needed
-            bark = get_network(config, config['delegate_ip'])
+        # pause 30 seconds between runs
+        time.sleep(30)
+        
 
-            last_block = bark.blocks().blocks({
-                "limit": 1,
-                "generatorPublicKey": pubKey
-            })
 
-            print('Switched to back-up API node')
 
-        last_block_height = last_block['blocks'][0]['height']
-        check = new_block(block, last_block_height)
 
-        if check:
-            block_count += 1
-            print(f"Current block count : {block_count}")
-            allocate(last_block, park)
-            print('\n' + 'Waiting for the next block....' + '\n')
 
-            # set pay flag to help prevent dup payments
-            file = open('flag.txt', 'w')
-            file.write('N')
-            file.close()
 
-        else:
-            time.sleep(7)
-
-        if block_count % config['interval'] == 0:
-            # use unpaid check to ensure payment function doesnt run miltiple
-            # times in divisible block
-            value = sum(map(Counter, tbw_rewards.values()), Counter())
-            total = value['unpaid']
-
-            file = open('flag.txt', 'r')
-            flag = file.read()
-            file.close()
-
-            if total > 0 and flag == 'N':
-                # check for any missed blocks
-                #missed_block(b, config['interval'])
-                print('Payout started !')
-                payout()
-
-                # set payout flag to yes until next block
-                f = open('flag.txt', 'w')
-                f.write('Y')
-                file.close()

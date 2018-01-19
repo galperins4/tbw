@@ -4,6 +4,7 @@
 
 ```sh
 pip3 install https://github.com/faustbrian/ARK-Python-Client/archive/master.zip
+pip3 install psycopg2
 git clone https://github.com/galperins4/tbw
 cd ~/tbw
 npm install
@@ -22,6 +23,7 @@ As the script leverages @FaustBrians ARK python client, python 3.6+ is required.
 ## Available Configuration Options
 - network: which network you want to run true block weight for
 - delegate IP: this serves as a back-up IP for the API to call to in case the localhost does not respond
+- dbusername: this is the postgresql database username nodeDB
 - publicKey: delegate public key
 - interval:  the interval you want to pay voters in blocks. A setting of 211 would pay ever 211 blocks (or 422 ark)
 - voter_share: percentage to share with voters (0.xx format)
@@ -29,8 +31,9 @@ As the script leverages @FaustBrians ARK python client, python 3.6+ is required.
 - secondphrase: delegate second passphrase
 - cover_tx_fees: Placeholder - Not currently used in tbw code
 - vote_cap: Use this if you cap voters for how much they can earn with votes. For example 10000 will mean any wallet over 10K will only be paid based on 10K weight
-- blacklist: Placeholder - Not currently used in tbw code
-- black_assign: Placeholder - Not currently used in tbw code
+- blacklist: Options are block or assign. Block zero's out blocked accounts which then distributes their earnings to voters. Assign does the same but assigns weight to a designated account. 
+- blacklist_addr: comma seperated list of addresses to block from voter payments
+- blacklist_assign: if assign option is picked, this is the address those blacklisted shares go to. DO NOT SET to an account voting for said delegate
 - min_payment: Minimum threshold for payment. If set to 1, any payout less than 1 ARK will be held until the next pay run and accumulate
 - reach: how many peers to broadcast payments to (Recommended - 20)
 - keep: there are the percentages for delegates to keep and distrubute among x accounts (Note: reserve is required! all others are optional)
@@ -39,12 +42,16 @@ As the script leverages @FaustBrians ARK python client, python 3.6+ is required.
 
 ## To Do
 
-- Add more features to config (e.g., tx fee handling, black/white list, etc)
+- Add more features to config (e.g., tx fee handling, etc)
 - Add reserve balance check (to ensure if you are paying tx that fees <= reserve amt)
 - Manual block processing / allocation
 - Additional exception handling
 
 ## Changelog
+
+### 0.5
+- Completely rewritten to pull data directly from node database for TBD
+- Added blacklist functionality
 
 ### .05
 - Added functionality to cap voters for distributions

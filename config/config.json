@@ -1,0 +1,25 @@
+{
+  "network": "dark or ark or kapu",
+  "delegate_ip": "ip",
+  "dbusername": "dbname",
+  "publicKey": "publicKey",
+  "interval": 211.00,
+  "voter_share": 0.50,
+  "passphrase": "passphrase",
+  "secondphrase": "secondphrase",
+  "cover_tx_fees": "Y",
+  "vote_cap" : 10000,
+  "blacklist": "block or assign",
+  "blacklist_addr" : ["addr"],
+  "blacklist_assign" : "addr",
+  "min_payment": 0,
+  "reach": 10,
+  "keep": {
+    "reserve": 0.45,
+	"faucet": 0.05
+  },
+  "pay_addresses": {
+    "reserve": "addr1",
+	"faucet": "addr2" 
+  }
+}
