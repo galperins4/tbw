@@ -129,6 +129,7 @@ def black_list(voters):
     
     #block voters and keep in reserve account
     elif data["blacklist"] == "assign":
+        bl_adjusted_voters = []
         accum = 0
         
         for i in voters:
