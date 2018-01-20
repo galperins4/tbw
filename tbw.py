@@ -8,6 +8,7 @@ import os.path
 import subprocess
 
 atomic = 100000000
+transaction_fee = .1 * atomic
 
 def parse_config():
     """
@@ -211,7 +212,6 @@ def process_voter_pmt(txfee, min):
                 
 def fixed_deal():
     res = 0
-    transaction_fee = .1 * atomic
     private_deals = data['fixed_deal_amt']
                 
     for k,v in private_deals.items():
@@ -238,7 +238,7 @@ def process_delegate_pmt(fee):
                 if data['cover_tx_fees'] == 'Y':
                     net_pay = row[1] - fee
                 else:
-                    net_pay = row[1]
+                    net_pay = row[1] - transaction_fee
     
             if net_pay <= 0:
                 print("Not enough in reserve to cover transactions")
@@ -252,9 +252,13 @@ def process_delegate_pmt(fee):
             snekdb.updateDelegatePaidBalance(row[0])
                 
         else:
-            # update staging records
-            snekdb.storePayRun(row[0], row[1], del_address(row[0]))
-            
+            if data['cover_tx_fees'] == 'N':
+                # update staging records
+                net = row[1] - transaction_fee
+                snekdb.storePayRun(row[0], net, del_address(row[0]))
+                
+            else: 
+                snekdb.storePayRun(row[0], row[1], del_address(row[0]))
             # adjust sql balances
             snekdb.updateDelegatePaidBalance(row[0])
 
@@ -270,7 +274,6 @@ def payout():
         
         tx_count = v_count+d_count
         # calculate tx fees needed to cover run in satoshis
-        transaction_fee = .1 * atomic
         tx_fees = tx_count * int(transaction_fee)
     
         # process delegate rewards
