@@ -189,6 +189,74 @@ def del_address(addr):
             
     return msg
 
+def process_voter_pmt(txfee, min):
+    # process voters 
+    voters = snekdb.voters().fetchall()
+    for row in voters:
+        if row[1] > min:               
+            msg = "Goose Voter - True Block Weight"
+            
+            if data['cover_tx_fees'] == "Y":
+                # update staging records
+                snekdb.storePayRun(row[0], row[1], msg)
+                # adjust sql balances
+                snekdb.updateVoterPaidBalance(row[0])
+            
+            else:
+                net = row[1]-txfee
+                #only pay if net payment is greater than 0, accumulate rest
+                if net > 0:
+                    snekdb.storePayRun(row[0], net, msg)
+                    snekdb.updateVoterPaidBalance(row[0])
+                
+def fixed_deal():
+    res = 0
+    private_deals = data['fixed_deal_amt']
+                
+    for k,v in private_deals.items():
+        for x,y in v.items():
+            msg = "Goose Voter - True Block Weight-F"
+            # update staging records
+            snekdb.storePayRun(x, y, msg)
+            #accumulate fixed deals balances
+            res += y
+            
+    return res
+
+def process_delegate_pmt(fee):
+    # process delegate first
+    delreward = snekdb.rewards().fetchall()        
+    for row in delreward:
+        if row[0] == data['pay_addresses']['reserve']:
+ 
+            if data['cover_tx_fees'] == 'N':
+                fee = 0
+                
+            if data['fixed_deal'] == 'Y':
+                amt = fixed_deal()
+                net_pay = amt - fee
+            
+            else:
+                net_pay = row[1] - fee
+            
+            if net_pay <= 0:
+                print("Not enough in reserve to cover transactions")
+                print("Update interval and restart")
+                quit()
+                
+            # update staging records
+            snekdb.storePayRun(row[0], net_pay, del_address(row[0]))
+            
+            #adjust sql balances
+            snekdb.updateDelegatePaidBalance(row[0])
+                
+        else:
+            # update staging records
+            snekdb.storePayRun(row[0], row[1], del_address(row[0]))
+            
+            # adjust sql balances
+            snekdb.updateDelegatePaidBalance(row[0])
+
 def payout():
     min = int(data['min_payment'] * atomic)
 
@@ -204,7 +272,41 @@ def payout():
         transaction_fee = .1 * atomic
         tx_fees = tx_count * int(transaction_fee)
     
+        # process delegate rewards
+        process_delegate_pmt(tx_fees)
+        """
+        # process delegate first
+        delreward = snekdb.rewards().fetchall()        
+        for row in delreward:
+            if row[0] == data['pay_addresses']['reserve']:
+ 
+                net_pay = row[1] - tx_fees
+                
+                if net_pay <= 0:
+                    print("Not enough in reserve to cover transactions")
+                    print("Update interval and restart")
+                    quit()
+                
+                # update staging records
+                snekdb.storePayRun(row[0], net_pay, del_address(row[0]))
+            
+                #adjust sql balances
+                snekdb.updateDelegatePaidBalance(row[0])
+                
+            else:
+                # update staging records
+                snekdb.storePayRun(row[0], row[1], del_address(row[0]))
+            
+                # adjust sql balances
+                snekdb.updateDelegatePaidBalance(row[0])
+
+        """
+        
+        
         # process voters 
+        process_voter_pmt(transaction_fee, min)
+        
+        """
         voters = snekdb.voters().fetchall()
         for row in voters:
             if row[1] > min:               
@@ -214,25 +316,9 @@ def payout():
             
                 # adjust sql balances
                 snekdb.updateVoterPaidBalance(row[0])
-            
+        """    
     
-        delreward = snekdb.rewards().fetchall()        
-        for row in delreward:
-            if row[0] != data['pay_addresses']['reserve']:
- 
-                # update staging records
-                snekdb.storePayRun(row[0], row[1], del_address(row[0]))
-            
-                # adjust sql balances
-                snekdb.updateDelegatePaidBalance(row[0])
-            else:
-                net_pay = row[1] - tx_fees
-                
-                # update staging records
-                snekdb.storePayRun(row[0], net_pay, del_address(row[0]))
-            
-                #adjust sql balances
-                snekdb.updateDelegatePaidBalance(row[0])
+        
 
         # call process to run payments
         subprocess.Popen(['python3', 'pay.py'])
