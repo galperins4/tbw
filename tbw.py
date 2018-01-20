@@ -211,6 +211,7 @@ def process_voter_pmt(txfee, min):
                 
 def fixed_deal():
     res = 0
+    transaction_fee = .1 * atomic
     private_deals = data['fixed_deal_amt']
                 
     for k,v in private_deals.items():
@@ -219,7 +220,7 @@ def fixed_deal():
             # update staging records
             snekdb.storePayRun(x, y, msg)
             #accumulate fixed deals balances
-            res += y
+            res += (y + transaction_fee)
             
     return res
 
@@ -228,17 +229,17 @@ def process_delegate_pmt(fee):
     delreward = snekdb.rewards().fetchall()        
     for row in delreward:
         if row[0] == data['pay_addresses']['reserve']:
- 
-            if data['cover_tx_fees'] == 'N':
-                fee = 0
                 
             if data['fixed_deal'] == 'Y':
                 amt = fixed_deal()
                 net_pay = amt - fee
             
             else:
-                net_pay = row[1] - fee
-            
+                if data['cover_tx_fees'] == 'Y':
+                    net_pay = row[1] - fee
+                else:
+                    net_pay = row[1]
+    
             if net_pay <= 0:
                 print("Not enough in reserve to cover transactions")
                 print("Update interval and restart")
