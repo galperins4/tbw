@@ -75,8 +75,12 @@ def allocate(lb):
             # populate log for block export records
             log[i[0]] = reward
             
-            #add voter reward to sql database
-            snekdb.updateVoterBalance(i[0], reward)
+            # update reserve from blacklist assign
+            if i[0] == data["blacklist_assign"]:
+                snekdb.updateDelegateBalance(i[0], reward)
+            else:
+                #add voter reward to sql database
+                snekdb.updateVoterBalance(i[0], reward)
 
             # voter and rewards check
             voter_check += 1
@@ -196,6 +200,7 @@ def process_voter_pmt(txfee, min):
     voters = snekdb.voters().fetchall()
     for row in voters:
         if row[1] > min:               
+               
             msg = "Goose Voter - True Block Weight"
             
             if data['cover_tx_fees'] == "Y":
