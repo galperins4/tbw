@@ -255,12 +255,15 @@ def process_delegate_pmt(fee):
             if data['cover_tx_fees'] == 'N':
                 # update staging records
                 net = row[1] - transaction_fee
-                snekdb.storePayRun(row[0], net, del_address(row[0]))
+                if net > 0:
+                    snekdb.storePayRun(row[0], net, del_address(row[0]))
+                    # adjust sql balances
+                    snekdb.updateDelegatePaidBalance(row[0])
                 
             else: 
                 snekdb.storePayRun(row[0], row[1], del_address(row[0]))
-            # adjust sql balances
-            snekdb.updateDelegatePaidBalance(row[0])
+                # adjust sql balances
+                snekdb.updateDelegatePaidBalance(row[0])
 
 def payout():
     min = int(data['min_payment'] * atomic)
