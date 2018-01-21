@@ -224,9 +224,16 @@ def fixed_deal():
         msg = "Goose Voter - True Block Weight-F"
         # update staging records
         fix = v * atomic
-        snekdb.storePayRun(k, fix, msg)
-        #accumulate fixed deals balances
-        res += (fix + transaction_fee)
+        if data['cover_tx_fees'] == 'Y':
+            snekdb.storePayRun(k, fix, msg)
+            #accumulate fixed deals balances
+            res += (fix + transaction_fee)
+            
+        else:
+            net_fix = fix - transaction fee
+            snekdb.storePayRun(k, net_fix, msg)
+            #accumulate fixed deals balances
+            res += (net_fix)
             
     return res
 
