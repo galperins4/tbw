@@ -230,7 +230,7 @@ def fixed_deal():
             res += (fix + transaction_fee)
             
         else:
-            net_fix = fix - transaction fee
+            net_fix = fix - transaction_fee
             snekdb.storePayRun(k, net_fix, msg)
             #accumulate fixed deals balances
             res += (net_fix)
