@@ -239,8 +239,8 @@ def process_delegate_pmt(fee):
                 amt = fixed_deal()
                 totalFees = amt + fee
                 print('total fees with fixed:', totalFees)
-                print('reserve:', row[0])
-                net_pay = row[0] - totalFees
+                print('reserve:', row[1])
+                net_pay = row[1] - totalFees
             
             else:
                 if data['cover_tx_fees'] == 'Y':
