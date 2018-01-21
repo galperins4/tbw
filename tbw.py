@@ -223,9 +223,10 @@ def fixed_deal():
     for k,v in private_deals.items():
         msg = "Goose Voter - True Block Weight-F"
         # update staging records
-        snekdb.storePayRun(k, v, msg)
+        fix = v * atomic
+        snekdb.storePayRun(k, fix, msg)
         #accumulate fixed deals balances
-        res += (v + transaction_fee)
+        res += (fix + transaction_fee)
             
     return res
 
