@@ -221,12 +221,11 @@ def fixed_deal():
     private_deals = data['fixed_deal_amt']
                 
     for k,v in private_deals.items():
-        for x,y in v.items():
-            msg = "Goose Voter - True Block Weight-F"
-            # update staging records
-            snekdb.storePayRun(x, y, msg)
-            #accumulate fixed deals balances
-            res += (y + transaction_fee)
+        msg = "Goose Voter - True Block Weight-F"
+        # update staging records
+        snekdb.storePayRun(k, v, msg)
+        #accumulate fixed deals balances
+        res += (v + transaction_fee)
             
     return res
 
