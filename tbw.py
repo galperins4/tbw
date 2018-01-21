@@ -286,6 +286,7 @@ def payout():
         tx_count = v_count+d_count
         # calculate tx fees needed to cover run in satoshis
         tx_fees = tx_count * int(transaction_fee)
+        print('transaction fees:', tx_fees)
     
         # process delegate rewards
         process_delegate_pmt(tx_fees)
