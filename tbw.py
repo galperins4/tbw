@@ -246,8 +246,6 @@ def process_delegate_pmt(fee):
             if data['fixed_deal'] == 'Y':
                 amt = fixed_deal()
                 totalFees = amt + fee
-                print('total fees with fixed:', totalFees)
-                print('reserve:', row[1])
                 net_pay = row[1] - totalFees
             
             else:
@@ -297,55 +295,12 @@ def payout():
         tx_count = v_count+d_count
         # calculate tx fees needed to cover run in satoshis
         tx_fees = tx_count * int(transaction_fee)
-        print('transaction fees:', tx_fees)
     
         # process delegate rewards
         process_delegate_pmt(tx_fees)
-        """
-        # process delegate first
-        delreward = snekdb.rewards().fetchall()        
-        for row in delreward:
-            if row[0] == data['pay_addresses']['reserve']:
- 
-                net_pay = row[1] - tx_fees
-                
-                if net_pay <= 0:
-                    print("Not enough in reserve to cover transactions")
-                    print("Update interval and restart")
-                    quit()
-                
-                # update staging records
-                snekdb.storePayRun(row[0], net_pay, del_address(row[0]))
-            
-                #adjust sql balances
-                snekdb.updateDelegatePaidBalance(row[0])
-                
-            else:
-                # update staging records
-                snekdb.storePayRun(row[0], row[1], del_address(row[0]))
-            
-                # adjust sql balances
-                snekdb.updateDelegatePaidBalance(row[0])
-
-        """
-        
         
         # process voters 
         process_voter_pmt(transaction_fee, min)
-        
-        """
-        voters = snekdb.voters().fetchall()
-        for row in voters:
-            if row[1] > min:               
-                msg = "Goose Voter - True Block Weight"
-                # update staging records
-                snekdb.storePayRun(row[0], row[1], msg)
-            
-                # adjust sql balances
-                snekdb.updateVoterPaidBalance(row[0])
-        """    
-    
-        
 
         # call process to run payments
         subprocess.Popen(['python3', 'pay.py'])
