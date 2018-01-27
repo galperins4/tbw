@@ -29,11 +29,13 @@ As the script leverages @FaustBrians ARK python client as well as database retre
 - voter_share: percentage to share with voters (0.xx format)
 - passphrase: delegate passphrase
 - secondphrase: delegate second passphrase
-- cover_tx_fees: Placeholder - Not currently used in tbw code
+- cover_tx_fees: Use this to indicate if you want to cover transaction fees (Y) or not (N)
 - vote_cap: Use this if you cap voters for how much they can earn with votes. For example 10000 will mean any wallet over 10K will only be paid based on 10K weight
 - blacklist: Options are block or assign. Block zero's out blocked accounts which then distributes their earnings to voters. Assign does the same but assigns weight to a designated account. 
 - blacklist_addr: comma seperated list of addresses to block from voter payments
 - blacklist_assign: if assign option is picked, this is the address those blacklisted shares go to. DO NOT SET to an account voting for said delegate
+- fixed_deal: use this if you have a fixed deal with a voter (e.g., 45 ark per day).
+- fixed_deal_amt: format is address:amount. The amount to pay should correspond to interval. 
 - min_payment: Minimum threshold for payment. If set to 1, any payout less than 1 ARK will be held until the next pay run and accumulate
 - reach: how many peers to broadcast payments to (Recommended - 20)
 - keep: there are the percentages for delegates to keep and distrubute among x accounts (Note: reserve is required! all others are optional)
@@ -42,12 +44,16 @@ As the script leverages @FaustBrians ARK python client as well as database retre
 
 ## To Do
 
-- Add more features to config (e.g., tx fee handling, etc)
-- Add reserve balance check (to ensure if you are paying tx that fees <= reserve amt)
-- Manual block processing / allocation
+- Add more features as necessary
 - Additional exception handling
 
 ## Changelog
+
+### 0.6
+- Added fixed deal options
+- Added functionality for paying (or not paying) transaction fees on share payments
+- Added reserve balance check - will not payout if your reserve account <=0 on payrun
+- Added manual.py - This will let you pay manually based on values in ark.db (will also update db)
 
 ### 0.5
 - Completely rewritten to pull data directly from node database for TBD
