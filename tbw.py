@@ -258,7 +258,7 @@ def process_delegate_pmt(fee):
                 # delete staged payments to prevent duplicates
                 snekdb.deleteStagedPayment()
                 
-                printprint("Not enough in reserve to cover transactions")
+                print("Not enough in reserve to cover transactions")
                 print("Update interval and restart")
                 quit()
                 
