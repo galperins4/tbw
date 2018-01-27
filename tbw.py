@@ -283,6 +283,7 @@ def process_delegate_pmt(fee):
                 snekdb.updateDelegatePaidBalance(row[0])
 
 def payout():
+    data, network = parse_config()
     min = int(data['min_payment'] * atomic)
 
     # count number of transactions greater than payout threshold
