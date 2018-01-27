@@ -6,10 +6,6 @@ import subprocess
 atomic = 100000000
 transaction_fee = .1 * atomic
 
-if __name__ == '__main__':
-    data, network = parse_config()
-    snekdb = SnekDB(data['dbusername'])
-    
 def payout():
     min = int(data['min_payment'] * atomic)
 
@@ -126,3 +122,8 @@ def process_voter_pmt(txfee, min):
                 if net > 0:
                     snekdb.storePayRun(row[0], net, msg)
                     snekdb.updateVoterPaidBalance(row[0])
+                    
+if __name__ == '__main__':
+    data, network = parse_config()
+    snekdb = SnekDB(data['dbusername'])
+    payout()
