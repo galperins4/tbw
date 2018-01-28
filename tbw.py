@@ -219,22 +219,28 @@ def process_voter_pmt(txfee, min):
 def fixed_deal():
     res = 0
     private_deals = data['fixed_deal_amt']
-                
+    
+    # check to make sure fixed payment addresses haven't unvoted 
+    fix_check = arkdb.voters()
+    tmp = {}
+    for i in fix_check:
+        tmp[i[0]] = i[1]
+    
     for k,v in private_deals.items():
-        msg = "Goose Voter - True Block Weight-F"
-        # update staging records
-        fix = v * atomic
-        if data['cover_tx_fees'] == 'Y':
-            snekdb.storePayRun(k, fix, msg)
-            #accumulate fixed deals balances
-            res += (fix + transaction_fee)
+        if k in tmp.keys() and tmp[k]>0:
+            msg = "Goose Voter - True Block Weight-F"
+            # update staging records
+            fix = v * atomic
+            if data['cover_tx_fees'] == 'Y':
+                snekdb.storePayRun(k, fix, msg)
+                #accumulate fixed deals balances
+                res += (fix + transaction_fee)
             
-        else:
-            net_fix = fix - transaction_fee
-            snekdb.storePayRun(k, net_fix, msg)
-            #accumulate fixed deals balances
-            res += (net_fix)
-            
+            else:
+                net_fix = fix - transaction_fee
+                snekdb.storePayRun(k, net_fix, msg)
+                #accumulate fixed deals balances
+                res += (net_fix)
     return res
 
 def process_delegate_pmt(fee):
