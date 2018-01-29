@@ -241,8 +241,6 @@ def fixed_deal():
                 snekdb.storePayRun(k, net_fix, msg)
                 #accumulate fixed deals balances
                 res += (net_fix)
-        else:
-            res += 0
             
     return res
 
@@ -257,7 +255,7 @@ def process_delegate_pmt(fee):
                 if data['cover_tx_fees'] == 'Y':
                     totalFees = amt + fee
                 else:
-                    totalFees = amt + transaction_fee
+                    totalFees = amt
                 
                 net_pay = row[1] - totalFees
             
