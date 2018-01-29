@@ -304,7 +304,7 @@ def payout():
     if data['cover_tx_fees'] == 'Y':
         v_count = len([i for i in snekdb.voters() if i[1]>min])
     else:
-        v_count = len([i for i in snekdb.voters() if (i[1]>min and (i[1]-transaction_fee)>0))
+        v_count = len([i for i in snekdb.voters() if (i[1]>min and (i[1]-transaction_fee)>0)])
     
     if v_count>0:
         print('Payout started!')
