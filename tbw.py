@@ -303,7 +303,7 @@ def payout():
     d_count = len([j for j in snekdb.rewards()])
     
     #get total possible payouts before adjusting for accumulated payments
-    t_count = len([i for i in snekdb.voters() if i[1]>0)
+    t_count = len([i for i in snekdb.voters() if i[1]>0])
     
     if data['cover_tx_fees'] == 'Y':
         v_count = len([i for i in snekdb.voters() if i[1]>min])
