@@ -147,8 +147,8 @@ class SnekDB:
         
         self.commit()
         
-    def updateDelegatePaidBalance (self, address):
-        self.cursor.execute(f"UPDATE delegate_rewards SET p_balance = p_balance + u_balance WHERE address = '{address}'")
-        self.cursor.execute(f"UPDATE delegate_rewards SET u_balance = u_balance - u_balance WHERE address = '{address}'")
+    def updateDelegatePaidBalance (self, address, amount):
+        self.cursor.execute(f"UPDATE delegate_rewards SET p_balance = p_balance + amount WHERE address = '{address}'")
+        self.cursor.execute(f"UPDATE delegate_rewards SET u_balance = u_balance - amount WHERE address = '{address}'")
         
         self.commit()
