@@ -33,7 +33,7 @@ As the script leverages @FaustBrians ARK python client as well as database retre
 - vote_cap: Use this if you cap voters for how much they can earn with votes. For example 10000 will mean any wallet over 10K will only be paid based on 10K weight
 - blacklist: Options are block or assign. Block zero's out blocked accounts which then distributes their earnings to voters. Assign does the same but assigns weight to a designated account. 
 - blacklist_addr: comma seperated list of addresses to block from voter payments
-- blacklist_assign: if assign option is picked, this is the address those blacklisted shares go to. DO NOT SET to an account voting for said delegate
+- blacklist_assign: if assign option is picked, this is the address those blacklisted shares go to. DO NOT SET to an account voting for said delegate. It is HIGHLY recommended this is set to the reserve address!
 - fixed_deal: use this if you have a fixed deal with a voter (e.g., 45 ark per day).
 - fixed_deal_amt: format is address:amount. The amount to pay should correspond to interval. 
 - min_payment: Minimum threshold for payment. If set to 1, any payout less than 1 ARK will be held until the next pay run and accumulate
