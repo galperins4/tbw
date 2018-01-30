@@ -195,7 +195,7 @@ def del_address(addr):
             
     return msg
 
-def process_voter_pmt(txfee, min):
+def process_voter_pmt(min):
     # process voters 
     voters = snekdb.voters().fetchall()
     for row in voters:
@@ -210,7 +210,7 @@ def process_voter_pmt(txfee, min):
                 snekdb.updateVoterPaidBalance(row[0])
             
             else:
-                net = row[1]-txfee
+                net = row[1] - transaction_fee
                 #only pay if net payment is greater than 0, accumulate rest
                 if net > 0:
                     snekdb.storePayRun(row[0], net, msg)
@@ -315,7 +315,7 @@ def payout():
         process_delegate_pmt(tx_fees)
         
         # process voters 
-        process_voter_pmt(transaction_fee, min)
+        process_voter_pmt(min)
 
         # call process to run payments
         subprocess.Popen(['python3', 'pay.py'])
