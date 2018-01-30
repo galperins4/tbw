@@ -244,12 +244,15 @@ def fixed_deal():
             
     return res
 
-def process_delegate_pmt(fee):
+def process_delegate_pmt(fee, adjust):
     # process delegate first
     delreward = snekdb.rewards().fetchall()        
     for row in delreward:
         if row[0] == data['pay_addresses']['reserve']:
-                
+            
+            #adjust reserve payment by factor to account for not all tx being paid due to tx fees or min payments
+            del_pay_adjust = int(row[1]*adjust)
+            
             if data['fixed_deal'] == 'Y':
                 amt = fixed_deal()
                 if data['cover_tx_fees'] == 'Y':
@@ -257,13 +260,13 @@ def process_delegate_pmt(fee):
                 else:
                     totalFees = amt
                 
-                net_pay = row[1] - totalFees
+                net_pay = del_pay_adjust - totalFees
             
             else:
                 if data['cover_tx_fees'] == 'Y':
-                    net_pay = row[1] - fee
+                    net_pay = del_pay_adjust - fee
                 else:
-                    net_pay = row[1] - transaction_fee
+                    net_pay = del_pay_adjust - transaction_fee
     
             if net_pay <= 0:
                 # delete staged payments to prevent duplicates
@@ -299,11 +302,16 @@ def payout():
     # count number of transactions greater than payout threshold
     d_count = len([j for j in snekdb.rewards()])
     
+    #get total possible payouts before adjusting for accumulated payments
+    t_count = len([i for i in snekdb.voters() if i[1]>0)
+    
     if data['cover_tx_fees'] == 'Y':
         v_count = len([i for i in snekdb.voters() if i[1]>min])
     else:
         v_count = len([i for i in snekdb.voters() if (i[1]>min and (i[1]-transaction_fee)>0)])
     
+    adj_factor = v_count / t_count
+                   
     if v_count>0:
         print('Payout started!')
         
@@ -312,7 +320,7 @@ def payout():
         tx_fees = tx_count * int(transaction_fee)
     
         # process delegate rewards
-        process_delegate_pmt(tx_fees)
+        process_delegate_pmt(tx_fees, adj_factor)
         
         # process voters 
         process_voter_pmt(min)
