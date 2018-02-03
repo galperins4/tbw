@@ -120,11 +120,11 @@ def fixed_deal():
     return res
 
 def del_address(addr):
+    msg = "default"
+    
     for k,v in data['pay_addresses'].items():
         if addr == v:
             msg = k + " - True Block Weight"
-        else:
-            msg = "clear"
     return msg
 
 def process_voter_pmt(min):
