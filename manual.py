@@ -87,9 +87,10 @@ def process_delegate_pmt(fee, adjust):
                     snekdb.updateDelegatePaidBalance(row[0], row[1])
                 
             else: 
-                snekdb.storePayRun(row[0], row[1], del_address(row[0]))
-                # adjust sql balances
-                snekdb.updateDelegatePaidBalance(row[0], row[1])
+                if row[1] > 0:
+                    snekdb.storePayRun(row[0], row[1], del_address(row[0]))
+                    # adjust sql balances
+                    snekdb.updateDelegatePaidBalance(row[0], row[1])
                 
 def fixed_deal():
     res = 0
