@@ -49,6 +49,9 @@ As the script leverages @FaustBrians ARK python client as well as database retre
 
 ## Changelog
 
+### 0.7
+- small fix for 0 balances in delegate rewards due to changed/unused addresses to prevent broadcasting issues
+
 ### 0.6
 - Added fixed deal options
 - Added functionality for paying (or not paying) transaction fees on share payments
