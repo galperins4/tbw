@@ -303,7 +303,7 @@ def payout():
     min = int(data['min_payment'] * atomic)
 
     # count number of transactions greater than payout threshold
-    d_count = len([j for j in snekdb.rewards()])
+    d_count = len([j for j in snekdb.rewards() if i[1]>0])
     
     #get total possible payouts before adjusting for accumulated payments
     t_count = len([i for i in snekdb.voters() if i[1]>0])
