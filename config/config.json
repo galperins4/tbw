@@ -9,6 +9,7 @@
   "secondphrase": "secondphrase",
   "cover_tx_fees": "Y",
   "vote_cap" : 10000,
+  "vote_min" : 0,
   "blacklist": "block or assign",
   "blacklist_addr" : ["addr"],
   "blacklist_assign" : "addr",
