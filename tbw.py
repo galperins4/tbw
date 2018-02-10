@@ -149,6 +149,21 @@ def black_list(voters):
 
     return bl_adjusted_voters
 
+def voter_min(voters):
+    min_wallet = int(data['vote_min'] * atomic)
+    
+    if min_wallet > 0:
+        min_adjusted_voters = []
+        for i in voters:
+            if i[1] < min_wallet:
+                min_adjusted_voters.append((i[0], 0))
+            else:
+                min_adjusted_voters.append((i[0],i[1]))
+    else:
+        min_adjusted_voters = voters
+        
+    return min_adjusted_voters
+
 def voter_cap(voters):
 
     # cap processing
@@ -172,10 +187,11 @@ def get_voters():
     #get voters
     initial_voters = arkdb.voters()
     
-    #process blacklist:
+    #process blacklist, voter cap, and voter min:
     bl_adjust = black_list(initial_voters)
-    block_voters = voter_cap(bl_adjust)
-    
+    bl_adjust_two = voter_cap(bl_adjust)
+    block_voters = voter_min(bl_adjust_two)
+   
     snekdb.storeVoters(block_voters)    
     
     return block_voters
