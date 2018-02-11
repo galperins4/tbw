@@ -51,6 +51,9 @@ As the script leverages @FaustBrians ARK python client as well as database retre
 
 ## Changelog
 
+### 0.8
+- added vote-min option to allow for minimum wallet balances eligible for payouts
+
 ### 0.7
 - small fix for 0 balances in delegate rewards due to changed/unused addresses to prevent broadcasting issues
 
