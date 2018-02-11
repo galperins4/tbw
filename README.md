@@ -5,6 +5,7 @@
 ```sh
 pip3 install https://github.com/faustbrian/ARK-Python-Client/archive/master.zip
 pip3 install psycopg2
+pip3 install pyscopg2-binary
 git clone https://github.com/galperins4/tbw
 cd ~/tbw
 npm install
@@ -31,6 +32,7 @@ As the script leverages @FaustBrians ARK python client as well as database retre
 - secondphrase: delegate second passphrase
 - cover_tx_fees: Use this to indicate if you want to cover transaction fees (Y) or not (N)
 - vote_cap: Use this if you cap voters for how much they can earn with votes. For example 10000 will mean any wallet over 10K will only be paid based on 10K weight
+- vote_min: Use this if you have a minumum wallet balance to be eligible for payments
 - blacklist: Options are block or assign. Block zero's out blocked accounts which then distributes their earnings to voters. Assign does the same but assigns weight to a designated account. 
 - blacklist_addr: comma seperated list of addresses to block from voter payments
 - blacklist_assign: if assign option is picked, this is the address those blacklisted shares go to. DO NOT SET to an account voting for said delegate. It is HIGHLY recommended this is set to the reserve address!
