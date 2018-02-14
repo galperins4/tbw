@@ -54,6 +54,9 @@ As the script leverages @FaustBrians ARK python client as well as database retre
 
 ## Changelog
 
+### 0.9
+- added support for lwf testnet and mainnet
+
 ### 0.8
 - added vote-min option to allow for minimum wallet balances eligible for payouts
 
