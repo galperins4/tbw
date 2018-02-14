@@ -8,10 +8,13 @@ pip3 install psycopg2
 pip3 install pyscopg2-binary
 git clone https://github.com/galperins4/tbw
 cd ~/tbw
+update package.json (see configuration below)
 npm install
 ```
 
 ## Configuration & Usage
+
+Before runnning npm install update package.json by removing the line for the unneeded depency. Keep ark for ark/kapu support and lwf for lwf support
 
 After the repository has been cloned you need to open the `config.json` and change it to your liking. Once this has been done execute `python3 tbw.py` to start true block weight script.
 
