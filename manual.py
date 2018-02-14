@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from snek.db.snek import SnekDB
 from snek.db.ark import ArkDB
-from tbw import parse_config
+from tbw import parse_config, get_dbname
 import subprocess
 
 atomic = 100000000
@@ -152,5 +152,7 @@ def process_voter_pmt(min):
 if __name__ == '__main__':
     data, network = parse_config()
     snekdb = SnekDB(data['dbusername'])
-    arkdb = ArkDB(network[data['network']]['db'], data['dbusername'], data['publicKey'])
+    
+    username = get_dbname()
+    arkdb = ArkDB(network[data['network']]['db'], username, data['publicKey'])
     payout()

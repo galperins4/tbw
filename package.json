@@ -1,5 +1,7 @@
 {
   "dependencies": {
-    "arkjs": "github:arkecosystem/ark-js#master"
+    "lwfnanojs": "github:lwfcoin/lwf-nano-js#master"
+	"arkjs": "github:arkecosystem/ark-js#master"
   }
 }
+
