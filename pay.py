@@ -31,7 +31,6 @@ def get_peers(park):
         print('peers:', len(peers))
         print('Switched to back-up API node')
         
-        
     return net_filter(peers)
 
 def net_filter(p):
