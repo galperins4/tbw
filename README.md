@@ -8,7 +8,7 @@ pip3 install psycopg2
 pip3 install pyscopg2-binary
 git clone https://github.com/galperins4/tbw
 cd ~/tbw
-update package.json (see configuration below)
+nano package.json (see configuration below)
 npm install
 ```
 
