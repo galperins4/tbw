@@ -128,7 +128,8 @@ if __name__ == '__main__':
     reach = data['reach']
     park = get_network(data, network)
 
-    netname = lisk_fork[data['network']]
+    if data['network'] in lisk_fork.keys():
+        netname = lisk_fork[data['network']]
 
     # get peers
     p = get_peers(park)
