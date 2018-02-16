@@ -220,7 +220,7 @@ def process_voter_pmt(min):
     for row in voters:
         if row[1] > min:               
                
-            msg = "Goose Voter - True Block Weight"
+            msg = data["voter_msg"]
             
             if data['cover_tx_fees'] == "Y":
                 # update staging records
@@ -477,7 +477,7 @@ if __name__ == '__main__':
                 time.sleep(5)
 
         # pause 30 seconds between runs
-        time.sleep(30)
+        time.sleep(data["block_check"])
         
 
 
