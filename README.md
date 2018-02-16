@@ -99,9 +99,9 @@ As the script leverages @FaustBrians ARK python client as well as database retre
 
 If you like this project and it helps you in your every day work I would greatly appreciate it if you would consider to show some support by donating to one of the below mentioned addresses.
 
-BTC - 38jPmBCdu9C5SBPbeb4BTBQG2SAbGvbfKf
-ETH - 0x9c3BB145C6bCde9BC502B90B8C32C0aa26714394
-ARK - AMhTN98yvWP8SJNyxmgEfg9ufuxHyapW73
+- BTC - 38jPmBCdu9C5SBPbeb4BTBQG2SAbGvbfKf
+- ETH - 0x9c3BB145C6bCde9BC502B90B8C32C0aa26714394
+- ARK - AMhTN98yvWP8SJNyxmgEfg9ufuxHyapW73
 
 ## Security
 
