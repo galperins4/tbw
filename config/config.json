@@ -8,7 +8,7 @@
   "passphrase": "passphrase",
   "secondphrase": "None",
   "voter_msg": "Delegate X - True Block Weight",
-  "block_check": 30
+  "block_check": 30,
   "cover_tx_fees": "Y",
   "vote_cap" : 0,
   "vote_min" : 0,
