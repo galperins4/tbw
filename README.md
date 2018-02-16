@@ -58,6 +58,10 @@ As the script leverages @FaustBrians ARK python client as well as database retre
 
 ### 0.9
 - added support for lwf testnet and mainnet
+- added support for oxy testnet and mainnet
+- added suppport for onz testnet and mainnet
+- added configurable block check option
+- added configurable voter share message (ARK coins only)
 
 ### 0.8
 - added vote-min option to allow for minimum wallet balances eligible for payouts
