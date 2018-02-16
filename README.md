@@ -33,6 +33,8 @@ As the script leverages @FaustBrians ARK python client as well as database retre
 - voter_share: percentage to share with voters (0.xx format)
 - passphrase: delegate passphrase
 - secondphrase: delegate second passphrase
+- voter_msg: ARK and ARKfork coins only - message you want in vendor field for share payments
+- block_check: How often you want the script to check for new blocks in seconds. Recommend low value (e.g., 30 seconds for ARK coins, high value for LISK coins)
 - cover_tx_fees: Use this to indicate if you want to cover transaction fees (Y) or not (N)
 - vote_cap: Use this if you cap voters for how much they can earn with votes. For example 10000 will mean any wallet over 10K will only be paid based on 10K weight
 - vote_min: Use this if you have a minumum wallet balance to be eligible for payments
