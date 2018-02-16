@@ -2,6 +2,9 @@
   "dependencies": {
     "lwfnanojs": "github:lwfcoin/lwf-nano-js#master"
 	"arkjs": "github:arkecosystem/ark-js#master"
+	"oxyjs": "github:oxycoin/oxy-nano-js#master"
+	"shiftjs": "github:shiftnrg/shift-js#master"
+	"onzjs": "github:onzcoin/onz-js#master"
   }
 }
 

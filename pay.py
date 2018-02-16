@@ -112,7 +112,11 @@ if __name__ == '__main__':
                 'rise-t': 'rise', 
                 'rise': 'rise', 
                 'shift-t': 'shift', 
-                'shift': 'shift'}
+                'shift': 'shift',
+                'onz-t': 'onz',
+                'onz': 'onz',
+                'lisk-t': 'lisk',
+                'lisk' : 'lisk'}
     
     signed_tx = []
     data, network = parse_config()

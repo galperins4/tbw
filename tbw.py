@@ -401,10 +401,17 @@ def get_dbname():
                 'rise-t': 'rise', 
                 'rise': 'rise', 
                 'shift-t': 'shift', 
-                'shift': 'shift'}
+                'shift': 'shift',
+                'onz-t': 'onz',
+                'onz': 'onz',
+                'lisk-t': 'lisk',
+                'lisk' : 'lisk'}
     
     if net in lisk_fork.keys():
-        uname = lisk_fork[net]
+        if net != 'lwf':
+            uname = lisk_fork[net]+'coin'
+        else:
+            uname = lisk_fork[net]
     else: 
         uname = data['dbusername']
         
