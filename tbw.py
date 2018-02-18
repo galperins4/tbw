@@ -408,7 +408,7 @@ def get_dbname():
                 'lisk' : 'lisk'}
     
     if net in lisk_fork.keys():
-        if net != 'lwf':
+        if lisk_fork[net] != 'lwf':
             uname = lisk_fork[net]+'coin'
         else:
             uname = lisk_fork[net]
