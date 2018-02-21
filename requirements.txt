@@ -1,3 +1,2 @@
-setuptools
 https://github.com/faustbrian/ARK-Python-Client/archive/master.zip
 psycopg2-binary==2.7.4
