@@ -3,6 +3,7 @@
 ## Installation
 
 ```sh
+npm install npm@latest -g
 git clone https://github.com/galperins4/tbw
 cd ~/tbw
 pip3 install -r requirements.txt
