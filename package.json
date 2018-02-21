@@ -1,10 +1,10 @@
 {
   "dependencies": {
-    "lwfnanojs": "github:lwfcoin/lwf-nano-js#master"
-	"arkjs": "github:arkecosystem/ark-js#master"
-	"oxyjs": "github:oxycoin/oxy-nano-js#master"
-	"shiftjs": "github:shiftnrg/shift-js#master"
-	"onzjs": "github:onzcoin/onz-js#master"
+    "lwf-nano-js": "github:lwfcoin/lwf-nano-js#master"
+	"ark-js": "github:arkecosystem/ark-js#master"
+	"oxy-js": "github:oxycoin/oxy-nano-js#master"
+	"shift-js": "github:shiftnrg/shift-js#master"
+	"onz-js": "github:onzcoin/onz-js#master"
   }
 }
 
