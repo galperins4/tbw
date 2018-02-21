@@ -3,8 +3,8 @@
 ## Installation
 
 ```sh
-npm install npm@latest -g
-npm install pm2@latest -g (if using pm2)
+sudo npm install npm@latest -g
+sudo npm install pm2@latest -g (if using pm2)
 git clone https://github.com/galperins4/tbw
 cd ~/tbw
 pip3 install -r requirements.txt
