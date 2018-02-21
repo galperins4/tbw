@@ -3,10 +3,9 @@
 ## Installation
 
 ```sh
-pip3 install https://github.com/faustbrian/ARK-Python-Client/archive/master.zip
-pip3 install pyscopg2-binary
 git clone https://github.com/galperins4/tbw
 cd ~/tbw
+pip3 install -r requirements.txt
 nano package.json (see configuration below)
 npm install
 ```
