@@ -32,13 +32,13 @@
 	"oxy-t": {
         "nethash": "0daee950841005a3f56f6588b4b084695f0d74aaa38b21edab73446064638552",
         "port": 9998,
-        "version": "0.1.2",
+        "version": "0.1.3",
 		"db": "oxycoin_db_test"
     },
 	"oxy": {
         "nethash": "4c1170a3edb03f961e5e3f7cedcd25563f0a46ec4aa3342715d09c47b398ea19",
         "port": 10000,
-        "version": "0.1.2",
+        "version": "0.1.3",
 		"db": "oxycoin_db_main"
     },
 	"onz-t": {
