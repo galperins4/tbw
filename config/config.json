@@ -1,5 +1,5 @@
 {
-  "network": "dark or ark or kapu or lwf-t or lwf",
+  "network": "dark or ark or kapu or lwf-t or lwf or oxy or oxy-t",
   "delegate_ip": "ip",
   "dbusername": "dbname",
   "publicKey": "publicKey",
@@ -18,7 +18,7 @@
   "fixed_deal" : "N",
   "fixed_deal_amt" : {"addr1": 1, "addr2": 2, "addr3": 3},
   "min_payment": 0,
-  "reach": 10,
+  "reach": 20,
   "keep": {
     "reserve": 0.45,
 	"faucet": 0.05
