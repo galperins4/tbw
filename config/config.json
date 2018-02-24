@@ -1,5 +1,5 @@
 {
-  "network": "dark or ark or kapu or lwf-t or lwf or oxy or oxy-t",
+  "network": "network",
   "delegate_ip": "ip",
   "dbusername": "dbname",
   "publicKey": "publicKey",
