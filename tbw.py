@@ -100,25 +100,25 @@ def allocate(lb):
 
     # check to see if log file exists
     if not os.path.exists(
-            'output/log/result.json'):  # does not exists so create
+            'output/result.json'):  # does not exists so create
         # create a json export for the block rewards for initial file
         json_export[lb[4]] = log
         # append log to json file for future use
-        with open('output/log/result.json', 'a') as fp:
+        with open('output/result.json', 'a') as fp:
             json.dump(json_export, fp)
 
     else:  # read and add block as key
-        with open('output/log/result.json') as f:
+        with open('output/result.json') as f:
             json_decoded = json.load(f)
 
         json_decoded[lb[4]] = log
 
-        with open('output/log/result.json', 'w') as f:
+        with open('output/result.json', 'w') as f:
             json.dump(json_decoded, f)
 
 
 def manage_folders():
-    sub_names = ["log", "payment", "error"]
+    sub_names = ["error"]
     for sub_name in sub_names:
         os.makedirs(os.path.join('output', sub_name), exist_ok=True)
 
