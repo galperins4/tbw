@@ -118,7 +118,7 @@ class SnekDB:
         return self.cursor.execute("SELECT * FROM staging WHERE processed_at IS NULL LIMIT 50")
     
     def deleteStagedPayment(self):
-        self.cursor.execute("DELETE FROM staging")
+        self.cursor.execute("DELETE FROM staging WHERE processed_at NOT NULL")
         
         self.commit()
 
