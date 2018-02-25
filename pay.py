@@ -72,6 +72,23 @@ def broadcast(tx, p, park, r):
         peer_cast = p[0:r]
 
     #broadcast to localhost/relay first
+    records = []
+    try:
+        transaction = park.transport().createBatchTransaction(tx)
+        records = [x['recipientId'],y['amount'],z['id'] for x,y,z in tx]
+        time.sleep(16)
+    except BaseException:
+        # fall back to delegate node to grab data needed
+        bark = get_network(data, network, data['delegate_ip'])
+        transaction = bark.transport().createBatchTransaction(tx)
+        records.extend((j['recipientId'], j['amount'], j['id']))
+        time.sleep(16)
+            
+        out.append(records)
+    
+
+    
+    '''
     for j in tx:
         records=[]
         try:
@@ -87,6 +104,7 @@ def broadcast(tx, p, park, r):
             time.sleep(1)
             
         out.append(records)
+        '''
     
     snekdb.storeTransactions(out)
     
