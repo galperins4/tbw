@@ -85,9 +85,7 @@ def broadcast(tx, p, park, r):
         time.sleep(1)
             
     out.append(records)
-    
-
-    
+   
     '''
     for j in tx:
         records=[]
@@ -165,8 +163,6 @@ if __name__ == '__main__':
         signed_tx = []
         unique_rowid = []
         p = get_peers(park)
-
-        pay = snekdb.stagedPayment().fetchall()
     
         # check for unprocessed payments
         unprocessed_pay = snekdb.stagedPayment().fetchall()
