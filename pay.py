@@ -19,7 +19,6 @@ def get_network(d, n, ip="localhost"):
 
 def get_peers(park):
     peers = []
-    #peerfil= []
     
     try:
         peers = park.peers().peers()['peers']
