@@ -144,7 +144,6 @@ if __name__ == '__main__':
                 'lisk-t': 'lisk',
                 'lisk' : 'lisk'}
     
-    signed_tx = []
     data, network = parse_config()
     snekdb = SnekDB(data['dbusername'])
     
@@ -163,6 +162,8 @@ if __name__ == '__main__':
 
     while True:
         # get peers
+        signed_tx = []
+        unique_rowid = []
         p = get_peers(park)
 
         pay = snekdb.stagedPayment().fetchall()
@@ -197,7 +198,6 @@ if __name__ == '__main__':
   
         broadcast(signed_tx, p, park, reach)
         snekdb.processStagedPayment(unique_rowid)
-        unique_rowid = []
 
         # payment run complete
         print('Payment Run Completed!')
