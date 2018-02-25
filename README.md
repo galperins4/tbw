@@ -26,9 +26,9 @@ Important! - pay_addresses and keep keys should match in config.json. DO NOT del
 As the script leverages @FaustBrians ARK python client as well as database retreival and storage classes, python 3.6+ is required. In addition it is  now required to run this alongside an ark/kapu relay node given the DB interaction and little reliance on the API.
 
 ## Available Configuration Options
-- network: which network you want to run true block weight for
+- network: which network you want to run true block weight for (options are ark, dark, kapu, lwf, lwf-t, oxy, oxy-t, onz, onz-t)
 - delegate IP: this serves as a back-up IP for the API to call to in case the localhost does not respond
-- dbusername: this is the postgresql database username nodeDB
+- dbusername: this is the postgresql database username nodeDB (usually your os username)
 - publicKey: delegate public key
 - interval:  the interval you want to pay voters in blocks. A setting of 211 would pay ever 211 blocks (or 422 ark)
 - voter_share: percentage to share with voters (0.xx format)
@@ -48,7 +48,6 @@ As the script leverages @FaustBrians ARK python client as well as database retre
 - reach: how many peers to broadcast payments to (Recommended - 20)
 - keep: there are the percentages for delegates to keep and distrubute among x accounts (Note: reserve is required! all others are optional)
 - pay_addresses: these are the addresses to go with the keep percentages (Note: reserve is required! all others are optional)
-
 
 ## To Do
 
