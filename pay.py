@@ -81,10 +81,10 @@ def broadcast(tx, p, park, r):
         # fall back to delegate node to grab data needed
         bark = get_network(data, network, data['delegate_ip'])
         transaction = bark.transport().createBatchTransaction(tx)
-        records.extend((j['recipientId'], j['amount'], j['id']))
+        records = [x['recipientId'],y['amount'],z['id'] for x,y,z in tx]
         time.sleep(16)
             
-        out.append(records)
+    out.append(records)
     
 
     
