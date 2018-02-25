@@ -76,13 +76,13 @@ def broadcast(tx, p, park, r):
     try:
         transaction = park.transport().createBatchTransaction(tx)
         records = [x['recipientId'],y['amount'],z['id'] for x,y,z in tx]
-        time.sleep(16)
+        time.sleep(1)
     except BaseException:
         # fall back to delegate node to grab data needed
         bark = get_network(data, network, data['delegate_ip'])
         transaction = bark.transport().createBatchTransaction(tx)
         records = [x['recipientId'],y['amount'],z['id'] for x,y,z in tx]
-        time.sleep(16)
+        time.sleep(1)
             
     out.append(records)
     
@@ -113,12 +113,21 @@ def broadcast(tx, p, park, r):
         ip = i['ip']
         peer_park = get_network(data, network, ip)
         # cycle through and broadcast each tx on each peer and save responses
+        
+        try:
+            transaction = peer_park.transport().createBatchTransaction(tx)
+            time.sleep(1)
+        except:
+            print("error")
+        
+        
+        '''
         for j in tx:    
             try:
                 transaction = peer_park.transport().createTransaction(j)
                 time.sleep(1)
             except:
-                print("error")
+                print("error")'''
  
 if __name__ == '__main__':
    
