@@ -3,33 +3,39 @@
 ## Installation
 
 ```sh
-pip3 install https://github.com/faustbrian/ARK-Python-Client/archive/master.zip
-pip3 install psycopg2
-pip3 install pyscopg2-binary
+sudo npm install npm@latest -g
+sudo npm install pm2@latest -g (if using pm2)
+pip3 install setuptools
 git clone https://github.com/galperins4/tbw
 cd ~/tbw
+pip3 install -r requirements.txt
+nano package.json (see configuration below)
 npm install
 ```
 
 ## Configuration & Usage
 
+Before runnning npm install update package.json by removing the line for the unneeded depency. Keep ark for ark/kapu support and lwf for lwf support
+
 After the repository has been cloned you need to open the `config.json` and change it to your liking. Once this has been done execute `python3 tbw.py` to start true block weight script.
 
 Alternatively I have also included an apps.json file if you want to run tbw via PM2 (need to install PM2 first and then pm2 start apps.json)
 
-Important! - pay_addresses and keep keys should match in config.json. DO NOT delete the reserve key as it is required. All other's can be deleted or more added
+Important! - pay_addresses and keep keys should match in config.json. DO NOT delete the reserve key as it is required. All other's can be deleted or more added. In addition, payment is triggered to start based on when total blocks forged / interval is an integer (with no remainder). 
 
 As the script leverages @FaustBrians ARK python client as well as database retreival and storage classes, python 3.6+ is required. In addition it is  now required to run this alongside an ark/kapu relay node given the DB interaction and little reliance on the API.
 
 ## Available Configuration Options
-- network: which network you want to run true block weight for
+- network: which network you want to run true block weight for (options are ark, dark, kapu, lwf, lwf-t, oxy, oxy-t, onz, onz-t)
 - delegate IP: this serves as a back-up IP for the API to call to in case the localhost does not respond
-- dbusername: this is the postgresql database username nodeDB
+- dbusername: this is the postgresql database username nodeDB (usually your os username)
 - publicKey: delegate public key
 - interval:  the interval you want to pay voters in blocks. A setting of 211 would pay ever 211 blocks (or 422 ark)
 - voter_share: percentage to share with voters (0.xx format)
 - passphrase: delegate passphrase
 - secondphrase: delegate second passphrase
+- voter_msg: ARK and ARKfork coins only - message you want in vendor field for share payments
+- block_check: How often you want the script to check for new blocks in seconds. Recommend low value (e.g., 30 seconds for ARK coins, high value for LISK coins)
 - cover_tx_fees: Use this to indicate if you want to cover transaction fees (Y) or not (N)
 - vote_cap: Use this if you cap voters for how much they can earn with votes. For example 10000 will mean any wallet over 10K will only be paid based on 10K weight
 - vote_min: Use this if you have a minumum wallet balance to be eligible for payments
@@ -43,13 +49,19 @@ As the script leverages @FaustBrians ARK python client as well as database retre
 - keep: there are the percentages for delegates to keep and distrubute among x accounts (Note: reserve is required! all others are optional)
 - pay_addresses: these are the addresses to go with the keep percentages (Note: reserve is required! all others are optional)
 
-
 ## To Do
 
 - Add more features as necessary
 - Additional exception handling
 
 ## Changelog
+
+### 0.9
+- added support for lwf testnet and mainnet
+- added support for oxy testnet and mainnet
+- added suppport for onz testnet and mainnet
+- added configurable block check option
+- added configurable voter share message (ARK coins only)
 
 ### 0.8
 - added vote-min option to allow for minimum wallet balances eligible for payouts
@@ -82,6 +94,14 @@ As the script leverages @FaustBrians ARK python client as well as database retre
 
 ### .01
 - Initial release
+
+## Support
+
+If you like this project and it helps you in your every day work I would greatly appreciate it if you would consider to show some support by donating to one of the below mentioned addresses.
+
+- BTC - 38jPmBCdu9C5SBPbeb4BTBQG2SAbGvbfKf
+- ETH - 0x9c3BB145C6bCde9BC502B90B8C32C0aa26714394
+- ARK - AMhTN98yvWP8SJNyxmgEfg9ufuxHyapW73
 
 ## Security
 

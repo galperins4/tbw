@@ -16,5 +16,41 @@
         "port": 9700,
         "version": "0.3.0",
 		"db": "kapu_mainnet"
+    },
+    "lwf-t": {
+        "nethash": "c16656e85880df9a41abed0aa13b2987b0d853adadc91cbc7e5c8332ea37ccc9",
+        "port": 18101,
+        "version": "0.1.2",
+		"db": "lwf_testnet"
+    },
+    "lwf": {
+        "nethash": "704f232786a9bff25d0630c06abbc34957448ba6309d6dcef949cf9a6f43954a",
+        "port": 18124,
+        "version": "0.1.2",
+		"db": "lwf_mainnet"
+    },
+	"oxy-t": {
+        "nethash": "0daee950841005a3f56f6588b4b084695f0d74aaa38b21edab73446064638552",
+        "port": 9998,
+        "version": "0.1.3",
+		"db": "oxycoin_db_test"
+    },
+	"oxy": {
+        "nethash": "4c1170a3edb03f961e5e3f7cedcd25563f0a46ec4aa3342715d09c47b398ea19",
+        "port": 10000,
+        "version": "0.1.3",
+		"db": "oxycoin_db_main"
+    },
+	"onz-t": {
+        "nethash": "aa14b4d84260e00b6fc033c022a25965629ab0e8a4aafc77e64cad4cf0dc2e00",
+        "port": 10998,
+        "version": "0.9.13",
+		"db": "onz_test"
+    },
+	"onz": {
+        "nethash": "ef56692f7973f7a8e82d6bd5bc68d5f514e4c3ed97d4cfca0345fddd0f421999",
+        "port": 11000,
+        "version": "0.9.13",
+		"db": "onz_main"
     }
 }

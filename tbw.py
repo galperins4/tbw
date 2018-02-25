@@ -10,6 +10,7 @@ import subprocess
 atomic = 100000000
 transaction_fee = .1 * atomic
 
+
 def parse_config():
     """
     Parse the config.json file and return the result.
@@ -219,7 +220,7 @@ def process_voter_pmt(min):
     for row in voters:
         if row[1] > min:               
                
-            msg = "Goose Voter - True Block Weight"
+            msg = data["voter_msg"]
             
             if data['cover_tx_fees'] == "Y":
                 # update staging records
@@ -391,7 +392,31 @@ def initialize():
     print("Initial Set Up Complete. Please re-run script!")
     quit()
     
+def get_dbname():
+    net = data['network']
+    lisk_fork = {'oxy-t':'oxy', 
+                'oxy': 'oxy', 
+                'lwf-t': 'lwf', 
+                'lwf': 'lwf', 
+                'rise-t': 'rise', 
+                'rise': 'rise', 
+                'shift-t': 'shift', 
+                'shift': 'shift',
+                'onz-t': 'onz',
+                'onz': 'onz',
+                'lisk-t': 'lisk',
+                'lisk' : 'lisk'}
     
+    if net in lisk_fork.keys():
+        if lisk_fork[net] != 'lwf':
+            uname = lisk_fork[net]+'coin'
+        else:
+            uname = lisk_fork[net]
+    else: 
+        uname = data['dbusername']
+        
+    return uname
+        
 def block_counter():
     c = snekdb.processedBlocks().fetchall()
     return len(c)
@@ -404,7 +429,10 @@ if __name__ == '__main__':
     data, network = parse_config()
 
     # initialize db connection
-    arkdb = ArkDB(network[data['network']]['db'], data['dbusername'], data['publicKey'])
+    
+    #check for special usernames needed for lisk forks
+    username = get_dbname()
+    arkdb = ArkDB(network[data['network']]['db'], username, data['publicKey'])
     
     # check to see if ark.db exists, if not initialize db, etc
     if os.path.exists('ark.db') == False:    
@@ -449,7 +477,7 @@ if __name__ == '__main__':
                 time.sleep(5)
 
         # pause 30 seconds between runs
-        time.sleep(30)
+        time.sleep(data["block_check"])
         
 
 

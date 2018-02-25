@@ -4,6 +4,7 @@
 from tbw import parse_config
 from snek.db.snek import SnekDB
 from park.park import Park
+from liskbuilder.transaction import TransactionBuilder
 import random
 import time
 
@@ -18,7 +19,7 @@ def get_network(d, n, ip="localhost"):
 
 def get_peers(park):
     peers = []
-    peerfil= []
+    #peerfil= []
     
     try:
         peers = park.peers().peers()['peers']
@@ -30,22 +31,33 @@ def get_peers(park):
         print('peers:', len(peers))
         print('Switched to back-up API node')
         
+    return net_filter(peers)
+
+def net_filter(p):
+    peerfil= []
     # some peers from some reason don't report height, filter out to prevent errors
-    for i in peers:
+    for i in p:
         if "height" in i.keys():
             peerfil.append(i)
     
     #get max height        
     compare = max([i['height'] for i in peerfil]) 
     
-    #filter on good peers
-    f1 = list(filter(lambda x: x['version'] == network[data['network']]['version'], peerfil))
-    f2 = list(filter(lambda x: x['delay'] < 350, f1))
-    f3 = list(filter(lambda x: x['status'] == 'OK', f2))
-    f4 = list(filter(lambda x: compare - x['height'] < 153, f3))
-    print('filtered peers', len(f4))
-    
-    return f4
+    #filter on good peers for LISKcoins
+    if data['network'] in lisk_fork.keys():
+        f1 = list(filter(lambda x: x['version'] == network[data['network']]['version'], peerfil))
+        f2 = list(filter(lambda x: x['state'] == 2, f1))
+        final = list(filter(lambda x: compare - x['height'] < 153, f2))
+        print('filtered peers', len(final))
+    #filter on good peers for ARKcoins
+    else:
+        f1 = list(filter(lambda x: x['version'] == network[data['network']]['version'], peerfil))
+        f2 = list(filter(lambda x: x['delay'] < 350, f1))
+        f3 = list(filter(lambda x: x['status'] == 'OK', f2))
+        final = list(filter(lambda x: compare - x['height'] < 153, f3))
+        print('filtered peers', len(final))
+        
+    return final
 
 def broadcast(tx, p, park, r):
     out = []
@@ -64,15 +76,15 @@ def broadcast(tx, p, park, r):
     for j in tx:
         records=[]
         try:
-            transaction = park.transport().createTransaction(j)         
-            records.extend((j['recipientId'], j['amount'], transaction['transactionIds'][0]))
+            transaction = park.transport().createTransaction(j)
+            records.extend((j['recipientId'], j['amount'], j['id']))
             time.sleep(1)
         
         except BaseException:
             # fall back to delegate node to grab data needed
             bark = get_network(data, network, data['delegate_ip'])
             transaction = bark.transport().createTransaction(j)
-            records.extend((j['recipientId'], j['amount'], transaction['transactionIds'][0]))
+            records.extend((j['recipientId'], j['amount'], j['id']))
             time.sleep(1)
             
         out.append(records)
@@ -93,6 +105,19 @@ def broadcast(tx, p, park, r):
  
 if __name__ == '__main__':
    
+    lisk_fork = {'oxy-t':'oxy', 
+                'oxy': 'oxy', 
+                'lwf-t': 'lwf', 
+                'lwf': 'lwf', 
+                'rise-t': 'rise', 
+                'rise': 'rise', 
+                'shift-t': 'shift', 
+                'shift': 'shift',
+                'onz-t': 'onz',
+                'onz': 'onz',
+                'lisk-t': 'lisk',
+                'lisk' : 'lisk'}
+    
     signed_tx = []
     data, network = parse_config()
     snekdb = SnekDB(data['dbusername'])
@@ -101,8 +126,14 @@ if __name__ == '__main__':
     passphrase = data['passphrase']
     # Get the second passphrase from config.json
     secondphrase = data['secondphrase']
+    if secondphrase == 'None':
+        secondphrase = None
+    
     reach = data['reach']
     park = get_network(data, network)
+
+    if data['network'] in lisk_fork.keys():
+        netname = lisk_fork[data['network']]
 
     # get peers
     p = get_peers(park)
@@ -112,16 +143,26 @@ if __name__ == '__main__':
     if pay:
         for i in pay:              
             try:
-                tx = park.transactionBuilder().create(i[0], str(i[1]), i[2], passphrase, secondphrase)
+                if data['network'] in lisk_fork.keys():
+                    tx = TransactionBuilder().create(netname, i[0], i[1], passphrase, secondphrase)
+                else:
+                    tx = park.transactionBuilder().create(i[0], str(i[1]), i[2], passphrase, secondphrase)
+                
                 signed_tx.append(tx)
+                
             except BaseException:
                     # fall back to delegate node to grab data needed
                     bark = get_network(
                             data, data['delegate_ip'])
-                    tx = bark.transactionBuilder().create(i[0], str(i[1]), i[2], passphrase, secondphrase)
+                    
+                    if data['network'] in lisk_fork.keys():
+                        tx = TransactionBuilder().create(netname, i[0], i[1], passphrase, secondphrase)
+                    else:
+                        tx = bark.transactionBuilder().create(i[0], str(i[1]), i[2], passphrase, secondphrase)
+                    
                     print('Switched to back-up API node')
                     signed_tx.append(tx)
-                
+  
         broadcast(signed_tx, p, park, reach)
         snekdb.deleteStagedPayment()
 

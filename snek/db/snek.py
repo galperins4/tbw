@@ -123,7 +123,7 @@ class SnekDB:
         self.commit()
 
     def voters(self):
-        return self.cursor.execute("SELECT * FROM voters")
+        return self.cursor.execute("SELECT * FROM voters ORDER BY u_balance DESC")
     
     def rewards(self):
         return self.cursor.execute("SELECT * FROM delegate_rewards")
