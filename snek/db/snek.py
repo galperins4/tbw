@@ -37,9 +37,9 @@ class SnekDB:
     def storePayRun(self, address, amount, msg):
         staging=[]
 
-        staging.append((address, amount, msg))
+        staging.append((address, amount, msg, None))
 
-        self.executemany("INSERT INTO staging VALUES (?,?,?)", staging)
+        self.executemany("INSERT INTO staging VALUES (?,?,?,?)", staging)
 
         self.commit()
     
@@ -115,7 +115,7 @@ class SnekDB:
         return self.cursor.execute("SELECT * FROM blocks WHERE processed_at IS NULL ORDER BY height")
     
     def stagedPayment(self):
-        return self.cursor.execute("SELECT * FROM staging")
+        return self.cursor.execute("SELECT * FROM staging LIMIT 50")
     
     def deleteStagedPayment(self):
         self.cursor.execute("DELETE FROM staging")
