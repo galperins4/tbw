@@ -20,9 +20,9 @@ def payout():
         v_count = len([i for i in snekdb.voters() if i[1]>min])
     else:
         v_count = len([i for i in snekdb.voters() if (i[1]>min and (i[1]-transaction_fee)>0)])
-        
-    adj_factor = v_count / t_count
     
+    adj_factor = v_count / t_count
+                   
     if v_count>0:
         print('Payout started!')
         
@@ -91,7 +91,7 @@ def process_delegate_pmt(fee, adjust):
                     snekdb.storePayRun(row[0], row[1], del_address(row[0]))
                     # adjust sql balances
                     snekdb.updateDelegatePaidBalance(row[0], row[1])
-                
+
 def fixed_deal():
     res = 0
     private_deals = data['fixed_deal_amt']
@@ -126,6 +126,7 @@ def del_address(addr):
     for k,v in data['pay_addresses'].items():
         if addr == v:
             msg = k + " - True Block Weight"
+    
     return msg
 
 def process_voter_pmt(min):
@@ -134,7 +135,7 @@ def process_voter_pmt(min):
     for row in voters:
         if row[1] > min:               
                
-            msg = "Goose Voter - True Block Weight"
+            msg = data["voter_msg"]
             
             if data['cover_tx_fees'] == "Y":
                 # update staging records
@@ -148,7 +149,7 @@ def process_voter_pmt(min):
                 if net > 0:
                     snekdb.storePayRun(row[0], net, msg)
                     snekdb.updateVoterPaidBalance(row[0])
-                    
+             
 if __name__ == '__main__':
     data, network = parse_config()
     snekdb = SnekDB(data['dbusername'])
