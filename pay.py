@@ -161,27 +161,28 @@ if __name__ == '__main__':
     if data['network'] in lisk_fork.keys():
         netname = lisk_fork[data['network']]
 
-    # get peers
-    p = get_peers(park)
+    while True:
+        # get peers
+        p = get_peers(park)
 
-    pay = snekdb.stagedPayment().fetchall()
+        pay = snekdb.stagedPayment().fetchall()
     
-    # check for unprocessed payments
-    unprocessed_pay = snekdb.stagedPayment().fetchall()
-    unique_rowid = [y[0] for y in unprocessed_pay]
-          
-    # query not empty means unprocessed blocks
-    if unprocessed_pay:
-        for i in unprocessed_pay:              
-            try:
-                if data['network'] in lisk_fork.keys():
-                    tx = TransactionBuilder().create(netname, i[1], i[2], passphrase, secondphrase)
-                else:
-                    tx = park.transactionBuilder().create(i[1], str(i[2]), i[3], passphrase, secondphrase)
+        # check for unprocessed payments
+        unprocessed_pay = snekdb.stagedPayment().fetchall()
+    
+        # query not empty means unprocessed blocks
+        if unprocessed_pay:
+            unique_rowid = [y[0] for y in unprocessed_pay]
+            for i in unprocessed_pay:              
+                try:
+                    if data['network'] in lisk_fork.keys():
+                        tx = TransactionBuilder().create(netname, i[1], i[2], passphrase, secondphrase)
+                    else:
+                        tx = park.transactionBuilder().create(i[1], str(i[2]), i[3], passphrase, secondphrase)
                 
-                signed_tx.append(tx)
+                    signed_tx.append(tx)
                 
-            except BaseException:
+                except BaseException:
                     # fall back to delegate node to grab data needed
                     bark = get_network(
                             data, data['delegate_ip'])
