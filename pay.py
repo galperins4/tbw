@@ -140,13 +140,18 @@ if __name__ == '__main__':
 
     pay = snekdb.stagedPayment().fetchall()
     
-    if pay:
-        for i in pay:              
+    # check for unprocessed payments
+    unprocessed_pay = snekdb.stagedPayment().fetchall()
+    unique_rowid = [y[0] for y in unprocessed_pay]
+          
+    # query not empty means unprocessed blocks
+    if unprocessed_pay:
+        for i in unprocessed_pay:              
             try:
                 if data['network'] in lisk_fork.keys():
-                    tx = TransactionBuilder().create(netname, i[0], i[1], passphrase, secondphrase)
+                    tx = TransactionBuilder().create(netname, i[1], i[2], passphrase, secondphrase)
                 else:
-                    tx = park.transactionBuilder().create(i[0], str(i[1]), i[2], passphrase, secondphrase)
+                    tx = park.transactionBuilder().create(i[1], str(i[2]), i[3], passphrase, secondphrase)
                 
                 signed_tx.append(tx)
                 
@@ -156,15 +161,16 @@ if __name__ == '__main__':
                             data, data['delegate_ip'])
                     
                     if data['network'] in lisk_fork.keys():
-                        tx = TransactionBuilder().create(netname, i[0], i[1], passphrase, secondphrase)
+                        tx = TransactionBuilder().create(netname, i[1], i[2], passphrase, secondphrase)
                     else:
-                        tx = bark.transactionBuilder().create(i[0], str(i[1]), i[2], passphrase, secondphrase)
+                        tx = bark.transactionBuilder().create(i[1], str(i[2]), i[3], passphrase, secondphrase)
                     
                     print('Switched to back-up API node')
                     signed_tx.append(tx)
   
         broadcast(signed_tx, p, park, reach)
-        snekdb.deleteStagedPayment()
+        snekdb.processStagedPayment(unique_rowid)
+        unique_rowid = []
 
         # payment run complete
         print('Payment Run Completed!')
