@@ -3,7 +3,7 @@
   "delegate_ip": "ip",
   "dbusername": "dbname",
   "publicKey": "publicKey",
-  "interval": 211.00,
+  "interval": 211,
   "voter_share": 0.50,
   "passphrase": "passphrase",
   "secondphrase": "None",
