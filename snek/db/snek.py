@@ -118,13 +118,11 @@ class SnekDB:
         return self.cursor.execute("SELECT * FROM staging WHERE processed_at IS NULL LIMIT 50")
 
     def processStagedPayment(self, rows):
-		ts = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+	ts = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 	
         self.cursor.execute(f"UPDATE staging SET processed_at = '{ts}' WHERE rowid IN = '{rows}'")
         
         self.commit()
- 
-	
 	
     def deleteStagedPayment(self):
         self.cursor.execute("DELETE FROM staging WHERE processed_at NOT NULL")
