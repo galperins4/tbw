@@ -126,7 +126,6 @@ class SnekDB:
  
 	
 	
-    
     def deleteStagedPayment(self):
         self.cursor.execute("DELETE FROM staging WHERE processed_at NOT NULL")
         
