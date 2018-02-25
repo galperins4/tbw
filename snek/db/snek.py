@@ -98,11 +98,8 @@ class SnekDB:
         self.commit()
         
     def markAsProcessed(self, block):
-        
         ts = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-	
         self.cursor.execute(f"UPDATE blocks SET processed_at = '{ts}' WHERE height = '{block}'")
-        
         self.commit()
 
     def blocks(self):
@@ -119,9 +116,7 @@ class SnekDB:
 
     def processStagedPayment(self, rows):
 	ts = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-	
-        self.cursor.execute(f"UPDATE staging SET processed_at = '{ts}' WHERE rowid IN = '{rows}'")
-        
+	self.cursor.execute(f"UPDATE staging SET processed_at = '{ts}' WHERE rowid IN = '{rows}'")
         self.commit()
 	
     def deleteStagedPayment(self):
