@@ -1,11 +1,36 @@
 #!/usr/bin/env python
 from snek.db.snek import SnekDB
 from snek.db.ark import ArkDB
-from tbw import parse_config, get_dbname
+from tbw import parse_config
 import subprocess
 
 atomic = 100000000
 transaction_fee = .1 * atomic
+
+def get_dbname():
+    net = data['network']
+    lisk_fork = {'oxy-t':'oxy', 
+                'oxy': 'oxy', 
+                'lwf-t': 'lwf', 
+                'lwf': 'lwf', 
+                'rise-t': 'rise', 
+                'rise': 'rise', 
+                'shift-t': 'shift', 
+                'shift': 'shift',
+                'onz-t': 'onz',
+                'onz': 'onz',
+                'lisk-t': 'lisk',
+                'lisk' : 'lisk'}
+    
+    if net in lisk_fork.keys():
+        if lisk_fork[net] != 'lwf':
+            uname = lisk_fork[net]+'coin'
+        else:
+            uname = lisk_fork[net]
+    else: 
+        uname = data['dbusername']
+        
+    return uname
 
 def payout():
     min = int(data['min_payment'] * atomic)
