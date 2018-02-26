@@ -59,7 +59,7 @@ def net_filter(p):
     return final
 
 def broadcast(tx, p, park, r):
-
+    records = []
     # take peers and shuffle the order
     # check length of good peers
     if len(p) < r:  # this means there aren't enough peers compared to what we want to broadcast to
@@ -69,9 +69,11 @@ def broadcast(tx, p, park, r):
         # normal processing
         random.shuffle(p)
         peer_cast = p[0:r]
-
+    #special bcast
+    hold = tx
+    while hold:
+        hold =[]
     #broadcast to localhost/relay first
-    records = []
     try:
         transaction = park.transport().createBatchTransaction(tx)
         records = [[j['recipientId'],j['amount'],j['id']] for j in tx]
