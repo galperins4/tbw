@@ -115,6 +115,8 @@ class SnekDB:
         return self.cursor.execute("SELECT rowid, * FROM staging WHERE processed_at IS NULL LIMIT 5")
 
     def processStagedPayment(self, rows):
+		
+        rows = tuple(rows)
         ts = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         self.cursor.execute(f"UPDATE staging SET processed_at = ? '{ts}' WHERE rowid IN ?", ('{ts}',{rows}))
 	
