@@ -375,7 +375,8 @@ def initialize():
         
     # mark all blocks as processed
     for row in all_blocks:
-        snekdb.markAsProcessed(row[4])
+        if row[4] <= data['start_block']:
+            snekdb.markAsProcessed(row[4])
         
     # set block count to rows imported
     block_count = len(all_blocks)
