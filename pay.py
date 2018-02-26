@@ -161,13 +161,13 @@ if __name__ == '__main__':
         # get peers
         signed_tx = []
         unique_rowid = []
-        p = get_peers(park)
-    
+        
         # check for unprocessed payments
         unprocessed_pay = snekdb.stagedPayment().fetchall()
     
         # query not empty means unprocessed blocks
         if unprocessed_pay:
+            p = get_peers(park)
             unique_rowid = [y[0] for y in unprocessed_pay]
             for i in unprocessed_pay:              
                 try:
