@@ -69,10 +69,7 @@ def broadcast(tx, p, park, r):
         # normal processing
         random.shuffle(p)
         peer_cast = p[0:r]
-    #special bcast
-    hold = tx
-    while hold:
-        hold =[]
+
     #broadcast to localhost/relay first
     try:
         transaction = park.transport().createBatchTransaction(tx)
@@ -84,24 +81,6 @@ def broadcast(tx, p, park, r):
         transaction = bark.transport().createBatchTransaction(tx)
         records = [[j['recipientId'],j['amount'],j['id']] for j in tx]
         time.sleep(1)
-   
-    '''
-    for j in tx:
-        records=[]
-        try:
-            transaction = park.transport().createTransaction(j)
-            records.extend((j['recipientId'], j['amount'], j['id']))
-            time.sleep(1)
-        
-        except BaseException:
-            # fall back to delegate node to grab data needed
-            bark = get_network(data, network, data['delegate_ip'])
-            transaction = bark.transport().createTransaction(j)
-            records.extend((j['recipientId'], j['amount'], j['id']))
-            time.sleep(1)
-            
-        out.append(records)
-        '''
     
     snekdb.storeTransactions(records)
     
@@ -117,15 +96,6 @@ def broadcast(tx, p, park, r):
         except:
             print("error")
         
-        
-        '''
-        for j in tx:    
-            try:
-                transaction = peer_park.transport().createTransaction(j)
-                time.sleep(1)
-            except:
-                print("error")'''
- 
 if __name__ == '__main__':
    
     lisk_fork = {'oxy-t':'oxy', 
