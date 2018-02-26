@@ -195,4 +195,4 @@ if __name__ == '__main__':
         # payment run complete
         print('Payment Run Completed!')
         #sleep 3 minutes between 50tx blasts
-        time.sleep(200)
+        time.sleep(300)
