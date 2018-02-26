@@ -59,7 +59,6 @@ def net_filter(p):
     return final
 
 def broadcast(tx, p, park, r):
-    out = []
 
     # take peers and shuffle the order
     # check length of good peers
@@ -75,16 +74,14 @@ def broadcast(tx, p, park, r):
     records = []
     try:
         transaction = park.transport().createBatchTransaction(tx)
-        records = [(j['recipientId'],j['amount'],j['id']) for j in tx]
+        records = [[j['recipientId'],j['amount'],j['id']] for j in tx]
         time.sleep(1)
     except BaseException:
         # fall back to delegate node to grab data needed
         bark = get_network(data, network, data['delegate_ip'])
         transaction = bark.transport().createBatchTransaction(tx)
-        records = [(j['recipientId'],j['amount'],j['id']) for j in tx]
+        records = [[j['recipientId'],j['amount'],j['id']] for j in tx]
         time.sleep(1)
-            
-    out.append(records)
    
     '''
     for j in tx:
@@ -104,7 +101,7 @@ def broadcast(tx, p, park, r):
         out.append(records)
         '''
     
-    snekdb.storeTransactions(out)
+    snekdb.storeTransactions(records)
     
      # rotate through peers and begin broadcasting:
     for i in peer_cast:
