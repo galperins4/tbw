@@ -346,7 +346,7 @@ def payout():
         process_voter_pmt(min)
 
         # call process to run payments
-        subprocess.Popen(['python3', 'pay.py'])
+        #subprocess.Popen(['python3', 'pay.py'])
 
 def interval_check(bc):
     if bc % data['interval'] == 0:
