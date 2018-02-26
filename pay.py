@@ -75,13 +75,13 @@ def broadcast(tx, p, park, r):
     records = []
     try:
         transaction = park.transport().createBatchTransaction(tx)
-        records = [x['recipientId'],y['amount'],z['id'] for x,y,z in tx]
+        records = [(x['recipientId'],y['amount'],z['id']) for (x,y,z) in tx]
         time.sleep(1)
     except BaseException:
         # fall back to delegate node to grab data needed
         bark = get_network(data, network, data['delegate_ip'])
         transaction = bark.transport().createBatchTransaction(tx)
-        records = [x['recipientId'],y['amount'],z['id'] for x,y,z in tx]
+        records = ([x['recipientId'],y['amount'],z['id']) for (x,y,z) in tx]
         time.sleep(1)
             
     out.append(records)
