@@ -161,10 +161,14 @@ if __name__ == '__main__':
                     print('Switched to back-up API node')
                     signed_tx.append(tx)
   
-        broadcast(signed_tx, p, park, reach)
-        snekdb.processStagedPayment(unique_rowid)
+            broadcast(signed_tx, p, park, reach)
+            snekdb.processStagedPayment(unique_rowid)
 
-        # payment run complete
-        print('Payment Run Completed!')
-        #sleep 3 minutes between 50tx blasts
-        time.sleep(300)
+            # payment run complete
+            print('Payment Run Completed!')
+            #sleep 5 minutes between 50tx blasts
+            time.sleep(300)
+        
+        else:
+            print('Waiting for payment file')
+            time.sleep(300)
