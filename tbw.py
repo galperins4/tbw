@@ -5,7 +5,6 @@ from snek.db.ark import ArkDB
 import time
 import json
 import os.path
-import subprocess
 
 atomic = 100000000
 transaction_fee = .1 * atomic
@@ -344,9 +343,6 @@ def payout():
         
         # process voters 
         process_voter_pmt(min)
-
-        # call process to run payments
-        #subprocess.Popen(['python3', 'pay.py'])
 
 def interval_check(bc):
     if bc % data['interval'] == 0:
