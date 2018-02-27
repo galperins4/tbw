@@ -3,14 +3,14 @@
 ## Installation
 
 ```sh
-sudo npm install npm@latest -g
-sudo npm install pm2@latest -g (if using pm2)
+sudo -H npm install npm@latest -g
+sudo -H npm install pm2@latest -g (if using pm2)
 pip3 install setuptools
 git clone https://github.com/galperins4/tbw
 cd ~/tbw
 pip3 install -r requirements.txt
 nano package.json (see configuration below)
-npm install
+sudo -H npm install
 ```
 
 ## Configuration & Usage
