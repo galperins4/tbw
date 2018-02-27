@@ -134,9 +134,9 @@ if __name__ == '__main__':
         
         # check for unprocessed payments
         if data['network'] in lisk_fork.keys():
-            unprocessed_pay = snekdb.stagedPayment(25).fetchall()
+            unprocessed_pay = snekdb.stagedLiskPayment().fetchall()
         else:
-            unprocessed_pay = snekdb.stagedPayment().fetchall()
+            unprocessed_pay = snekdb.stagedArkPayment().fetchall()
     
         # query not empty means unprocessed blocks
         if unprocessed_pay:
