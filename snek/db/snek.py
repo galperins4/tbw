@@ -111,8 +111,11 @@ class SnekDB:
     def unprocessedBlocks(self):
         return self.cursor.execute("SELECT * FROM blocks WHERE processed_at IS NULL ORDER BY height")
     
-    def stagedPayment(self, b=50):
-        return self.cursor.execute("SELECT rowid, * FROM staging WHERE processed_at IS NULL LIMIT {b}")
+    def stagedArkPayment(self):
+        return self.cursor.execute("SELECT rowid, * FROM staging WHERE processed_at IS NULL LIMIT 50")
+
+    def stagedLiskPayment(self):
+        return self.cursor.execute("SELECT rowid, * FROM staging WHERE processed_at IS NULL LIMIT 25")
 
     def processStagedPayment(self, rows):
 		
