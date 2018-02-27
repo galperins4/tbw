@@ -380,7 +380,10 @@ def initialize():
         
     # set block count to rows imported
     block_count = len(all_blocks)
+    p_count = block_counter()
+                
     print("Imported block count:", block_count)
+    print("Processed block count:", p_count)
     
     # initialize voters and delegate rewards accounts
     get_voters()
