@@ -26,7 +26,8 @@ Important! - pay_addresses and keep keys should match in config.json. DO NOT del
 As the script leverages @FaustBrians ARK python client as well as database retreival and storage classes, python 3.6+ is required. In addition it is  now required to run this alongside an ark/kapu relay node given the DB interaction and little reliance on the API.
 
 ## Available Configuration Options
-- network: which network you want to run true block weight for (options are ark, dark, kapu, lwf, lwf-t, oxy, oxy-t, onz, onz-t)
+- netork: which network(options are ark, dark, kapu, lwf, lwf-t, oxy, oxy-t, onz, onz-t)
+- start_block: script will start calculations only for blocks after specified start block
 - delegate IP: this serves as a back-up IP for the API to call to in case the localhost does not respond
 - dbusername: this is the postgresql database username nodeDB (usually your os username)
 - publicKey: delegate public key
@@ -55,6 +56,11 @@ As the script leverages @FaustBrians ARK python client as well as database retre
 - Additional exception handling
 
 ## Changelog
+
+### 1.0
+- added start_block config
+- seperated dependency of pay.py on tbw.py. tbw and pay both run via pm2. Pay looks for pay files every 5 minutes and executes
+- streamlined payment tx creation. Script now batches 50 tx per run and then pauses 5 minutes
 
 ### 0.9
 - added support for lwf testnet and mainnet
