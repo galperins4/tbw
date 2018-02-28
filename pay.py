@@ -173,5 +173,4 @@ if __name__ == '__main__':
             time.sleep(300)
         
         else:
-            print('Waiting for payment file')
             time.sleep(300)
