@@ -3,14 +3,14 @@
 ## Installation
 
 ```sh
-npm install npm@latest -g
-npm install pm2@latest -g (if using pm2)
-pip3 install setuptools
+install and sync relay aerver
 git clone https://github.com/galperins4/tbw
 cd ~/tbw
+pip3 install setuptools
 pip3 install -r requirements.txt
 nano package.json (see configuration below)
 npm install
+npm install pm2@latest (if using pm2)
 ```
 
 ## Configuration & Usage
