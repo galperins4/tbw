@@ -3,7 +3,7 @@
 ## Installation
 
 ```sh
-install and sync relay aerver
+install and sync relay server
 git clone https://github.com/galperins4/tbw
 cd ~/tbw
 pip3 install setuptools
