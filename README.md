@@ -58,9 +58,10 @@ As the script leverages @FaustBrians ARK python client as well as database retre
 ## Changelog
 
 ### 1.0
+- NOTE: V1.0 made changes to database structure. As such, upgrades from 0.9 and below need to pay out old version (can force it with manual.py or wait until next payrun to switch over) balances and reinitilaize ark.db with v1.0
 - added start_block config
 - seperated dependency of pay.py on tbw.py. tbw and pay both run via pm2. Pay looks for pay files every 5 minutes and executes
-- streamlined payment tx creation. Script now batches 50 tx per run and then pauses 5 minutes
+- streamlined payment tx creation. Script now batches 40 tx per run and then pauses 5 minutes
 
 ### 0.9
 - added support for lwf testnet and mainnet
