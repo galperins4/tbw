@@ -52,5 +52,17 @@
         "port": 11000,
         "version": "0.9.13",
 		"db": "onz_main"
+    },
+	"persona-t": {
+        "nethash": "",
+        "port": ,
+        "version": "",
+	"db": ""
+    },
+	"persona": {
+        "nethash": "",
+        "port": ,
+        "version": "",
+	"db": ""
     }
 }
