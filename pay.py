@@ -19,7 +19,6 @@ def get_network(d, n, ip="localhost"):
 
 def get_peers(park):
     peers = []
-    #peerfil= []
     
     try:
         peers = park.peers().peers()['peers']
@@ -60,8 +59,7 @@ def net_filter(p):
     return final
 
 def broadcast(tx, p, park, r):
-    out = []
-
+    records = []
     # take peers and shuffle the order
     # check length of good peers
     if len(p) < r:  # this means there aren't enough peers compared to what we want to broadcast to
@@ -73,36 +71,31 @@ def broadcast(tx, p, park, r):
         peer_cast = p[0:r]
 
     #broadcast to localhost/relay first
-    for j in tx:
-        records=[]
-        try:
-            transaction = park.transport().createTransaction(j)
-            records.extend((j['recipientId'], j['amount'], j['id']))
-            time.sleep(1)
-        
-        except BaseException:
-            # fall back to delegate node to grab data needed
-            bark = get_network(data, network, data['delegate_ip'])
-            transaction = bark.transport().createTransaction(j)
-            records.extend((j['recipientId'], j['amount'], j['id']))
-            time.sleep(1)
-            
-        out.append(records)
+    try:
+        transaction = park.transport().createBatchTransaction(tx)
+        records = [[j['recipientId'],j['amount'],j['id']] for j in tx]
+        time.sleep(1)
+    except BaseException:
+        # fall back to delegate node to grab data needed
+        bark = get_network(data, network, data['delegate_ip'])
+        transaction = bark.transport().createBatchTransaction(tx)
+        records = [[j['recipientId'],j['amount'],j['id']] for j in tx]
+        time.sleep(1)
     
-    snekdb.storeTransactions(out)
+    snekdb.storeTransactions(records)
     
      # rotate through peers and begin broadcasting:
     for i in peer_cast:
         ip = i['ip']
         peer_park = get_network(data, network, ip)
         # cycle through and broadcast each tx on each peer and save responses
-        for j in tx:    
-            try:
-                transaction = peer_park.transport().createTransaction(j)
-                time.sleep(1)
-            except:
-                print("error")
- 
+        
+        try:
+            transaction = peer_park.transport().createBatchTransaction(tx)
+            time.sleep(1)
+        except:
+            print("error")
+        
 if __name__ == '__main__':
    
     lisk_fork = {'oxy-t':'oxy', 
@@ -118,7 +111,6 @@ if __name__ == '__main__':
                 'lisk-t': 'lisk',
                 'lisk' : 'lisk'}
     
-    signed_tx = []
     data, network = parse_config()
     snekdb = SnekDB(data['dbusername'])
     
@@ -135,36 +127,50 @@ if __name__ == '__main__':
     if data['network'] in lisk_fork.keys():
         netname = lisk_fork[data['network']]
 
-    # get peers
-    p = get_peers(park)
-
-    pay = snekdb.stagedPayment().fetchall()
+    while True:
+        # get peers
+        signed_tx = []
+        unique_rowid = []
+        
+        # check for unprocessed payments
+        if data['network'] in lisk_fork.keys():
+            unprocessed_pay = snekdb.stagedLiskPayment().fetchall()
+        else:
+            unprocessed_pay = snekdb.stagedArkPayment().fetchall()
     
-    if pay:
-        for i in pay:              
-            try:
-                if data['network'] in lisk_fork.keys():
-                    tx = TransactionBuilder().create(netname, i[0], i[1], passphrase, secondphrase)
-                else:
-                    tx = park.transactionBuilder().create(i[0], str(i[1]), i[2], passphrase, secondphrase)
+        # query not empty means unprocessed blocks
+        if unprocessed_pay:
+            p = get_peers(park)
+            unique_rowid = [y[0] for y in unprocessed_pay]
+            for i in unprocessed_pay:              
+                try:
+                    if data['network'] in lisk_fork.keys():
+                        tx = TransactionBuilder().create(netname, i[1], i[2], passphrase, secondphrase)
+                    else:
+                        tx = park.transactionBuilder().create(i[1], str(i[2]), i[3], passphrase, secondphrase)
                 
-                signed_tx.append(tx)
+                    signed_tx.append(tx)
                 
-            except BaseException:
+                except BaseException:
                     # fall back to delegate node to grab data needed
                     bark = get_network(
                             data, data['delegate_ip'])
                     
                     if data['network'] in lisk_fork.keys():
-                        tx = TransactionBuilder().create(netname, i[0], i[1], passphrase, secondphrase)
+                        tx = TransactionBuilder().create(netname, i[1], i[2], passphrase, secondphrase)
                     else:
-                        tx = bark.transactionBuilder().create(i[0], str(i[1]), i[2], passphrase, secondphrase)
+                        tx = bark.transactionBuilder().create(i[1], str(i[2]), i[3], passphrase, secondphrase)
                     
                     print('Switched to back-up API node')
                     signed_tx.append(tx)
   
-        broadcast(signed_tx, p, park, reach)
-        snekdb.deleteStagedPayment()
+            broadcast(signed_tx, p, park, reach)
+            snekdb.processStagedPayment(unique_rowid)
 
-        # payment run complete
-        print('Payment Run Completed!')
+            # payment run complete
+            print('Payment Run Completed!')
+            #sleep 5 minutes between 50tx blasts
+            time.sleep(300)
+        
+        else:
+            time.sleep(300)

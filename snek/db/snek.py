@@ -30,16 +30,16 @@ class SnekDB:
         
         self.cursor.execute("CREATE TABLE IF NOT EXISTS delegate_rewards (address varchar(36), u_balance bigint, p_balance bigint )")
         
-        self.cursor.execute("CREATE TABLE IF NOT EXISTS staging (address varchar(36), payamt bigint, msg varchar(64) )")
+        self.cursor.execute("CREATE TABLE IF NOT EXISTS staging (address varchar(36), payamt bigint, msg varchar(64), processed_at varchar(64) null )")
 
         self.connection.commit()
 
     def storePayRun(self, address, amount, msg):
         staging=[]
 
-        staging.append((address, amount, msg))
+        staging.append((address, amount, msg, None))
 
-        self.executemany("INSERT INTO staging VALUES (?,?,?)", staging)
+        self.executemany("INSERT INTO staging VALUES (?,?,?,?)", staging)
 
         self.commit()
     
@@ -98,11 +98,8 @@ class SnekDB:
         self.commit()
         
     def markAsProcessed(self, block):
-        
         ts = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-	
         self.cursor.execute(f"UPDATE blocks SET processed_at = '{ts}' WHERE height = '{block}'")
-        
         self.commit()
 
     def blocks(self):
@@ -114,11 +111,23 @@ class SnekDB:
     def unprocessedBlocks(self):
         return self.cursor.execute("SELECT * FROM blocks WHERE processed_at IS NULL ORDER BY height")
     
-    def stagedPayment(self):
-        return self.cursor.execute("SELECT * FROM staging")
-    
+    def stagedArkPayment(self):
+        return self.cursor.execute("SELECT rowid, * FROM staging WHERE processed_at IS NULL LIMIT 40")
+
+    def stagedLiskPayment(self):
+        return self.cursor.execute("SELECT rowid, * FROM staging WHERE processed_at IS NULL LIMIT 20")
+
+    def processStagedPayment(self, rows):
+		
+        rows = tuple(rows)
+        ts = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        self.cursor.execute(f"UPDATE staging SET processed_at = '{ts}' WHERE rowid IN {rows}")
+	
+
+        self.commit()
+	
     def deleteStagedPayment(self):
-        self.cursor.execute("DELETE FROM staging")
+        self.cursor.execute("DELETE FROM staging WHERE processed_at NOT NULL")
         
         self.commit()
 

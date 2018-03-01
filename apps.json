@@ -6,7 +6,17 @@
         "exec_mode": "fork",
         "exec_interpreter": "python3.6",
         "log_date_format": "YYYY-MM-DD HH:mm Z",
-	"out_file": "~/tbw/output/log/tbw.log",
+	"out_file": "~/tbw/output/tbw.log",
+	"interpreter_args": "-u"
+    },
+    {
+        "name": "pay",
+        "script": "~/tbw/pay.py",
+        "instances": 1,
+        "exec_mode": "fork",
+        "exec_interpreter": "python3.6",
+        "log_date_format": "YYYY-MM-DD HH:mm Z",
+	"out_file": "~/tbw/output/pay.log",
 	"interpreter_args": "-u"
     }]
 }
