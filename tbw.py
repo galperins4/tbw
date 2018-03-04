@@ -191,6 +191,8 @@ def anti_dilute(voters):
         
         unpaid= []
         for i in b:
+            print(i[0],i[1])
+            quit()
             unpaid[i[0]] = i[1]
     
         for j in voters:
