@@ -194,11 +194,8 @@ def anti_dilute(voters):
             unpaid[i[0]] = i[1]
     
         for j in voters:
-            print("wallet: ", j[0])
-            print("org balance: ", j[1])
             adj = j[1] + unpaid[j[0]]
             undilute.append((j[0], adj))
-            print("new balance: ", adj)
     
     else: 
         undilute = voters
