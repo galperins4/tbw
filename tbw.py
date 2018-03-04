@@ -182,7 +182,7 @@ def voter_cap(voters):
 
     return cap_adjusted_voters
 
-def anti_dilute(voters)
+def anti_dilute(voters):
     # get unpaid balances and wallets
     b = snekdb.voters().fetchall()
     undilute =[]
