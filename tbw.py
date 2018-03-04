@@ -194,7 +194,11 @@ def anti_dilute(voters)
             unpaid[i[0]] = i[1]
     
         for j in voters:
-            pass
+            print("wallet: ", j[0])
+            print("org balance: ", j[1])
+            adj = j[1] + unpaid[j[0]]
+            undilute.append((j[0], adj))
+            print("new balance: ", adj)
     
     else: 
         undilute = voters
@@ -209,8 +213,8 @@ def get_voters():
     #process blacklist, voter cap, and voter min:
     bl_adjust = black_list(initial_voters)
     bl_adjust_two = voter_cap(bl_adjust)
-    block_voters = voter_min(bl_adjust_two)
-    #block_voters = anti_dilute(bl_adjust_three)
+    bl_adjust_three = voter_min(bl_adjust_two)
+    block_voters = anti_dilute(bl_adjust_three)
    
     snekdb.storeVoters(block_voters)    
     
