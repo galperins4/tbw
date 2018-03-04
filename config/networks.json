@@ -55,13 +55,13 @@
     },
 	"persona-t": {
         "nethash": "",
-        "port": ,
+        "port": 0,
         "version": "",
 	"db": ""
     },
 	"persona": {
         "nethash": "",
-        "port": ,
+        "port": 0,
         "version": "",
 	"db": ""
     }
