@@ -182,6 +182,10 @@ def voter_cap(voters):
 
     return cap_adjusted_voters
 
+def anti_dilute(voters)
+    b = snekdb.voters().fetchall()
+
+    
 def get_voters():
 
     #get voters
@@ -191,6 +195,7 @@ def get_voters():
     bl_adjust = black_list(initial_voters)
     bl_adjust_two = voter_cap(bl_adjust)
     block_voters = voter_min(bl_adjust_two)
+    #block_voters = anti_dilute(bl_adjust_three)
    
     snekdb.storeVoters(block_voters)    
     
