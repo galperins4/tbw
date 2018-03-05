@@ -1,7 +1,18 @@
 from flask import Flask, render_template
 import requests
-#from tbw import parse_config
 from snek.db.snek import SnekDB
+
+
+
+def parse_pool():
+
+    with open('pool.json') as data_file:
+        data = json.load(data_file)
+        
+    with open('config/networks.json') as network_file:
+        network = json.load(network_file)
+
+    return data, network
 
 app = Flask(__name__)
 
@@ -21,7 +32,7 @@ def index():
             s['rank'] = i['rate']
             s['productivity'] = i['productivity']
             if s['rank'] <= 51:
-                s['forging'] = 'Forging'
+                s['forging'] = 'Forging
             else:
                 s['forging'] = 'Standby'
 
