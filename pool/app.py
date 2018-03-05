@@ -78,7 +78,8 @@ def payments():
     return render_template('payments.html', row=tx_data)
 
 if __name__ == '__main__':
-    #data, network = parse_config() 
-    snekdb = SnekDB("")
-    #app.run()
+    data, network = parse_config()
+    snekdb = SnekDB(data['dbusername'])
+    park = get_network(data, network)
+   
     app.run(host='')
