@@ -3,7 +3,6 @@ import requests
 from snek.db.snek import SnekDB
 from park.park import Park
 
-
 def parse_pool():
 
     with open('pool.json') as data_file:
@@ -22,21 +21,14 @@ def get_network(d, n, ip="localhost"):
         n[d['network']]['version']
     )
 
-
-
-
 app = Flask(__name__)
 
 @app.route('/')
 def index():    
-    url = 'http://:4002/api/delegates'
-    r = requests.get(url)
-
-    s = {}
-
-    #get everything except for voters
-    for i in r.json()['delegates']:
-        if i['username'] == 'ark_galp':
+    s = {} 
+    dstats = park.delegate.delegates()
+    for i in dstats.json()['delegates']:
+        if i['username'] == data['delegate']:
             pubKey = i['publicKey']
             s['forged'] = i['producedblocks']
             s['missed'] = i['missedblocks']
@@ -67,19 +59,11 @@ def payments():
     for i in data:
         l = [i[0], int(i[1]), i[2], i[3]]
         tx_data.append(l)
-    
-    
-    '''
-    rows = [['addr1',100000000000,'asdlkfjasdlfkj', '01-01-01'],
-            ['addr2',200000000000,'asdlkfjasdlfkj', '01-01-01'],
-            ['addr3',300000000000,'asdlkfjasdlfkj', '01-01-01'],
-            ['addr4',400000000000,'asdlkfjasdlfkj', '01-01-01']]
-    '''
+ 
     return render_template('payments.html', row=tx_data)
 
 if __name__ == '__main__':
     data, network = parse_config()
     snekdb = SnekDB(data['dbusername'])
     park = get_network(data, network)
-   
-    app.run(host='')
+    app.run(host=data['node_ip'])
