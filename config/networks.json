@@ -90,7 +90,7 @@
 	"shift-t": {
         "nethash": "cba57b868c8571599ad594c6607a77cad60cf0372ecde803004d87e679117c12",
         "port": 9405,
-        "version": "",
+        "version": "6.6.1t",
         "db": "shift_db_testnet",
         "db_user": "shift_testnet",
         "db_pw": "testing"
@@ -98,7 +98,7 @@
 	"shift": {
         "nethash": "7337a324ef27e1e234d1e9018cacff7d4f299a09c2df9be460543b8f7ef652f1",
         "port": 9305,
-        "version": "",
+        "version": "6.7.0",
         "db": "shift_db",
         "db_user": "shift",
         "db_pw": "testing"
