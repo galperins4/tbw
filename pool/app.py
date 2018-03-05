@@ -39,17 +39,11 @@ def index():
             else:
                 s['forging'] = 'Standby'
 
-    url2 = 'http://:4002/api/delegates/voters'
-    params = {'publicKey': pubKey}
-
-    r2 = requests.get(url2, params = params)
-    s['votes'] = len(r2.json()['accounts'])
-
+    s['votes'] = len(park.delegates().voters(pubKey)['accounts'])
+    
     voter_data = snekdb.voters().fetchall()
     
-    #rows = [['addr1',0,345], ['addr2',200,300],['addr2',200,300],['addr2',200,300],['addr2',200,300],['addr2',200,300],['addr2',200,300],['addr2',200,300],['addr2',200,300], ['addr2',200,300], ['addr2',200,300], ['addr2',200,300], ['addr2',200,300]]
-    
-    return render_template('index.html', node=s, row=voter_data)
+    return render_template('index.html', node=s, row=voter_data, n=navbar)
 
 @app.route('/payments')
 def payments():
@@ -60,10 +54,15 @@ def payments():
         l = [i[0], int(i[1]), i[2], i[3]]
         tx_data.append(l)
  
-    return render_template('payments.html', row=tx_data)
+    return render_template('payments.html', row=tx_data, n=navbar)
 
 if __name__ == '__main__':
     data, network = parse_config()
     snekdb = SnekDB(data['dbusername'])
     park = get_network(data, network)
+    navbar = {
+       'dname': data['delegate'],
+       'proposal': data['proposal'],
+       'explorer': data['explorer']}
+    
     app.run(host=data['node_ip'])
