@@ -1,16 +1,26 @@
 from flask import Flask, render_template
 import requests
 from snek.db.snek import SnekDB
-
+from park.park import Park
 
 
 def parse_pool():
 
     with open('pool.json') as data_file:
         data = json.load(data_file)
+    with open('../config/network.json') as network_file:
+        network = json.load(network_file)
         
-    return data
+    return data, network
 
+def get_network(d, n, ip="localhost"):
+
+    return Park(
+        ip,
+        n[d['network']]['port'],
+        n[d['network']]['nethash'],
+        n[d['network']]['version']
+    )
 
 
 
