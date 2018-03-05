@@ -1,7 +1,9 @@
 {
   "pool_ip: "xx.xx.xx.xx",	
+	
 	"explorer": "https://explorer.ark.io/",
-  "coin": "ARK",
+  "delegate": "delegate",
+	"coin": "ARK",
   "proposal": "https://xx.xx.xx/",
   "dbusername": "dbname"}
 	
