@@ -106,7 +106,7 @@
 	"rise-t": {
         "nethash": "e90d39ac200c495b97deb6d9700745177c7fc4aa80a404108ec820cbeced054c",
         "port": 5566,
-        "version": "",
+        "version": "0.1.12",
         "db": "rise_testnet_db",
         "db_user": "rise",
         "db_pw": "password"
@@ -114,7 +114,7 @@
 	"rise": {
         "nethash": "cd8171332c012514864edd8eb6f68fc3ea6cb2afbaf21c56e12751022684cea5",
         "port": 5555,
-        "version": "",
+        "version": "0.1.3",
         "db": "rise_db",
         "db_user": "rise",
         "db_pw": "password"
