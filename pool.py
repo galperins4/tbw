@@ -57,7 +57,7 @@ def payments():
     return render_template('payments.html', row=tx_data, n=navbar)
 
 if __name__ == '__main__':
-    data, network = parse_config()
+    data, network = parse_pool()
     snekdb = SnekDB(data['dbusername'])
     park = get_network(data, network)
     navbar = {
