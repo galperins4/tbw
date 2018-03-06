@@ -6,7 +6,7 @@ from park.park import Park
 
 def parse_pool():
 
-    with open('pool.json') as data_file:
+    with open('config/pool.json') as data_file:
         data = json.load(data_file)
     with open('config/networks.json') as network_file:
         network = json.load(network_file)
