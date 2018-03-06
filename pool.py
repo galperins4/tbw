@@ -35,7 +35,7 @@ def index():
             s['missed'] = i['missedblocks']
             s['rank'] = i['rate']
             s['productivity'] = i['productivity']
-            if s['rank'] <= 51:
+            if s['rank'] <= 201:
                 s['forging'] = 'Forging'
             else:
                 s['forging'] = 'Standby'
