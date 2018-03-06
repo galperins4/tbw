@@ -66,4 +66,4 @@ if __name__ == '__main__':
        'proposal': data['proposal'],
        'explorer': data['explorer']}
     
-    app.run(host=data['node_ip'])
+    app.run(host=data['pool_ip'])
