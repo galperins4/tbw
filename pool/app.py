@@ -26,8 +26,8 @@ app = Flask(__name__)
 @app.route('/')
 def index():    
     s = {} 
-    dstats = park.delegate.delegates()
-    for i in dstats.json()['delegates']:
+    dstats = park.delegates().delegates()
+    for i in dstats['delegates']:
         if i['username'] == data['delegate']:
             pubKey = i['publicKey']
             s['forged'] = i['producedblocks']
