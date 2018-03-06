@@ -86,13 +86,13 @@
                       Transaction ID</th><th class="head-item mbr-fonts-style display-7">
                       Date Processed</th></tr>
             </thead>
-
+href="/address/Af3Z2uC5mMcPzymXVTxmYxfML6xorkzAv5">Af3Z2uC5mMcPzymXVTxmYxfML6xorkzAv5</a>
             <tbody>
             {% for r in row %}  
 				<tr> 
 					<td class="body-item mbr-fonts-style display-7">{{ r[0] }}</td>
 					<td class="body-item mbr-fonts-style display-7">{{ r[1]/100000000 }}</td>
-					<td class="body-item mbr-fonts-style display-7">href={{ n['explorer'] }}tx/{{ r[2] }}</td>
+					<td class="body-item mbr-fonts-style display-7"><a href="{{ n['explorer'] }}tx/{{ r[2] }}">{{ r[2] }}</a></td>
 					<td class="body-item mbr-fonts-style display-7">{{ r[3] }}</td>
 				</tr>
 				{% endfor %}
