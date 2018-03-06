@@ -211,9 +211,11 @@ def get_voters():
     bl_adjust = black_list(initial_voters)
     bl_adjust_two = voter_cap(bl_adjust)
     bl_adjust_three = voter_min(bl_adjust_two)
-    block_voters = anti_dilute(bl_adjust_three)
    
-    snekdb.storeVoters(block_voters)    
+    snekdb.storeVoters(bl_adjust_three)    
+    
+    # anti-dulition
+    block_voters = anti_dilute(bl_adjust_three)
     
     return block_voters
 
