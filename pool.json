@@ -1,9 +1,0 @@
-{
-  "network": "dark",
-  "pool_ip": "xx.xx.xx.xx",
-  "explorer": "https://explorer.ark.io/",
-  "delegate": "delegate",
-  "coin": "ARK",
-  "proposal": "https://xx.xx.xx/",
-  "dbusername": "dbname"
-}
