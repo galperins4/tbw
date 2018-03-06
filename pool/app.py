@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 import requests
-from snek.db.snek import SnekDB
+from ..snek.db.snek import SnekDB
 from park.park import Park
 
 def parse_pool():
