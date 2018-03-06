@@ -1,4 +1,5 @@
 {
+  "network": "dark",
   "pool_ip": "xx.xx.xx.xx",
   "explorer": "https://explorer.ark.io/",
   "delegate": "delegate",
