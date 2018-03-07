@@ -72,9 +72,9 @@
         "db_pw": "password"
     },
 	"persona-t": {
-        "nethash": "",
-        "port": 0,
-        "version": "",
+        "nethash": "1e3d1b397d99f472d6b49c4f670ae917a13084708001dcf77249b136f88751e3",
+        "port": 4101,
+        "version": "0.0.1",
         "db": "",
         "db_user": "xx",
         "db_pw": "xx"
