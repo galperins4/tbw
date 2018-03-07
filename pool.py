@@ -64,6 +64,7 @@ if __name__ == '__main__':
     navbar = {
        'dname': data['delegate'],
        'proposal': data['proposal'],
-       'explorer': data['explorer']}
+       'explorer': data['explorer'],
+       'coin': data['coin']}
     
     app.run(host=data['pool_ip'])
