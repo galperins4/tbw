@@ -7,6 +7,7 @@
 	"onz-js": "git://github.com/OnzCoin/onz-js.git"
 	"rise-js": "git://github.com/RiseVision/rise-js.git"
 	"lisk-js": "git://github.com/LiskHQ/lisk-js.git"
+	"persona-js": "https://github.com/PersonaIam/persona-js.git"
   }
 }
 

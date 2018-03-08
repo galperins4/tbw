@@ -182,6 +182,26 @@ def voter_cap(voters):
 
     return cap_adjusted_voters
 
+def anti_dilute(voters):
+    # get unpaid balances and wallets
+    b = snekdb.voters().fetchall()
+    undilute =[]
+    
+    if b:
+        
+        unpaid= {}
+        for i in b:
+            unpaid[i[0]] = i[1]
+    
+        for j in voters:
+            adj = j[1] + unpaid[j[0]]
+            undilute.append((j[0], adj))
+    
+    else: 
+        undilute = voters
+    
+    return undilute
+    
 def get_voters():
 
     #get voters
@@ -190,9 +210,12 @@ def get_voters():
     #process blacklist, voter cap, and voter min:
     bl_adjust = black_list(initial_voters)
     bl_adjust_two = voter_cap(bl_adjust)
-    block_voters = voter_min(bl_adjust_two)
+    bl_adjust_three = voter_min(bl_adjust_two)
    
-    snekdb.storeVoters(block_voters)    
+    snekdb.storeVoters(bl_adjust_three)    
+    
+    # anti-dulition
+    block_voters = anti_dilute(bl_adjust_three)
     
     return block_voters
 
@@ -393,6 +416,16 @@ def initialize():
     quit()
     
 def get_dbname():
+    ark_fork = ['ark','dark','kapu']
+    if  data['network'] in ark_fork:
+        uname = data['dbusername']
+    else:
+        uname = network[data['network']]['db_user']
+        
+    return uname
+
+'''
+def get_dbname():
     net = data['network']
     lisk_fork = {'oxy-t':'oxy', 
                 'oxy': 'oxy', 
@@ -416,7 +449,7 @@ def get_dbname():
         uname = data['dbusername']
         
     return uname
-        
+'''        
 def block_counter():
     c = snekdb.processedBlocks().fetchall()
     return len(c)
@@ -432,7 +465,7 @@ if __name__ == '__main__':
     
     #check for special usernames needed for lisk forks
     username = get_dbname()
-    arkdb = ArkDB(network[data['network']]['db'], username, data['publicKey'])
+    arkdb = ArkDB(network[data['network']]['db'], username, network[data['network']]['db_pw'], data['publicKey'])
     
     # check to see if ark.db exists, if not initialize db, etc
     if os.path.exists('ark.db') == False:    

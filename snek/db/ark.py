@@ -1,11 +1,11 @@
 import psycopg2
 
 class ArkDB:
-    def __init__(self, db, u, pk):
+    def __init__(self, db, u, pw, pk):
         self.connection = psycopg2.connect(
             dbname = db,
             user = u,
-            password='password',
+            password= pw,
             host='localhost',
             port='5432'
         )
