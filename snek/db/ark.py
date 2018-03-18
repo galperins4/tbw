@@ -33,6 +33,20 @@ class ArkDB:
             except Exception as e:
                 print(e)
 
+    def listen_transactions(self, row):
+	try:
+	    self.cursor.execute(f"""SELECT "id","senderId", "amount", "fee", "vendorField" FROM transactions WHERE "rowId" > {row} ORDER BY "rowId" DESC""")
+            return self.cursor.fetchall()
+        except Exception as e:
+            print(e)	    
+	    
+    def last_transaction(self):
+	try:
+	    self.cursor.execute(f"""SELECT "rowId FROM transactions ORDER BY "rowId" DESC LIMIT 1""")
+            return self.cursor.fetchall()
+        except Exception as e:
+            print(e)	 
+		
     def voters(self):
         try:
             self.cursor.execute(f"""SELECT "accountId" FROM mem_accounts2delegates WHERE "dependentId" = '{self.PublicKey}'""")
