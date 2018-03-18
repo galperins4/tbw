@@ -96,7 +96,7 @@ def allocate(lb):
 
     #mark as processed
     snekdb.markAsProcessed(lb[4])
-
+    '''
     # check to see if log file exists
     if not os.path.exists(
             'output/result.json'):  # does not exists so create
@@ -114,7 +114,7 @@ def allocate(lb):
 
         with open('output/result.json', 'w') as f:
             json.dump(json_decoded, f)
-
+    '''
 
 def manage_folders():
     sub_names = ["error"]
