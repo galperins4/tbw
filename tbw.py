@@ -416,7 +416,7 @@ def initialize():
     quit()
     
 def get_dbname():
-    ark_fork = ['ark','dark','kapu']
+    ark_fork = ['ark','dark','kapu','persona-t']
     if  data['network'] in ark_fork:
         uname = data['dbusername']
     else:
