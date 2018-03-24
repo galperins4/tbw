@@ -23,6 +23,14 @@
         "db_user": "null",
         "db_pw": "password"
     },
+    "dkapu": {
+        "nethash": "f1ef11be7a879671b3019a785c9a2c9dbd9d800b05644d26ad132275ffe2dd48",
+        "port": 4100,
+        "version": "0.0.1",
+		 "db": "kapu_devnet",
+        "db_user": "null",
+        "db_pw": "password"
+    },
     "lwf-t": {
         "nethash": "c16656e85880df9a41abed0aa13b2987b0d853adadc91cbc7e5c8332ea37ccc9",
         "port": 18101,
