@@ -1,13 +1,14 @@
 {
   "dependencies": {
-    "lwf-nano-js": "git://github.com/lwfcoin/lwf-nano-js.git"
-	"ark-js": "git://github.com/ArkEcosystem/ark-js.git"
-	"oxy-js": "git://github.com/Oxycoin/oxy-nano-js.git"
-	"shift-js": "git://github.com/ShiftNrg/shift-js.git"
-	"onz-js": "git://github.com/OnzCoin/onz-js.git"
-	"rise-js": "git://github.com/RiseVision/rise-js.git"
-	"lisk-js": "git://github.com/LiskHQ/lisk-js.git"
-	"persona-js": "git://github.com/PersonaIam/persona-js.git"
+	"arkjs": "=0.2.1",
+	"lwf-nano-js": "git://github.com/lwfcoin/lwf-nano-js.git",
+	"oxy-js": "git://github.com/Oxycoin/oxy-nano-js.git",
+	"shift-js": "git://github.com/ShiftNrg/shift-js.git",
+	"onz-js": "git://github.com/OnzCoin/onz-js.git",
+	"rise-js": "git://github.com/RiseVision/rise-js.git",
+	"lisk-js": "git://github.com/LiskHQ/lisk-js.git",
+	"persona-js": "git://github.com/PersonaIam/persona-js.git",
+	"ripa-js": "git://github.com/RipaEx/ripa-js.git"
   }
 }
 
