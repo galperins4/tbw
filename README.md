@@ -20,7 +20,7 @@ Important! - pay_addresses and keep keys should match in config.json. DO NOT del
 As the script leverages @FaustBrians ARK python client as well as database retreival and storage classes, python 3.6+ is required. In addition it is  now required to run this alongside an ark/kapu relay node given the DB interaction and little reliance on the API.
 
 ## Available Configuration Options (TRUE BLOCK WEIGHT)
-- netork: which network(options are ark, dark, kapu, lwf, lwf-t, oxy, oxy-t, onz, onz-t, shift, shift-t, rise, rise-t)
+- netork: which network(options are ark, dark, kapu, dkapu, persona-t, lwf, lwf-t, oxy, oxy-t, onz, onz-t, shift, shift-t, rise, rise-t)
 - start_block: script will start calculations only for blocks after specified start block
 - delegate IP: this serves as a back-up IP for the API to call to in case the localhost does not respond
 - dbusername: this is the postgresql database username nodeDB (usually your os username)
