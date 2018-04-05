@@ -118,5 +118,14 @@
         "db": "rise_db",
         "db_user": "rise",
         "db_pw": "password"
+    },
+	"ripa": {
+        "nethash": "bee1634649fc6a759e5fdb8f3c4bcb4b5189c1f2a6b48284a6445f3f09db844e",
+        "port": 5500,
+        "version": "0.2.0",
+        "db": "ripa_mainnet",
+        "db_user": "null",
+        "db_pw": "password"
     }
+	
 }
