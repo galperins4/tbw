@@ -5,12 +5,10 @@
 ```sh
 install and sync relay server
 git clone https://github.com/galperins4/tbw
+cd ~/tbw/config
+fill out configs (see below)
 cd ~/tbw
-pip3 install setuptools
-pip3 install -r requirements.txt
-nano package.json (see configuration below)
-npm install
-sudo npm install pm2@latest -g (if using pm2)
+bash install_beta.sh
 ```
 
 ## Configuration & Usage
