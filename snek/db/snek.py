@@ -120,10 +120,10 @@ class SnekDB:
     def processStagedPayment(self, rows):
 		
         #rows = tuple(rows)
-        ts = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-	
-	
-        self.cursor.execute(f"UPDATE staging SET processed_at = '{ts}' WHERE rowid IN {rows}")
+        ts = datetime.now().strftime('%Y-%m-%d %H:%M:%S')		
+        for i in rows:
+		
+	self.cursor.execute(f"UPDATE staging SET processed_at = '{ts}' WHERE rowid IN {rows}")
 	
 
         self.commit()
