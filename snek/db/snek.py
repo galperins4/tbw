@@ -122,7 +122,7 @@ class SnekDB:
         #rows = tuple(rows)
         ts = datetime.now().strftime('%Y-%m-%d %H:%M:%S')		
         for i in rows:
-	    self.cursor.execute(f"UPDATE staging SET processed_at = '{ts}' WHERE rowid = {i}")	
+            self.cursor.execute(f"UPDATE staging SET processed_at = '{ts}' WHERE rowid = {i}")	
 
         self.commit()
 	
