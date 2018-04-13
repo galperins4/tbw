@@ -207,15 +207,18 @@ def get_voters():
     #get voters
     initial_voters = arkdb.voters()
     
-    #process blacklist, voter cap, and voter min:
-    bl_adjust = black_list(initial_voters)
-    bl_adjust_two = voter_cap(bl_adjust)
-    bl_adjust_three = voter_min(bl_adjust_two)
+    if data['whitelist']== 'Y':
+        pass
+    else:
+        #process blacklist, voter cap, and voter min:
+        bl_adjust = black_list(initial_voters)
+        bl_adjust_two = voter_cap(bl_adjust)
+        bl = voter_min(bl_adjust_two)
    
-    snekdb.storeVoters(bl_adjust_three)    
+    snekdb.storeVoters(bl)    
     
     # anti-dulition
-    block_voters = anti_dilute(bl_adjust_three)
+    block_voters = anti_dilute(bl)
     
     return block_voters
 
