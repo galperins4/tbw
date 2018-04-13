@@ -208,7 +208,7 @@ def get_voters():
     initial_voters = arkdb.voters()
     
     if data['whitelist']== 'Y':
-        pass
+        bl = whitelist(initial_voters)
     else:
         #process blacklist, voter cap, and voter min:
         bl_adjust = black_list(initial_voters)
