@@ -96,31 +96,20 @@ def allocate(lb):
 
     #mark as processed
     snekdb.markAsProcessed(lb[4])
-    '''
-    # check to see if log file exists
-    if not os.path.exists(
-            'output/result.json'):  # does not exists so create
-        # create a json export for the block rewards for initial file
-        json_export[lb[4]] = log
-        # append log to json file for future use
-        with open('output/result.json', 'a') as fp:
-            json.dump(json_export, fp)
-
-    else:  # read and add block as key
-        with open('output/result.json') as f:
-            json_decoded = json.load(f)
-
-        json_decoded[lb[4]] = log
-
-        with open('output/result.json', 'w') as f:
-            json.dump(json_decoded, f)
-    '''
 
 def manage_folders():
     sub_names = ["error"]
     for sub_name in sub_names:
         os.makedirs(os.path.join('output', sub_name), exist_ok=True)
 
+def white_list(voters):
+    w_adjusted_voters=[]
+    for i in voters:
+        if i[0] in data["whitelist_addr"]:
+            w_adjusted_voters.append((i[0], i[1]))
+            
+    return w_adjusted_voters
+    
 def black_list(voters):
     #block voters and distribute to voters
     if data["blacklist"] == "block":
