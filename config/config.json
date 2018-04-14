@@ -13,6 +13,8 @@
   "cover_tx_fees": "Y",
   "vote_cap" : 0,
   "vote_min" : 0,
+  "whitelist": "N",
+  "whitelist_addr" : ["addr"],
   "blacklist": "block or assign",
   "blacklist_addr" : ["addr"],
   "blacklist_assign" : "addr",
