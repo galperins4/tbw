@@ -60,6 +60,7 @@ def net_filter(p):
 
 def broadcast(tx, p, park, r):
     records = []
+    print(tx)
     # take peers and shuffle the order
     # check length of good peers
     if len(p) < r:  # this means there aren't enough peers compared to what we want to broadcast to
@@ -73,6 +74,7 @@ def broadcast(tx, p, park, r):
     #broadcast to localhost/relay first
     try:
         transaction = park.transport().createBatchTransaction(tx)
+        print(transaction)
         records = [[j['recipientId'],j['amount'],j['id']] for j in tx]
         time.sleep(1)
     except BaseException:
@@ -148,6 +150,7 @@ if __name__ == '__main__':
                         tx = TransactionBuilder().create(netname, i[1], i[2], passphrase, secondphrase)
                     else:
                         tx = park.transactionBuilder().create(i[1], str(i[2]), i[3], passphrase, secondphrase)
+                    print(tx)
                 
                     signed_tx.append(tx)
                 
