@@ -68,6 +68,11 @@ Note: Pool runs on port 5000
 
 ## Changelog
 
+### 1.2
+- added whitelist support
+- added beta .sh file for mostly automated installation
+- added support for Ripa mainnet
+
 ### 1.1
 - Added anti-dilution for min-payout config. Now wallets under min payment aren't diluted when wallets above min payout are paid
 - Added super basic front end website for pool runners. See config details above
