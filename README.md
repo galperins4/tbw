@@ -2,11 +2,6 @@
 
 ## Installation
 
-Installation Guide Coutesy of JamieC79
-
-https://medium.com/@jamie_52516/true-block-weight-payout-script-for-lwf-29d8d540b539
-
-
 ```sh
 install and sync relay server
 git clone https://github.com/galperins4/tbw
@@ -18,10 +13,7 @@ bash install_beta.sh
 
 ## Configuration & Usage
 
-
-Note: All current coins run out of core_v1 folder
-
-After the repository has been cloned you need to open the `config.json` / `pool.json` and change it to your liking. Once this has been done go to the core_v1 or core_v2 folder to execute `python3 tbw.py` to start true block weight script. After the initial start up, you can run the script via `python3 tbw.py` or the pm2 command `pm2 start apps.json`
+After the repository has been cloned you need to open the `config.json` / `pool.json` and change it to your liking. Once this has been done execute `python3 tbw.py` to start true block weight script. After the initial start up, you can run the script via `python3 tbw.py` or the pm2 command `pm2 start apps.json`
 
 Important! - pay_addresses and keep keys should match in config.json. DO NOT delete the reserve key as it is required. All other's can be deleted or more added. In addition, payment is triggered to start based on when total blocks forged / interval is an integer (with no remainder). 
 
@@ -42,8 +34,6 @@ As the script leverages @FaustBrians ARK python client as well as database retre
 - cover_tx_fees: Use this to indicate if you want to cover transaction fees (Y) or not (N)
 - vote_cap: Use this if you cap voters for how much they can earn with votes. For example 10000 will mean any wallet over 10K will only be paid based on 10K weight
 - vote_min: Use this if you have a minumum wallet balance to be eligible for payments
-- whitelist: Y or N, Use this if you want to only pay specific accounts - good for private pools
-- whitelist_addr: comma seperated lists of accounts to pay
 - blacklist: Options are block or assign. Block zero's out blocked accounts which then distributes their earnings to voters. Assign does the same but assigns weight to a designated account. 
 - blacklist_addr: comma seperated list of addresses to block from voter payments
 - blacklist_assign: if assign option is picked, this is the address those blacklisted shares go to. DO NOT SET to an account voting for said delegate. It is HIGHLY recommended this is set to the reserve address!
@@ -70,11 +60,6 @@ Note: Pool runs on port 5000
 - Additional exception handling
 
 ## Changelog
-
-### 1.2
-- added whitelist support
-- added beta .sh file for mostly automated installation
-- added support for Ripa mainnet
 
 ### 1.1
 - Added anti-dilution for min-payout config. Now wallets under min payment aren't diluted when wallets above min payout are paid
