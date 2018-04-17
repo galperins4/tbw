@@ -2,7 +2,7 @@
 #!/usr/bin/env python
 
 from tbw import parse_config
-from snek.db.snek import SnekDB
+from snek.snek import SnekDB
 from park.park import Park
 from liskbuilder.transaction import TransactionBuilder
 import random

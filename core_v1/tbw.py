@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 
-from snek.db.snek import SnekDB
-from snek.db.ark import ArkDB
+from snek.snek import SnekDB
+from snek.ark import ArkDB
 import time
 import json
+from pathlib import Path
 import os.path
 
+tbw_path = Path().resolve().parent
 atomic = 100000000
 transaction_fee = .1 * atomic
 
@@ -14,10 +16,10 @@ def parse_config():
     """
     Parse the config.json file and return the result.
     """
-    with open('config/config.json') as data_file:
+    with open(tbw_path / 'config/config.json') as data_file:
         data = json.load(data_file)
         
-    with open('config/networks.json') as network_file:
+    with open(tbw_path / 'config/networks.json') as network_file:
         network = json.load(network_file)
 
     return data, network
@@ -26,7 +28,6 @@ def allocate(lb):
     
     # create temp log / export output for block  rewards
     log = {}
-    json_export = {}
     rewards_check = 0
     voter_check = 0
     delegate_check = 0
@@ -96,30 +97,20 @@ def allocate(lb):
 
     #mark as processed
     snekdb.markAsProcessed(lb[4])
-    '''
-    # check to see if log file exists
-    if not os.path.exists(
-            'output/result.json'):  # does not exists so create
-        # create a json export for the block rewards for initial file
-        json_export[lb[4]] = log
-        # append log to json file for future use
-        with open('output/result.json', 'a') as fp:
-            json.dump(json_export, fp)
-
-    else:  # read and add block as key
-        with open('output/result.json') as f:
-            json_decoded = json.load(f)
-
-        json_decoded[lb[4]] = log
-
-        with open('output/result.json', 'w') as f:
-            json.dump(json_decoded, f)
-    '''
 
 def manage_folders():
     sub_names = ["error"]
     for sub_name in sub_names:
         os.makedirs(os.path.join('output', sub_name), exist_ok=True)
+
+def white_list(voters):
+    w_adjusted_voters=[]
+    for i in voters:
+        if i[0] in data["whitelist_addr"]:
+            w_adjusted_voters.append((i[0], i[1]))
+            
+    return w_adjusted_voters
+
 
 def black_list(voters):
     #block voters and distribute to voters
@@ -201,21 +192,24 @@ def anti_dilute(voters):
         undilute = voters
     
     return undilute
-    
+
 def get_voters():
 
     #get voters
     initial_voters = arkdb.voters()
     
-    #process blacklist, voter cap, and voter min:
-    bl_adjust = black_list(initial_voters)
-    bl_adjust_two = voter_cap(bl_adjust)
-    bl_adjust_three = voter_min(bl_adjust_two)
+    if data['whitelist'] == 'Y':
+        bl = white_list(initial_voters)
+    else:
+        #process blacklist, voter cap, and voter min:
+        bl_adjust = black_list(initial_voters)
+        bl_adjust_two = voter_cap(bl_adjust)
+        bl = voter_min(bl_adjust_two)
    
-    snekdb.storeVoters(bl_adjust_three)    
+    snekdb.storeVoters(bl)    
     
     # anti-dulition
-    block_voters = anti_dilute(bl_adjust_three)
+    block_voters = anti_dilute(bl)
     
     return block_voters
 
@@ -424,32 +418,6 @@ def get_dbname():
         
     return uname
 
-'''
-def get_dbname():
-    net = data['network']
-    lisk_fork = {'oxy-t':'oxy', 
-                'oxy': 'oxy', 
-                'lwf-t': 'lwf', 
-                'lwf': 'lwf', 
-                'rise-t': 'rise', 
-                'rise': 'rise', 
-                'shift-t': 'shift', 
-                'shift': 'shift',
-                'onz-t': 'onz',
-                'onz': 'onz',
-                'lisk-t': 'lisk',
-                'lisk' : 'lisk'}
-    
-    if net in lisk_fork.keys():
-        if lisk_fork[net] != 'lwf':
-            uname = lisk_fork[net]+'coin'
-        else:
-            uname = lisk_fork[net]
-    else: 
-        uname = data['dbusername']
-        
-    return uname
-'''        
 def block_counter():
     c = snekdb.processedBlocks().fetchall()
     return len(c)
@@ -468,7 +436,7 @@ if __name__ == '__main__':
     arkdb = ArkDB(network[data['network']]['db'], username, network[data['network']]['db_pw'], data['publicKey'])
     
     # check to see if ark.db exists, if not initialize db, etc
-    if os.path.exists('ark.db') == False:    
+    if os.path.exists(tbw_path / 'ark.db') == False:    
         snekdb = SnekDB(data['dbusername'])
         initialize()
     

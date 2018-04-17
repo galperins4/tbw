@@ -1,14 +1,16 @@
 from flask import Flask, render_template
-import requests
 import json
-from snek.db.snek import SnekDB
+from snek.snek import SnekDB
 from park.park import Park
+
+from pathlib import Path
+pool_path = Path().resolve().parent
 
 def parse_pool():
 
-    with open('config/pool.json') as data_file:
+    with open(pool_path / 'config/pool.json') as data_file:
         data = json.load(data_file)
-    with open('config/networks.json') as network_file:
+    with open(pool_path / 'config/networks.json') as network_file:
         network = json.load(network_file)
         
     return data, network
