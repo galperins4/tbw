@@ -12,15 +12,16 @@ bash install_beta.sh
 ```
 
 ## Configuration & Usage
+Note: All coins are currently leveraging core_v1 folder
 
-After the repository has been cloned you need to open the `config.json` / `pool.json` and change it to your liking. Once this has been done execute `python3 tbw.py` to start true block weight script. After the initial start up, you can run the script via `python3 tbw.py` or the pm2 command `pm2 start apps.json`
+After the repository has been cloned you need to open the `config.json` / `pool.json` and change it to your liking. Once this has been done navigate to core_v1 or core_v2 folder and execute `python3 tbw.py` to start true block weight script. After the initial start up, you can run the script via `python3 tbw.py` or the pm2 command `pm2 start apps.json`
 
 Important! - pay_addresses and keep keys should match in config.json. DO NOT delete the reserve key as it is required. All other's can be deleted or more added. In addition, payment is triggered to start based on when total blocks forged / interval is an integer (with no remainder). 
 
-As the script leverages @FaustBrians ARK python client as well as database retreival and storage classes, python 3.6+ is required. In addition it is  now required to run this alongside an ark/kapu relay node given the DB interaction and little reliance on the API.
+As the script leverages @FaustBrians ARK python client as well as database retreival and storage classes, python 3.6+ is required. In addition it is now required to run this alongside a relay node given the DB interaction and little reliance on the API.
 
 ## Available Configuration Options (TRUE BLOCK WEIGHT)
-- netork: which network(options are ark, dark, kapu, dkapu, persona-t, lwf, lwf-t, oxy, oxy-t, onz, onz-t, shift, shift-t, rise, rise-t)
+- netork: which network(options are ark, dark, kapu, dkapu, persona-t, lwf, lwf-t, oxy, oxy-t, onz, onz-t, shift, shift-t, rise, rise-t, ripa)
 - start_block: script will start calculations only for blocks after specified start block
 - delegate IP: this serves as a back-up IP for the API to call to in case the localhost does not respond
 - dbusername: this is the postgresql database username nodeDB (usually your os username)
@@ -34,6 +35,8 @@ As the script leverages @FaustBrians ARK python client as well as database retre
 - cover_tx_fees: Use this to indicate if you want to cover transaction fees (Y) or not (N)
 - vote_cap: Use this if you cap voters for how much they can earn with votes. For example 10000 will mean any wallet over 10K will only be paid based on 10K weight
 - vote_min: Use this if you have a minumum wallet balance to be eligible for payments
+- whitelist: Y or N. Enable payment to only whitelisted addresses
+- whitelist_addr: comma seperated list of addresses to allow voter payments to
 - blacklist: Options are block or assign. Block zero's out blocked accounts which then distributes their earnings to voters. Assign does the same but assigns weight to a designated account. 
 - blacklist_addr: comma seperated list of addresses to block from voter payments
 - blacklist_assign: if assign option is picked, this is the address those blacklisted shares go to. DO NOT SET to an account voting for said delegate. It is HIGHLY recommended this is set to the reserve address!
@@ -45,7 +48,7 @@ As the script leverages @FaustBrians ARK python client as well as database retre
 - pay_addresses: these are the addresses to go with the keep percentages (Note: reserve is required! all others are optional)
 
 ## Available Configuration Options (POOL)
-- netork: which network(options are ark, dark, kapu, lwf, lwf-t, oxy, oxy-t, onz, onz-t, shift, shift-t, rise, rise-t)
+- netork: which network(same as tbw options)
 - pool_ip: IP of the node the pool is installed on
 - explorer: The address of the explorer for the coin
 - coin: which coin (e.g., ARK, KAPU)
