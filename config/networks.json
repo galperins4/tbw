@@ -66,7 +66,7 @@
 	"onz-t": {
         "nethash": "aa14b4d84260e00b6fc033c022a25965629ab0e8a4aafc77e64cad4cf0dc2e00",
         "port": 10998,
-        "version": "0.9.13",
+        "version": "0.9.14",
 		 "db": "onz_test",
         "db_user": "onzcoin",
         "db_pw": "password"
