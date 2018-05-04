@@ -20,14 +20,12 @@
   "blacklist_assign" : "addr",
   "fixed_deal" : "N",
   "fixed_deal_amt" : {"addr1": 1, "addr2": 2, "addr3": 3},
-  "min_payment": 0,
+  "min_payment": 0.5,
   "reach": 20,
   "keep": {
-    "reserve": 0.45,
-	"faucet": 0.05
+    "reserve": 0.50
   },
   "pay_addresses": {
-    "reserve": "addr1",
-	"faucet": "addr2" 
+    "reserve": "addr1"
   }
 }
