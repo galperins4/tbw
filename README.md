@@ -64,6 +64,11 @@ Note: Pool runs on port 5000
 
 ## Changelog
 
+### 1.3
+- Added persona mainnet
+### 1.2
+- Minor changes and prep code for Ark Core v2 release
+
 ### 1.1
 - Added anti-dilution for min-payout config. Now wallets under min payment aren't diluted when wallets above min payout are paid
 - Added super basic front end website for pool runners. See config details above
