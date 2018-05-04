@@ -88,12 +88,12 @@
         "db_pw": "password"
     },
 	"persona": {
-        "nethash": "",
-        "port": 0,
-        "version": "",
-        "db": "",
-        "db_user": "xx",
-        "db_pw": "xx"
+        "nethash": "d22496e7c2af861b726f081e2c4db04d505549a5915f418fbca6842c30e3c831",
+        "port": 4102,
+        "version": "0.0.1",
+        "db": "persona_mainnet",
+        "db_user": "null",
+        "db_pw": "password"
     },
 	"shift-t": {
         "nethash": "cba57b868c8571599ad594c6607a77cad60cf0372ecde803004d87e679117c12",
