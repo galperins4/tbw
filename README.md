@@ -11,6 +11,8 @@ cd ~/tbw
 bash install_beta.sh
 ```
 
+IMPORTANT: if you are running persona add 'sudo persona_fix.sh' after all the other install instructions
+
 ## Configuration & Usage
 Note: All coins are currently leveraging core_v1 folder
 
