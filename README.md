@@ -23,7 +23,7 @@ Important! - pay_addresses and keep keys should match in config.json. DO NOT del
 As the script leverages @FaustBrians ARK python client as well as database retreival and storage classes, python 3.6+ is required. In addition it is now required to run this alongside a relay node given the DB interaction and little reliance on the API.
 
 ## Available Configuration Options (TRUE BLOCK WEIGHT)
-- netork: which network(options are ark, dark, kapu, dkapu, persona-t, lwf, lwf-t, oxy, oxy-t, onz, onz-t, shift, shift-t, rise, rise-t, ripa)
+- network: which network (options are ark, dark, kapu, dkapu, persona-t, lwf, lwf-t, oxy, oxy-t, onz, onz-t, shift, shift-t, rise, rise-t, ripa)
 - start_block: script will start calculations only for blocks after specified start block
 - delegate IP: this serves as a back-up IP for the API to call to in case the localhost does not respond
 - dbusername: this is the postgresql database username nodeDB (usually your os username)
@@ -50,7 +50,7 @@ As the script leverages @FaustBrians ARK python client as well as database retre
 - pay_addresses: these are the addresses to go with the keep percentages (Note: reserve is required! all others are optional)
 
 ## Available Configuration Options (POOL)
-- netork: which network(same as tbw options)
+- network: which network (same as tbw options)
 - pool_ip: IP of the node the pool is installed on
 - explorer: The address of the explorer for the coin
 - coin: which coin (e.g., ARK, KAPU)
