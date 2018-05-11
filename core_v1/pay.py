@@ -44,14 +44,14 @@ def net_filter(p):
     
     #filter on good peers for LISKcoins
     if data['network'] in lisk_fork.keys():
-        f1 = list(filter(lambda x: x['version'] == network[data['network']]['version'], peerfil))
-        f2 = list(filter(lambda x: x['state'] == 2, f1))
+        #f1 = list(filter(lambda x: x['version'] == network[data['network']]['version'], peerfil))
+        f2 = list(filter(lambda x: x['state'] == 2, peerfil))
         final = list(filter(lambda x: compare - x['height'] < 153, f2))
         print('filtered peers', len(final))
     #filter on good peers for ARKcoins
     else:
-        f1 = list(filter(lambda x: x['version'] == network[data['network']]['version'], peerfil))
-        f2 = list(filter(lambda x: x['delay'] < 350, f1))
+        #f1 = list(filter(lambda x: x['version'] == network[data['network']]['version'], peerfil))
+        f2 = list(filter(lambda x: x['delay'] < 350, peerfil))
         f3 = list(filter(lambda x: x['status'] == 'OK', f2))
         final = list(filter(lambda x: compare - x['height'] < 153, f3))
         print('filtered peers', len(final))

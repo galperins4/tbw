@@ -11,6 +11,8 @@ cd ~/tbw
 bash install_beta.sh
 ```
 
+IMPORTANT: if you are running persona add 'sudo persona_fix.sh' after all the other install instructions
+
 ## Configuration & Usage
 Note: All coins are currently leveraging core_v1 folder
 
@@ -63,6 +65,11 @@ Note: Pool runs on port 5000
 - Additional exception handling
 
 ## Changelog
+
+### 1.3
+- Added persona mainnet
+### 1.2
+- Minor changes and prep code for Ark Core v2 release
 
 ### 1.1
 - Added anti-dilution for min-payout config. Now wallets under min payment aren't diluted when wallets above min payout are paid

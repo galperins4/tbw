@@ -88,7 +88,7 @@
         "db_pw": "password"
     },
 	"persona": {
-        "nethash": "d22496e7c2af861b726f081e2c4db04d505549a5915f418fbca6842c30e3c831",
+        "nethash": "14b55c1de06caa015362d59ad97a144bc3c9fc2b50ece84b78d13ceaeaf7d8fb",
         "port": 4102,
         "version": "0.0.1",
         "db": "persona_mainnet",

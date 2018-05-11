@@ -410,7 +410,7 @@ def initialize():
     quit()
     
 def get_dbname():
-    ark_fork = ['ark','dark','kapu','dkapu','persona-t','ripa']
+    ark_fork = ['ark','dark','kapu','dkapu','persona-t','ripa', 'persona']
     if  data['network'] in ark_fork:
         uname = data['dbusername']
     else:
@@ -479,10 +479,3 @@ if __name__ == '__main__':
 
         # pause 30 seconds between runs
         time.sleep(data["block_check"])
-        
-
-
-
-
-
-

@@ -7,7 +7,7 @@ atomic = 100000000
 transaction_fee = .1 * atomic
 
 def get_dbname():
-    ark_fork = ['ark','dark','kapu','dkapu','persona-t','ripa']
+    ark_fork = ['ark','dark','kapu','dkapu','persona-t','ripa', 'persona']
     if  data['network'] in ark_fork:
         uname = data['dbusername']
     else:
