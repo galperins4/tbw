@@ -29,7 +29,7 @@ app = Flask(__name__)
 @app.route('/')
 def index():    
     s = {} 
-    pkey = data('pubkey')
+    pkey = data['pubkey']
     params = {"publicKey": pkey}
     dstats = park.delegates().delegate(params)
     
