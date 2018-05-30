@@ -33,10 +33,10 @@ def index():
     params = {"publicKey": pkey}
     dstats = park.delegates().delegate(params)
     
-    s['forged'] = dstats['producedblocks']
-    s['missed'] = dstats['missedblocks']
-    s['rank'] = dstats['rate']
-    s['productivity'] = dstats['productivity']
+    s['forged'] = dstats['delegate']['producedblocks']
+    s['missed'] = dstats['delegate']['missedblocks']
+    s['rank'] = dstats['delegate']['rate']
+    s['productivity'] = dstats['delegate']['productivity']
     if data['network'] in ['ark','dark','kapu','dkapu','persona','persona-t']:
         if s['rank'] <= 51:
             s['forging'] = 'Forging'
