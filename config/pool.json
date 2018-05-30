@@ -5,6 +5,6 @@
   "delegate": "delegate",
   "coin": "ARK",
   "proposal": "https://xx.xx.xx/",
-  "dbusername": "dbname"
+  "dbusername": "dbname",
   "pubkey": "pubkey"
 }
