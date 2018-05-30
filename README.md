@@ -64,8 +64,13 @@ Note: Pool runs on port 5000
 
 ## Changelog
 
+### 1.4
+- fixed broken pool site if delegate falls out of forging
+- updated with new installation script
+
 ### 1.3
 - Added persona mainnet
+
 ### 1.2
 - Minor changes and prep code for Ark Core v2 release
 
