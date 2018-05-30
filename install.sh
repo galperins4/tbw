@@ -13,6 +13,7 @@ pause(){
 
 install_modules(){
   sudo apt-get install build-essential
+  sudo apt-get install npm
   sudo apt-get install python3-pip
   sudo -H pip3 install setuptools
   sudo -H pip3 install -r requirements.txt
