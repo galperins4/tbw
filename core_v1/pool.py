@@ -29,20 +29,31 @@ app = Flask(__name__)
 @app.route('/')
 def index():    
     s = {} 
-    dstats = park.delegates().delegates()
-    for i in dstats['delegates']:
-        if i['username'] == data['delegate']:
-            pubKey = i['publicKey']
-            s['forged'] = i['producedblocks']
-            s['missed'] = i['missedblocks']
-            s['rank'] = i['rate']
-            s['productivity'] = i['productivity']
-            if s['rank'] <= 201:
-                s['forging'] = 'Forging'
-            else:
-                s['forging'] = 'Standby'
+    pkey = data['pubkey']
+    params = {"publicKey": pkey}
+    dstats = park.delegates().delegate(params)
+    
+    s['forged'] = dstats['delegate']['producedblocks']
+    s['missed'] = dstats['delegate']['missedblocks']
+    s['rank'] = dstats['delegate']['rate']
+    s['productivity'] = dstats['delegate']['productivity']
+    if data['network'] in ['ark','dark','kapu','dkapu','persona','persona-t']:
+        if s['rank'] <= 51:
+            s['forging'] = 'Forging'
+        else:
+            s['forging'] = 'Standby'
+    elif data['network'] in ['lwf','lwf-t','oxy','oxy-t']:
+        if s['rank'] <= 201:
+            s['forging'] = 'Forging'
+        else:
+            s['forging'] = 'Standby'
+    elif data['network'] in ['shift','shift-t','ripa', 'onz','onz-t']:
+        if s['rank'] <= 101:
+            s['forging'] = 'Forging'
+        else:
+            s['forging'] = 'Standby'
 
-    s['votes'] = len(park.delegates().voters(pubKey)['accounts'])
+    s['votes'] = len(park.delegates().voters(pkey)['accounts'])
     
     voter_data = snekdb.voters().fetchall()
     
@@ -51,9 +62,9 @@ def index():
 @app.route('/payments')
 def payments():
     
-    data = snekdb.transactions().fetchall()
+    data_out = snekdb.transactions().fetchall()
     tx_data=[]
-    for i in data:
+    for i in data_out:
         l = [i[0], int(i[1]), i[2], i[3]]
         tx_data.append(l)
  
