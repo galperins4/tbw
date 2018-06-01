@@ -8,10 +8,8 @@ git clone https://github.com/galperins4/tbw
 cd ~/tbw/config
 fill out configs (see below)
 cd ~/tbw
-bash install_beta.sh
+bash install.sh
 ```
-
-IMPORTANT: if you are running persona add ```bash persona_fix.sh``` after all the other install instructions
 
 ## Configuration & Usage
 Note: All coins are currently leveraging core_v1 folder
@@ -66,8 +64,13 @@ Note: Pool runs on port 5000
 
 ## Changelog
 
+### 1.4
+- fixed broken pool site if delegate falls out of forging
+- updated with new installation script
+
 ### 1.3
 - Added persona mainnet
+
 ### 1.2
 - Minor changes and prep code for Ark Core v2 release
 
