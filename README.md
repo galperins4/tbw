@@ -54,6 +54,7 @@ As the script leverages @FaustBrians ARK python client as well as database retre
 - coin: which coin (e.g., ARK, KAPU)
 - proposal: link to delegate proposal (if any)
 - dbusername: this is the postgresql database username nodeDB (usually your os username)
+- pubkey: delegate public key
 
 Note: Pool runs on port 5000
 
