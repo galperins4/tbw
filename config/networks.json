@@ -42,7 +42,7 @@
     "lwf": {
         "nethash": "704f232786a9bff25d0630c06abbc34957448ba6309d6dcef949cf9a6f43954a",
         "port": 18124,
-        "version": "0.1.2",
+        "version": "0.1.3",
 		 "db": "lwf_mainnet",
         "db_user": "lwf",
         "db_pw": "password"
