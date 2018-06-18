@@ -90,7 +90,7 @@
 	"persona": {
         "nethash": "14b55c1de06caa015362d59ad97a144bc3c9fc2b50ece84b78d13ceaeaf7d8fb",
         "port": 4102,
-        "version": "0.0.1",
+        "version": "0.0.2",
         "db": "persona_mainnet",
         "db_user": "null",
         "db_pw": "password"
