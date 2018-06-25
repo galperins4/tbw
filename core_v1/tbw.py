@@ -447,6 +447,11 @@ if __name__ == '__main__':
     # set block count        
     block_count = block_counter()
 
+    # check to see if manual payout
+    if data["manual_pay"] == "Y":
+        payout()
+        quit()
+    
     # processing loop
     while True:
         # get last 50 blocks
