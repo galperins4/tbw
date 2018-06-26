@@ -10,6 +10,7 @@ import os.path
 tbw_path = Path().resolve().parent
 atomic = 100000000
 transaction_fee = .1 * atomic
+ark_fork = ['ark','dark','kapu','dkapu','persona-t','ripa', 'persona', 'swapblocks-t','swapblocks']
 
 
 def parse_config():
@@ -39,7 +40,10 @@ def allocate(lb):
 
     # get block reward
     block_reward = lb[2]
-    fee_reward = lb[3]
+    if data['network'] in ark_fork:
+        fee_reward = lb[3]
+    else:
+        fee_reward = 0
     total_reward = block_reward+fee_reward
 
     # calculate delegate/reserve/other shares
@@ -410,7 +414,6 @@ def initialize():
     quit()
     
 def get_dbname():
-    ark_fork = ['ark','dark','kapu','dkapu','persona-t','ripa', 'persona']
     if  data['network'] in ark_fork:
         uname = data['dbusername']
     else:
@@ -447,6 +450,11 @@ if __name__ == '__main__':
     # set block count        
     block_count = block_counter()
 
+    # check to see if manual payout
+    if data["manual_pay"] == "Y":
+        payout()
+        quit()
+    
     # processing loop
     while True:
         # get last 50 blocks

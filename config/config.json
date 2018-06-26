@@ -1,6 +1,7 @@
 {
   "start_block": 0,
   "network": "network",
+  "manual_pay": "N",
   "delegate_ip": "ip",
   "dbusername": "dbname",
   "publicKey": "publicKey",

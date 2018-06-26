@@ -2,7 +2,7 @@
     "ark": {
         "nethash": "6e84d08bd299ed97c212c886c98a57e36545c8f5d645ca7eeae63a8bd62d8988",
         "port": 4001,
-        "version": "1.0.2",
+        "version": "1.0.3",
 		 "db": "ark_mainnet",
         "db_user": "null",
         "db_pw": "password"
@@ -42,7 +42,7 @@
     "lwf": {
         "nethash": "704f232786a9bff25d0630c06abbc34957448ba6309d6dcef949cf9a6f43954a",
         "port": 18124,
-        "version": "0.1.2",
+        "version": "0.1.4",
 		 "db": "lwf_mainnet",
         "db_user": "lwf",
         "db_pw": "password"
@@ -90,7 +90,7 @@
 	"persona": {
         "nethash": "14b55c1de06caa015362d59ad97a144bc3c9fc2b50ece84b78d13ceaeaf7d8fb",
         "port": 4102,
-        "version": "0.0.1",
+        "version": "0.0.2",
         "db": "persona_mainnet",
         "db_user": "null",
         "db_pw": "password"
@@ -132,6 +132,14 @@
         "port": 5500,
         "version": "0.2.0",
         "db": "ripa_mainnet",
+        "db_user": "null",
+        "db_pw": "password"
+    },
+	"swapblocks-t": {
+        "nethash": "9d39602ff3d69780da2c9f5ed5e24451409f6511e226bd540dd84a375508ce5b",
+        "port": 4111,
+        "version": "0.0.1",
+        "db": "test_swapblocks",
         "db_user": "null",
         "db_pw": "password"
     }
