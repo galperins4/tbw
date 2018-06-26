@@ -77,7 +77,7 @@ show_menus() {
 	echo "~~~~~~~~~~~~~~~~~~~~~"	
 	echo " M A I N - M E N U"
 	echo "~~~~~~~~~~~~~~~~~~~~~"
-	echo "1. Install ARK/KAPU"
+	echo "1. Install ARK/KAPU/SWAPBLOCKS"
 	echo "2. Install PERSONA"
         echo "3. Install RIPA"
         echo "4. Install LWF"
