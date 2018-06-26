@@ -134,6 +134,14 @@
         "db": "ripa_mainnet",
         "db_user": "null",
         "db_pw": "password"
+    },
+	"swapblocks-t": {
+        "nethash": "9d39602ff3d69780da2c9f5ed5e24451409f6511e226bd540dd84a375508ce5b",
+        "port": 4111,
+        "version": "0.0.1",
+        "db": "test_swapblocks",
+        "db_user": "null",
+        "db_pw": "password"
     }
 	
 }
