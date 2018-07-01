@@ -67,7 +67,11 @@ lisk(){
 
 shifts(){
         install_modules
-        npm install shift-js
+	mkdir node_modules
+        cd node_modules
+	git clone https://github.com/ShiftNrg/shift-js
+	cd shift-js
+        npm install
         pause
 }
  
