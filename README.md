@@ -66,6 +66,9 @@ Note: Pool runs on port 5000
 
 ## Changelog
 
+### 1.5
+- added swapblocks testnet
+
 ### 1.4
 - fixed broken pool site if delegate falls out of forging
 - updated with new installation script

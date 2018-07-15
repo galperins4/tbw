@@ -9,7 +9,6 @@ import os.path
 
 tbw_path = Path().resolve().parent
 atomic = 100000000
-transaction_fee = .1 * atomic
 ark_fork = ['ark','dark','kapu','dkapu','persona-t','ripa', 'persona', 'swapblocks-t','swapblocks']
 
 
@@ -91,13 +90,15 @@ def allocate(lb):
             voter_check += 1
             rewards_check += reward
 
-    print(f"""Processed Block: {lb[4]}\n
-    Voters processed: {voter_check}
-    Total Approval: {approval}
-    Voters Rewards: {rewards_check}
-    Delegate Reward: {delegate_check}
-    Voter + Delegate Rewards: {rewards_check + delegate_check}
-    Total Block Rewards: {total_reward}""")
+    sum_check = rewards_check+delegate_check
+    
+    print("""Processed Block: {0}\n
+    Voters processed: {1}
+    Total Approval: {2}
+    Voters Rewards: {3}
+    Delegate Reward: {4}
+    Voter + Delegate Rewards: {5}
+    Total Block Rewards: {6}""".format(lb[4], voter_check, approval, rewards_check, delegate_check, sum_check, total_reward))
 
     #mark as processed
     snekdb.markAsProcessed(lb[4])
@@ -431,6 +432,9 @@ if __name__ == '__main__':
     
     # get config data
     data, network = parse_config()
+    
+    #get tx fee
+    transaction_fee = network[data['network']]['tx_fee'] * atomic
 
     # initialize db connection
     
@@ -475,7 +479,7 @@ if __name__ == '__main__':
                 
                 #increment count
                 print('\n')
-                print(f"Current block count : {block_count}")
+                print("Current block count : {0}".format(block_count))
                 
                 check = interval_check(block_count)
                 if check:
