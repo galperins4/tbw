@@ -20,7 +20,7 @@
     "kapu": {
         "nethash": "313ea34c8eb705f79e7bc298b788417ff3f7116c9596f5c9875e769ee2f4ede1",
         "port": 9700,
-        "version": "0.3.0",
+        "version": "1.0.4",
 		 "db": "kapu_mainnet",
         "db_user": "null",
         "db_pw": "password",
@@ -29,7 +29,7 @@
     "dkapu": {
         "nethash": "f1ef11be7a879671b3019a785c9a2c9dbd9d800b05644d26ad132275ffe2dd48",
         "port": 4100,
-        "version": "0.0.1",
+        "version": "1.1.0",
 		 "db": "kapu_devnet",
         "db_user": "null",
         "db_pw": "password",
