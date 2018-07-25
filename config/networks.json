@@ -160,5 +160,14 @@
         "db_user": "null",
         "db_pw": "password",
         "tx_fee": 0.1
+    },
+	"swapblocks": {
+        "nethash": "d21f07a10a8314d558132de8a3848e6fa9edde754638d1aacd381c6efb8be81d",
+        "port": 4100,
+        "version": "0.0.1",
+        "db": "swapblocks",
+        "db_user": "null",
+        "db_pw": "password",
+        "tx_fee": 0.1
     }
 }
