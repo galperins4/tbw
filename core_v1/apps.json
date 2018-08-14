@@ -4,7 +4,7 @@
         "script": "~/tbw/core_v1/tbw.py",
         "instances": 1,
         "exec_mode": "fork",
-        "exec_interpreter": "python3.6",
+        "exec_interpreter": "python3",
         "log_date_format": "YYYY-MM-DD HH:mm Z",
 	"out_file": "~/tbw/core_v1/output/tbw.log",
 	"interpreter_args": "-u"
@@ -14,7 +14,7 @@
         "script": "~/tbw/core_v1/pay.py",
         "instances": 1,
         "exec_mode": "fork",
-        "exec_interpreter": "python3.6",
+        "exec_interpreter": "python3",
         "log_date_format": "YYYY-MM-DD HH:mm Z",
 	"out_file": "~/tbw/core_v1/output/pay.log",
 	"interpreter_args": "-u"
@@ -24,7 +24,7 @@
         "script": "~/tbw/core_v1/pool.py",
         "instances": 1,
         "exec_mode": "fork",
-        "exec_interpreter": "python3.6",
+        "exec_interpreter": "python3",
         "log_date_format": "YYYY-MM-DD HH:mm Z",
 	"interpreter_args": "-u"
     }]

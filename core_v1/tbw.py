@@ -16,10 +16,10 @@ def parse_config():
     """
     Parse the config.json file and return the result.
     """
-    with open(tbw_path / 'config/config.json') as data_file:
+    with open(str(tbw_path / 'config/config.json')) as data_file:
         data = json.load(data_file)
         
-    with open(tbw_path / 'config/networks.json') as network_file:
+    with open(str(tbw_path / 'config/networks.json')) as network_file:
         network = json.load(network_file)
 
     return data, network
@@ -443,7 +443,7 @@ if __name__ == '__main__':
     arkdb = ArkDB(network[data['network']]['db'], username, network[data['network']]['db_pw'], data['publicKey'])
     
     # check to see if ark.db exists, if not initialize db, etc
-    if os.path.exists(tbw_path / 'ark.db') == False:    
+    if os.path.exists(str(tbw_path / 'ark.db')) == False:    
         snekdb = SnekDB(data['dbusername'])
         initialize()
     

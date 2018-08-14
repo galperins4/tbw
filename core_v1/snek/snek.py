@@ -99,7 +99,7 @@ class SnekDB:
         
     def markAsProcessed(self, block):
         ts = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        self.cursor.execute(f"UPDATE blocks SET processed_at = '{ts}' WHERE height = '{block}'")
+        self.cursor.execute("UPDATE blocks SET processed_at = '{0}' WHERE height = '{1}'".format(ts, block))
         self.commit()
 
     def blocks(self):
@@ -122,7 +122,7 @@ class SnekDB:
         #rows = tuple(rows)
         ts = datetime.now().strftime('%Y-%m-%d %H:%M:%S')		
         for i in rows:
-            self.cursor.execute(f"UPDATE staging SET processed_at = '{ts}' WHERE rowid = {i}")	
+            self.cursor.execute("UPDATE staging SET processed_at = '{0}' WHERE rowid = {1}".format(ts, i))	
 
         self.commit()
 	
@@ -141,23 +141,23 @@ class SnekDB:
         return self.cursor.execute("SELECT * FROM transactions")
 
     def updateVoterBalance(self, address, balance):
-        self.cursor.execute(f"UPDATE voters SET u_balance = u_balance + {balance} WHERE address = '{address}'")
+        self.cursor.execute("UPDATE voters SET u_balance = u_balance + {0} WHERE address = '{1}'".format(balance, address))
         
         self.commit()
         
     def updateDelegateBalance(self, address, balance):
-        self.cursor.execute(f"UPDATE delegate_rewards SET u_balance = u_balance + {balance} WHERE address = '{address}'")
+        self.cursor.execute("UPDATE delegate_rewards SET u_balance = u_balance + {0} WHERE address = '{1}'".format(balance, address))
 	
         self.commit()
         
     def updateVoterPaidBalance (self, address):
-        self.cursor.execute(f"UPDATE voters SET p_balance = p_balance + u_balance WHERE address = '{address}'")
-        self.cursor.execute(f"UPDATE voters SET u_balance = u_balance - u_balance WHERE address = '{address}'")
+        self.cursor.execute("UPDATE voters SET p_balance = p_balance + u_balance WHERE address = '{0}'".format(address))
+        self.cursor.execute("UPDATE voters SET u_balance = u_balance - u_balance WHERE address = '{0}'".format(address))
         
         self.commit()
         
     def updateDelegatePaidBalance (self, address, amount):
-        self.cursor.execute(f"UPDATE delegate_rewards SET p_balance = p_balance + {amount} WHERE address = '{address}'")
-        self.cursor.execute(f"UPDATE delegate_rewards SET u_balance = u_balance - {amount} WHERE address = '{address}'")
+        self.cursor.execute("UPDATE delegate_rewards SET p_balance = p_balance + {0} WHERE address = '{1}'".format(amount, address))
+        self.cursor.execute("UPDATE delegate_rewards SET u_balance = u_balance - {0} WHERE address = '{1}'".format(amount, address))
         
         self.commit()

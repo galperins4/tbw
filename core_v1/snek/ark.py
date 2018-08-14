@@ -20,7 +20,7 @@ class ArkDB:
         #if i is yes, first run grab every block forged for history
         if i == 'yes':
             try:
-                self.cursor.execute(f"""SELECT "id","timestamp","reward","totalFee","height" FROM blocks WHERE "generatorPublicKey" = '{self.BlockPublicKey}' ORDER BY "height" DESC""")
+                self.cursor.execute("""SELECT "id","timestamp","reward","totalFee","height" FROM blocks WHERE "generatorPublicKey" = '{0}' ORDER BY "height" DESC""".format(self.BlockPublicKey))
                 return self.cursor.fetchall()
             except Exception as e:
                 print(e)
@@ -28,33 +28,33 @@ class ArkDB:
         #else just grab last 50 for normal processing
         else:
             try:
-                self.cursor.execute(f"""SELECT "id","timestamp","reward","totalFee","height" FROM blocks WHERE "generatorPublicKey" = '{self.BlockPublicKey}' ORDER BY "height" DESC LIMIT 50""")
+                self.cursor.execute("""SELECT "id","timestamp","reward","totalFee","height" FROM blocks WHERE "generatorPublicKey" = '{0}' ORDER BY "height" DESC LIMIT 50""".format(self.BlockPublicKey))
                 return self.cursor.fetchall()
             except Exception as e:
                 print(e)
 
     def listen_transactions(self, row):
         try:
-            self.cursor.execute(f"""SELECT "id","senderId", "amount", "fee", "vendorField" FROM transactions WHERE "rowId" > {row} ORDER BY "rowId" DESC""")
+            self.cursor.execute("""SELECT "id","senderId", "amount", "fee", "vendorField" FROM transactions WHERE "rowId" > {0} ORDER BY "rowId" DESC""".format(row))
             return self.cursor.fetchall()
         except Exception as e:
             print(e)	    
 	    
     def last_transaction(self):
         try:
-            self.cursor.execute(f"""SELECT "id","rowId" FROM transactions ORDER BY "rowId" DESC LIMIT 1""")
+            self.cursor.execute("""SELECT "id","rowId" FROM transactions ORDER BY "rowId" DESC LIMIT 1""")
             return self.cursor.fetchall()
         except Exception as e:
             print(e)	 
 		
     def voters(self):
         try:
-            self.cursor.execute(f"""SELECT "accountId" FROM mem_accounts2delegates WHERE "dependentId" = '{self.PublicKey}'""")
+            self.cursor.execute("""SELECT "accountId" FROM mem_accounts2delegates WHERE "dependentId" = '{0}'""".format(self.PublicKey))
 
             voters=[]
 
             for addr in self.cursor.fetchall():
-                self.cursor.execute(f"""SELECT "address","balance" FROM mem_accounts WHERE "address" = '{addr[0]}'""")
+                self.cursor.execute("""SELECT "address","balance" FROM mem_accounts WHERE "address" = '{0}'""".format(addr[0]))
 
                 voters.append(self.cursor.fetchone())
 
