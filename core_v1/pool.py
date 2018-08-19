@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 import json
 from snek.snek import SnekDB
 from park.park import Park
@@ -77,6 +77,9 @@ def share():
     address = req_data['address']
     newShare = req_data["share"]
     snekdb.updateVoterShare(address, newShare)
+    
+    msg = {"success":"share updated"}
+    return jsonify(msg)
 
 if __name__ == '__main__':
     data, network = parse_pool()
