@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-from typing import Dict, Any, Union
 
 from snek.snek import SnekDB
 from snek.ark import ArkDB
