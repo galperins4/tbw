@@ -24,7 +24,7 @@ class SnekDB:
     def setup(self):
         self.cursor.execute("CREATE TABLE IF NOT EXISTS blocks (id varchar(64), timestamp int, reward int, totalFee bigint, height int, processed_at varchar(64) null)")
 
-        self.cursor.execute("CREATE TABLE IF NOT EXISTS voters (address varchar(36), u_balance bigint, p_balance bigint )")
+        self.cursor.execute("CREATE TABLE IF NOT EXISTS voters (address varchar(36), u_balance bigint, p_balance bigint, share float )")
 
         self.cursor.execute("CREATE TABLE IF NOT EXISTS transactions (address varchar(36), amount varchar(64), id varchar(64), processed_at varchar(64) )")
         
@@ -56,16 +56,16 @@ class SnekDB:
 
         self.commit()
 
-    def storeVoters(self, voters):
+    def storeVoters(self, voters, share):
         newVoters=[]
 
         for voter in voters:
             self.cursor.execute("SELECT address FROM voters WHERE address = ?", (voter[0],))
 
             if self.cursor.fetchone() is None:
-                newVoters.append((voter[0], 0, 0))
+                newVoters.append((voter[0], 0, 0, share))
 
-        self.executemany("INSERT INTO voters VALUES (?,?,?)", newVoters)
+        self.executemany("INSERT INTO voters VALUES (?,?,?,?)", newVoters)
 
         self.commit()
         
@@ -118,8 +118,6 @@ class SnekDB:
         return self.cursor.execute("SELECT rowid, * FROM staging WHERE processed_at IS NULL LIMIT 20")
 
     def processStagedPayment(self, rows):
-		
-        #rows = tuple(rows)
         ts = datetime.now().strftime('%Y-%m-%d %H:%M:%S')		
         for i in rows:
             self.cursor.execute("UPDATE staging SET processed_at = '{0}' WHERE rowid = {1}".format(ts, i))	
@@ -128,7 +126,6 @@ class SnekDB:
 	
     def deleteStagedPayment(self):
         self.cursor.execute("DELETE FROM staging WHERE processed_at NOT NULL")
-        
         self.commit()
 
     def voters(self):
@@ -142,22 +139,25 @@ class SnekDB:
 
     def updateVoterBalance(self, address, balance):
         self.cursor.execute("UPDATE voters SET u_balance = u_balance + {0} WHERE address = '{1}'".format(balance, address))
-        
         self.commit()
+
+    def updateVoterShare(self, address, share):
+        self.cursor.execute("UPDATE voters SET share = {0} WHERE address = '{1}'".format(share, address))
+        self.commit()
+
+    def getVoterShare(self, address):
+        return self.cursor.execute("SELECT share FROM voters WHERE address = '{0}'".format(address))
         
     def updateDelegateBalance(self, address, balance):
         self.cursor.execute("UPDATE delegate_rewards SET u_balance = u_balance + {0} WHERE address = '{1}'".format(balance, address))
-	
         self.commit()
         
     def updateVoterPaidBalance (self, address):
         self.cursor.execute("UPDATE voters SET p_balance = p_balance + u_balance WHERE address = '{0}'".format(address))
         self.cursor.execute("UPDATE voters SET u_balance = u_balance - u_balance WHERE address = '{0}'".format(address))
-        
         self.commit()
         
     def updateDelegatePaidBalance (self, address, amount):
         self.cursor.execute("UPDATE delegate_rewards SET p_balance = p_balance + {0} WHERE address = '{1}'".format(amount, address))
         self.cursor.execute("UPDATE delegate_rewards SET u_balance = u_balance - {0} WHERE address = '{1}'".format(amount, address))
-        
         self.commit()
