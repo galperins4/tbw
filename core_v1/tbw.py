@@ -61,7 +61,7 @@ def customAllocate(lb):
     # calculate voter share
     vshare = block_reward * data['voter_share']
 
-    # loop through the current voters and assign share
+    # loop through the current voters and assign share 
     for i in block_voters:
 
         # convert balance from str to int
@@ -71,8 +71,8 @@ def customAllocate(lb):
         if bal > 0:
             share_weight = bal / approval  # calc share rate
 
-            # get custom share rate
-            customShare = snekdb.getVoterShare(i[0])
+            # get custom share rate 
+            customShare = snekdb.getVoterShare(i[0]).fetchall()
 
             # get the difference between normal share and custom share
             remainder = vshare - customShare
