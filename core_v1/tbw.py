@@ -74,10 +74,10 @@ def customAllocate(lb):
             customShare = snekdb.getVoterShare(i[0]).fetchall()
 
             # get the difference between normal share and custom share
-            remainder = vshare - customShare[0]
+            remainder = vshare - customShare[0][0]
 
-            # calculate block reward
-            reward = int(share_weight * customShare[0])
+            # calculate block reward 
+            reward = int(share_weight * customShare[0][0])
             remainder_reward = int(share_weight * remainder)
 
             # update reserve from blacklist assign
