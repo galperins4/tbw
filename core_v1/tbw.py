@@ -79,9 +79,11 @@ def customAllocate(lb):
                 remainder_reward = 0
             elif customShare[0][0] < data['voter_share']:
                 cshare = block_reward * customShare[0][0]
-                treward  = int(share_weight*vshare)
+                treward = int(share_weight*vshare)
+                reward = int(share_weight*cshare)
+                remainder_reward = int(treward-reward)
                 
-                difference = data['voter_share'] - customShare[0][0]
+                # difference = data['voter_share'] - customShare[0][0]
                 # reward = int(customShare[0][0]*share_weight)
                 # remainder_reward = int(difference*share_weight)
             else:
