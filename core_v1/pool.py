@@ -70,16 +70,6 @@ def payments():
  
     return render_template('payments.html', row=tx_data, n=navbar)
 
-@app.route('/updateShare', methods=['POST'])
-def share():
-    snekdb = SnekDB(data['dbusername'])
-    req_data = request.get_json()
-    address = req_data['address']
-    newShare = req_data["share"]
-    snekdb.updateVoterShare(address, newShare)
-    
-    msg = {"success":"share updated"}
-    return jsonify(msg)
 
 if __name__ == '__main__':
     data, network = parse_pool()
