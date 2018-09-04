@@ -24,7 +24,7 @@ def parse_config():
 
     return data, network
 
-def customAllocate(lb):
+def allocate(lb):
     # create temp log / export output for block  rewards
     rewards_check = 0
     voter_check = 0
@@ -70,28 +70,19 @@ def customAllocate(lb):
         if bal > 0:
             share_weight = bal / approval  # calc share rate
 
-            # get custom share rate 
-            customShare = snekdb.getVoterShare(i[0]).fetchall()
+            # get custom share rate if applicable
+            custom_share = snekdb.getVoterShare(i[0]).fetchall()
+            cshare = block_reward * custom_share[0][0]
 
             # get the difference between normal share and custom share
-            if customShare[0][0] == data['voter_share']:
-                reward = int(share_weight*vshare)
+            if custom_share[0][0] == data['voter_share']:
+                reward = int(share_weight * vshare)
                 remainder_reward = 0
-            elif customShare[0][0] < data['voter_share']:
-                cshare = block_reward * customShare[0][0]
-                treward = int(share_weight*vshare)
-                reward = int(share_weight*cshare)
-                remainder_reward = int(treward-reward)
-                
-                # difference = data['voter_share'] - customShare[0][0]
-                # reward = int(customShare[0][0]*share_weight)
-                # remainder_reward = int(difference*share_weight)
             else:
-                pass
-
-            # calculate block reward 
-            # reward = int(share_weight * customShare[0][0])
-            # remainder_reward = int(share_weight * remainder)
+                treward = int(share_weight * vshare)
+                reward = int(share_weight * cshare)
+                remainder_reward = int(treward - reward)
+                delegate_check += remainder_reward
 
             # update reserve from blacklist assign
             if i[0] == data["blacklist_assign"]:
@@ -120,84 +111,6 @@ def customAllocate(lb):
     # mark as processed
     snekdb.markAsProcessed(lb[4])
 
-def allocate(lb):
-    
-    # create temp log / export output for block  rewards
-    log = {}
-    rewards_check = 0
-    voter_check = 0
-    delegate_check = 0
-    
-    block_voters = get_voters()
-
-    # get total votes
-    approval = sum(int(item[1]) for item in block_voters)
-
-    # get block reward
-    block_reward = lb[2]
-    if data['network'] in ark_fork:
-        fee_reward = lb[3]
-    else:
-        fee_reward = 0
-    total_reward = block_reward+fee_reward
-
-    # calculate delegate/reserve/other shares
-    for k, v in data['keep'].items():
-        if k == 'reserve':
-            keep = (int(block_reward * v)) + fee_reward
-        else:
-            keep = (int(block_reward * v))
-
-        # assign  shares to log and rewards tracking
-        keep_addr = data['pay_addresses'][k]
-        log[keep_addr] = keep
-        snekdb.updateDelegateBalance(keep_addr, keep)
-        
-        # increment delegate_check for double check
-        delegate_check += keep
-
-    # calculate voter share
-    vshare = block_reward * data['voter_share']
-
-    # loop through the current voters and assign share
-    for i in block_voters:
-
-        # convert balance from str to int
-        bal = int(i[1])
-
-        # filter out 0 balances for processing
-        if bal > 0:
-            share_weight = bal / approval  # calc share rate
-            
-            # calculate block reward
-            reward = int(share_weight * vshare)
-            
-            # populate log for block export records
-            log[i[0]] = reward
-            
-            # update reserve from blacklist assign
-            if i[0] == data["blacklist_assign"]:
-                snekdb.updateDelegateBalance(i[0], reward)
-            else:
-                #add voter reward to sql database
-                snekdb.updateVoterBalance(i[0], reward)
-
-            # voter and rewards check
-            voter_check += 1
-            rewards_check += reward
-
-    sum_check = rewards_check+delegate_check
-    
-    print("""Processed Block: {0}\n
-    Voters processed: {1}
-    Total Approval: {2}
-    Voters Rewards: {3}
-    Delegate Reward: {4}
-    Voter + Delegate Rewards: {5}
-    Total Block Rewards: {6}""".format(lb[4], voter_check, approval, rewards_check, delegate_check, sum_check, total_reward))
-
-    #mark as processed
-    snekdb.markAsProcessed(lb[4])
 
 def manage_folders():
     sub_names = ["error"]
@@ -569,14 +482,12 @@ if __name__ == '__main__':
             for b in unprocessed:
 
                 # allocate
-                if data["custom_share"] == "Y":
-                    customAllocate(b)
-                else:
-                    allocate(b)
-                #get new block count
+                allocate(b)
+                
+                # get new block count
                 block_count = block_counter()
                 
-                #increment count
+                # increment count
                 print('\n')
                 print("Current block count : {0}".format(block_count))
                 
