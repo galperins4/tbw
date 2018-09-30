@@ -325,7 +325,7 @@ def process_delegate_pmt(fee, adjust):
                 snekdb.storePayRun(row[0], net_pay, del_address(row[0]))
             
                 # adjust sql balances
-                snekdb.updateDelegatePaidBalance(row[0], del_pay_adjust
+                snekdb.updateDelegatePaidBalance(row[0], del_pay_adjust)
                 
         else:
             if data['cover_tx_fees'] == 'N':
