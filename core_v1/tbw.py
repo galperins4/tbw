@@ -309,18 +309,23 @@ def process_delegate_pmt(fee, adjust):
                     net_pay = del_pay_adjust - transaction_fee
     
             if net_pay <= 0:
-                # delete staged payments to prevent duplicates
-                snekdb.deleteStagedPayment()
+                # check if 100% share node
+                if data['voter_share'] == 1.00 and data['cover_tx_fees'] == 'N':
+                    # do nothing
+                    pass
+                else:
+                    # delete staged payments to prevent duplicates
+                    snekdb.deleteStagedPayment()
                 
-                print("Not enough in reserve to cover transactions")
-                print("Update interval and restart")
-                quit()
-                
-            # update staging records
-            snekdb.storePayRun(row[0], net_pay, del_address(row[0]))
+                    print("Not enough in reserve to cover transactions")
+                    print("Update interval and restart")
+                    quit()    
+            else:
+                # update staging records
+                snekdb.storePayRun(row[0], net_pay, del_address(row[0]))
             
-            #adjust sql balances
-            snekdb.updateDelegatePaidBalance(row[0], del_pay_adjust)
+                # adjust sql balances
+                snekdb.updateDelegatePaidBalance(row[0], del_pay_adjust
                 
         else:
             if data['cover_tx_fees'] == 'N':
