@@ -2,7 +2,7 @@
     "ark": {
         "nethash": "6e84d08bd299ed97c212c886c98a57e36545c8f5d645ca7eeae63a8bd62d8988",
         "port": 4001,
-        "version": "1.1.0",
+        "version": "1.2.0",
 		 "db": "ark_mainnet",
         "db_user": "null",
         "db_pw": "password",
