@@ -119,7 +119,7 @@
 	"shift": {
         "nethash": "7337a324ef27e1e234d1e9018cacff7d4f299a09c2df9be460543b8f7ef652f1",
         "port": 9305,
-        "version": "6.8.2",
+        "version": "6.8.3",
         "db": "shift_db",
         "db_user": "shift",
         "db_pw": "testing",
