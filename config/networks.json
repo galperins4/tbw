@@ -169,5 +169,14 @@
         "db_user": "null",
         "db_pw": "password",
         "tx_fee": 0.1
+    },
+	"qredit": {
+        "nethash": "5e67037fd290ba7ab378e84a591d251c46eb9770eb134983771fd602233bf193",
+        "port": 4101,
+        "version": "0.0.2",
+        "db": "qredit_db",
+        "db_user": "null",
+        "db_pw": "password",
+        "tx_fee": 0.1
     }
 }
