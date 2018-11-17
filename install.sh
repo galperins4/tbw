@@ -25,6 +25,12 @@ ark(){
         pause 
 }
  
+qredit(){
+	install_modules
+	npm install https://github.com/HodlerCompany/qredit-js
+	pause
+}
+
 persona(){
         install_modules
         mkdir node_modules
@@ -89,11 +95,12 @@ show_menus() {
         echo "6. Install SHIFT"
         echo "7. Install LISK"
         echo "8. Install ONZ"
-	echo "9. Exit"
+	echo "9. Install QREDIT"
+	echo "10. Exit"
 }
 read_options(){
 	local choice
-	read -p "Enter choice [ 1 - 9] " choice
+	read -p "Enter choice [ 1 - 10] " choice
 	case $choice in
 		1) ark ;;
 		2) persona ;;
@@ -103,7 +110,8 @@ read_options(){
                 6) shifts ;;
                 7) lisk ;;
                 8) onz ;;
-                9) exit 0;;
+		9) qredit ;;
+                10) exit 0;;
 		*) echo -e "${RED}Error...${STD}" && sleep 2
 	esac
 }
