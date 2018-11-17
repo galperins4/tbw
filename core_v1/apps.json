@@ -1,7 +1,7 @@
 {
     "apps": [{
         "name": "tbw",
-        "script": "~/tbw/core_v1/tbw.py",
+        "script": "tbw.py",
         "instances": 1,
         "exec_mode": "fork",
         "exec_interpreter": "python3",
@@ -11,7 +11,7 @@
     },
     {
         "name": "pay",
-        "script": "~/tbw/core_v1/pay.py",
+        "script": "pay.py",
         "instances": 1,
         "exec_mode": "fork",
         "exec_interpreter": "python3",
@@ -21,7 +21,7 @@
     },
     {
         "name": "pool",
-        "script": "~/tbw/core_v1/pool.py",
+        "script": "pool.py",
         "instances": 1,
         "exec_mode": "fork",
         "exec_interpreter": "python3",
