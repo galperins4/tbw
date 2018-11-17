@@ -37,7 +37,7 @@ def index():
     s['missed'] = dstats['delegate']['missedblocks']
     s['rank'] = dstats['delegate']['rate']
     s['productivity'] = dstats['delegate']['productivity']
-    if data['network'] in ['ark','dark','kapu','dkapu','persona','persona-t']:
+    if data['network'] in ['ark','dark','kapu','dkapu','persona','persona-t', 'qredit']:
         if s['rank'] <= 51:
             s['forging'] = 'Forging'
         else:
