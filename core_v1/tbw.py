@@ -9,7 +9,7 @@ import os.path
 
 tbw_path = Path().resolve().parent
 atomic = 100000000
-ark_fork = ['ark','dark','kapu','dkapu','persona-t','ripa', 'persona', 'swapblocks-t','swapblocks']
+ark_fork = ['ark','dark','kapu','dkapu','persona-t','ripa', 'persona', 'swapblocks-t','swapblocks', 'qredit']
 
 
 def parse_config():
