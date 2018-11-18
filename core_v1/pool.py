@@ -28,6 +28,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():    
+    snekdb = SnekDB(data['dbusername'])
     s = {} 
     pkey = data['pubkey']
     params = {"publicKey": pkey}
@@ -61,7 +62,7 @@ def index():
 
 @app.route('/payments')
 def payments():
-    
+    snekdb = SnekDB(data['dbusername'])
     data_out = snekdb.transactions().fetchall()
     tx_data=[]
     for i in data_out:
@@ -72,7 +73,7 @@ def payments():
 
 if __name__ == '__main__':
     data, network = parse_pool()
-    snekdb = SnekDB(data['dbusername'])
+    #snekdb = SnekDB(data['dbusername'])
     park = get_network(data, network)
     navbar = {
        'dname': data['delegate'],
